@@ -1,12 +1,12 @@
 <template>
-  <router-view id="app"/>
+  <router-view />
 </template>
 
 <script>
 export default{
   name: 'app',
   mounted () {
-    this.$router.push(/Android|iPhone/i.test(navigator.userAgent) ? '/mobile' : '/pc')
+    this.$router.replace(/Android|iPhone/i.test(navigator.userAgent) ? '/mobile' : '/pc')
   }
 }
 </script>
