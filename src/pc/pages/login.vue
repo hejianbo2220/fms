@@ -14,7 +14,7 @@
               <el-input type="password" v-model="form.password" prefix-icon="el-icon-document" placeholder="请输入密码"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" class="login-btn">登录</el-button>
+              <el-button type="primary" @click="login">登录</el-button>
             </el-form-item>
           </el-form>
         </el-col>
@@ -49,6 +49,11 @@ export default{
         ]
       }
     }
+  },
+  methods: {
+    login () {
+      this.$router.push('/pc/main/index')
+    }
   }
 }
 </script>
@@ -60,7 +65,7 @@ export default{
   right: 0;
   bottom: 0;
   left: 0;
-  background-image: url(../../assets/login-bg.png);
+  background-image: url(../../assets/pc-login-bg.png);
   background-size: 100% auto;
 }
 .login-wrap{
@@ -74,7 +79,7 @@ export default{
   color: #409EFF;
   text-align: center;
 }
-.login-btn{
+.el-button{
   width: 100%;
 }
 </style>
