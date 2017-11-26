@@ -30,4 +30,7 @@ body{
 .mobile-mint-header{
   height: 44px;
 }
+.mobile-btn-wrap{
+  padding: 20px 10px;
+}
 </style>

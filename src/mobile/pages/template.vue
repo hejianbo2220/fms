@@ -11,6 +11,9 @@
     </mt-cell>
     <mt-radio title="单选框" :options="['选项A', '选项B', '选项C']"></mt-radio>
     <mt-checklist title="复选框" :options="['选项A', '选项B', '选项C']" v-model="checklist"></mt-checklist>
+    <div class="mobile-btn-wrap">
+      <mt-button type="primary" size="large">提 交</mt-button>
+    </div>
   </div>
 </template>
 
