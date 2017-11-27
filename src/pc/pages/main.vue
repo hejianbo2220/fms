@@ -3,7 +3,7 @@
     <el-header height="100px">工厂管理系统</el-header>
     <el-container>
       <el-aside width="200px">
-        <el-menu :router="true">
+        <el-menu :router="true" :style="{minHeight: height}">
           <el-menu-item index="0" :route="{path: '/pc/main/role'}">
             <i class="el-icon-goods"></i>
             <span slot="title">角色管理</span>
@@ -23,7 +23,19 @@
 
 <script>
 export default{
-  name: 'main'
+  name: 'main',
+  data () {
+    return {
+      height: ''
+    }
+  },
+  mounted () {
+    // 撑满浏览器高度
+    this.height = (window.innerHeight - 100) + 'px'
+    window.onresize = () => {
+      this.height = (window.innerHeight - 100) + 'px'
+    }
+  }
 }
 </script>
 
