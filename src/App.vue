@@ -21,7 +21,7 @@ body{
 }
 
 /*pc global*/
-.add-btn{
+.pc-add-btn{
   margin-top: -11px;
   float: right;
 }

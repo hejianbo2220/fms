@@ -4,10 +4,22 @@
     <el-container>
       <el-aside width="200px">
         <el-menu :router="true" :style="{minHeight: height}">
-          <el-menu-item v-for="(item, index) in menu" :key="index" :index="String(index)" :route="{path: item.path}">
-            <i :class="item.icon"></i>
-            <span slot="title">{{item.title}}</span>
-          </el-menu-item>
+          <template v-for="(item, index) in menu">
+            <el-submenu v-if="item.submenu" :key="index" :index="String(index)">
+              <template slot="title">
+                <i :class="item.icon"></i>
+                <span>{{item.title}}</span>
+              </template>
+              <el-menu-item v-for="(subItem, subIndex) in item.submenu" :key="subIndex" :index="String(index) + '-' + String(subIndex)" :route="{path: subItem.path}">
+                <i :class="item.icon"></i>
+                <span slot="title">{{subItem.title}}</span>
+              </el-menu-item>
+            </el-submenu>
+            <el-menu-item v-else :key="index" :index="String(index)" :route="{path: item.path}">
+              <i :class="item.icon"></i>
+              <span slot="title">{{item.title}}</span>
+            </el-menu-item>
+          </template>
         </el-menu>
       </el-aside>
       <el-main>
@@ -37,6 +49,20 @@ export default{
           title: '流水线管理',
           icon: 'el-icon-minus',
           path: '/pc/main/line'
+        },
+        {
+          title: '产品管理',
+          icon: 'el-icon-document',
+          submenu: [
+            {
+              title: '产品类型',
+              path: '/pc/main/class'
+            },
+            {
+              title: '产品',
+              path: '/pc/main/product'
+            }
+          ]
         }
       ],
       height: ''

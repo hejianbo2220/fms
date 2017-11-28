@@ -6,6 +6,8 @@ import pcIndex from '@/pc/pages/index'
 import pcUser from '@/pc/pages/user'
 import pcRole from '@/pc/pages/role'
 import pcLine from '@/pc/pages/line'
+import pcClass from '@/pc/pages/class'
+import pcProduct from '@/pc/pages/product'
 import mobileLogin from '@/mobile/pages/login'
 import mobileTemplate from '@/mobile/pages/template'
 
@@ -42,6 +44,16 @@ export default new Router({
           path: 'line',
           name: 'pcLine',
           component: pcLine
+        },
+        {
+          path: 'class',
+          name: 'pcClass',
+          component: pcClass
+        },
+        {
+          path: 'product',
+          name: 'pcProduct',
+          component: pcProduct
         }
       ]
     },

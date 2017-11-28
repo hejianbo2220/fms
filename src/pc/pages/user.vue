@@ -25,6 +25,11 @@
         </el-table>
       </el-col>
     </el-row>
+    <el-row>
+      <el-col :span="24">
+        <el-pagination @current-change="pageChanged" :total="tableTotal"></el-pagination>
+      </el-col>
+    </el-row>
     <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" :close-on-click-modal="false">
       <el-form :model="form" :rules="rules" label-width="82px" ref="dialogForm">
         <el-form-item label="用户名" prop="username">
@@ -70,6 +75,7 @@ export default{
           role: '角色3'
         }
       ],
+      tableTotal: 89,
       dialogTitle: '',
       dialogVisible: false,
       roles: [
@@ -123,7 +129,7 @@ export default{
           })
           break
         case 'edit':
-          this.dialogTitle = '编辑编辑'
+          this.dialogTitle = '编辑用户'
           this.$nextTick(() => {
             this.$refs.dialogForm.resetFields()
             this.form.username = user.username
@@ -153,6 +159,9 @@ export default{
           duration: 1500
         })
       }).catch(() => {})
+    },
+    pageChanged (page) {
+      console.log(page)
     }
   }
 }

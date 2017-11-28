@@ -4,7 +4,7 @@
       <el-col :span="21">
         <el-breadcrumb separator-class="el-icon-arrow-right">
           <el-breadcrumb-item :to="{path: '/pc/main/index'}">工厂管理系统</el-breadcrumb-item>
-          <el-breadcrumb-item>流水线</el-breadcrumb-item>
+          <el-breadcrumb-item>流水线管理</el-breadcrumb-item>
         </el-breadcrumb>
       </el-col>
       <el-col :span="3">
@@ -25,6 +25,11 @@
         </el-table>
       </el-col>
     </el-row>
+    <el-row>
+      <el-col :span="24">
+        <el-pagination @current-change="pageChanged" :total="tableTotal"></el-pagination>
+      </el-col>
+    </el-row>
     <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" :close-on-click-modal="false">
       <el-form :model="form" :rules="rules" label-width="94px" ref="dialogForm">
         <el-form-item label="流水线名称" prop="name">
@@ -36,8 +41,7 @@
       </el-form>
       <div slot="footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogSure">确 定
-        </el-button>
+        <el-button type="primary" @click="dialogSure">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -45,7 +49,7 @@
 
 <script>
 export default{
-  name: 'role',
+  name: 'line',
   data () {
     return {
       table: [
@@ -58,6 +62,7 @@ export default{
           desc: '这是生产瓷砖的流水线'
         }
       ],
+      tableTotal: 89,
       dialogTitle: '',
       dialogVisible: false,
       form: {
@@ -83,7 +88,7 @@ export default{
     }
   },
   methods: {
-    dialogShow (type, role) {
+    dialogShow (type, line) {
       switch (type) {
         case 'add':
           this.dialogTitle = '新增流水线'
@@ -95,8 +100,8 @@ export default{
           this.dialogTitle = '编辑流水线'
           this.$nextTick(() => {
             this.$refs.dialogForm.resetFields()
-            this.form.name = role.name
-            this.form.desc = role.desc
+            this.form.name = line.name
+            this.form.desc = line.desc
           })
           break
       }
@@ -122,6 +127,9 @@ export default{
           duration: 1500
         })
       }).catch(() => {})
+    },
+    pageChanged (page) {
+      console.log(page)
     }
   }
 }
