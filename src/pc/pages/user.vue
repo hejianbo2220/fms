@@ -19,7 +19,7 @@
           <el-table-column label="操作">
             <template slot-scope="scope">
               <el-button size="mini" icon="el-icon-edit-outline" @click="dialogShow('edit', scope.row)">编辑</el-button>
-              <el-button type="danger" size="mini" icon="el-icon-delete" @click="confirmShow(scope.$index)">删除</el-button>
+              <el-button type="danger" size="mini" icon="el-icon-delete" @click="isDelete(scope.$index)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -42,13 +42,6 @@
       <div slot="footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="dialogSure">确 定</el-button>
-      </div>
-    </el-dialog>
-    <el-dialog width="30%" :visible.sync="confirmVisible" :close-on-click-modal="false">
-      <p>确认删除该项？</p>
-      <div slot="footer">
-        <el-button @click="confirmVisible = false">取 消</el-button>
-        <el-button type="primary" @click="confirmSure">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -117,9 +110,7 @@ export default{
             trigger: 'change'
           }
         ]
-      },
-      confirmVisible: false,
-      deleteIndex: ''
+      }
     }
   },
   methods: {
@@ -142,12 +133,27 @@ export default{
       }
       this.dialogVisible = true
     },
-    dialogSure () {},
-    confirmShow (index) {
-      this.deleteIndex = index
-      this.confirmVisible = true
+    dialogSure () {
+      this.dialogVisible = false
+      this.$message({
+        message: this.dialogTitle + '成功',
+        type: 'success',
+        duration: 1500
+      })
     },
-    confirmSure () {}
+    isDelete (index) {
+      this.$confirm('确认删除该项？', {
+        type: 'warning',
+        closeOnClickModal: false
+      }).then(() => {
+        console.log(this.table[index].username + '已删除')
+        this.$message({
+          message: '删除成功',
+          type: 'success',
+          duration: 1500
+        })
+      }).catch(() => {})
+    }
   }
 }
 </script>

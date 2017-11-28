@@ -4,13 +4,9 @@
     <el-container>
       <el-aside width="200px">
         <el-menu :router="true" :style="{minHeight: height}">
-          <el-menu-item index="0" :route="{path: '/pc/main/role'}">
-            <i class="el-icon-goods"></i>
-            <span slot="title">角色管理</span>
-          </el-menu-item>
-          <el-menu-item index="1" :route="{path: '/pc/main/user'}">
-            <i class="el-icon-tickets"></i>
-            <span slot="title">用户管理</span>
+          <el-menu-item v-for="(item, index) in menu" :key="index" :index="String(index)" :route="{path: item.path}">
+            <i :class="item.icon"></i>
+            <span slot="title">{{item.title}}</span>
           </el-menu-item>
         </el-menu>
       </el-aside>
@@ -26,6 +22,23 @@ export default{
   name: 'main',
   data () {
     return {
+      menu: [
+        {
+          title: '角色管理',
+          icon: 'el-icon-goods',
+          path: '/pc/main/role'
+        },
+        {
+          title: '用户管理',
+          icon: 'el-icon-tickets',
+          path: '/pc/main/user'
+        },
+        {
+          title: '流水线管理',
+          icon: 'el-icon-minus',
+          path: '/pc/main/line'
+        }
+      ],
       height: ''
     }
   },
