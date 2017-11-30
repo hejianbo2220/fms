@@ -16,7 +16,7 @@
       <el-col :span="24">
         <el-table :data="table" :stripe="true">
           <el-table-column label="产品名称" prop="name"></el-table-column>
-          <el-table-column label="产品类型" prop="class"></el-table-column>
+          <el-table-column label="产品类型" prop="productClass"></el-table-column>
           <el-table-column label="描述" prop="desc"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
@@ -37,9 +37,9 @@
         <el-form-item label="产品名称" prop="name">
           <el-input v-model="form.name" placeholder="请输入产品名称"></el-input>
         </el-form-item>
-        <el-form-item label="产品类型" prop="class">
-          <el-select v-model="form.class" placeholder="请选择产品类型">
-            <el-option v-for="item in classes" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        <el-form-item label="产品类型" prop="productClass">
+          <el-select v-model="form.productClass" placeholder="请选择产品类型">
+            <el-option v-for="item in classOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="描述" prop="desc">
@@ -62,29 +62,29 @@ export default{
       table: [
         {
           name: '产品名称1',
-          class: '产品类型1',
+          productClass: '产品类型1',
           desc: '这里是产品1的描述'
         },
         {
           name: '产品名称2',
-          class: '产品类型2',
+          productClass: '产品类型2',
           desc: '这里是产品2的描述'
         },
         {
           name: '产品名称3',
-          class: '产品类型3',
+          productClass: '产品类型3',
           desc: '这里是产品3的描述'
         },
         {
           name: '产品名称4',
-          class: '产品类型4',
+          productClass: '产品类型4',
           desc: '这里是产品4的描述'
         }
       ],
       tableTotal: 89,
       dialogTitle: '',
       dialogVisible: false,
-      classes: [
+      classOptions: [
         {
           label: '产品类型1',
           value: 'class1'
@@ -104,7 +104,7 @@ export default{
       ],
       form: {
         name: '',
-        class: '',
+        productClass: '',
         desc: ''
       },
       rules: {
@@ -115,7 +115,7 @@ export default{
             trigger: 'blur'
           }
         ],
-        class: [
+        productClass: [
           {
             required: true,
             message: '请选择产品类型',
@@ -147,7 +147,7 @@ export default{
           this.$nextTick(() => {
             this.$refs.dialogForm.resetFields()
             this.form.name = product.name
-            this.form.class = product.class
+            this.form.productClass = product.productClass
             this.form.desc = product.desc
           })
           break

@@ -6,9 +6,8 @@ import pcIndex from '@/pc/pages/index'
 import pcUser from '@/pc/pages/user'
 import pcRole from '@/pc/pages/role'
 import pcLine from '@/pc/pages/line'
-import pcClass from '@/pc/pages/class'
-import pcProduct from '@/pc/pages/product'
-import pcKey from '@/pc/pages/key'
+import pcProductClass from '@/pc/pages/productClass'
+import pcProductData from '@/pc/pages/productData'
 import pcKeyData from '@/pc/pages/keyData'
 import pcKeyChart from '@/pc/pages/keyChart'
 import mobileLogin from '@/mobile/pages/login'
@@ -49,31 +48,24 @@ export default new Router({
           component: pcLine
         },
         {
-          path: 'class',
-          name: 'pcClass',
-          component: pcClass
+          path: 'product/class',
+          name: 'pcProductClass',
+          component: pcProductClass
         },
         {
-          path: 'product',
-          name: 'pcProduct',
-          component: pcProduct
+          path: 'product/data',
+          name: 'pcProductData',
+          component: pcProductData
         },
         {
-          path: 'key',
-          name: 'pcKey',
-          component: pcKey,
-          children: [
-            {
-              path: 'data',
-              name: 'pcKeyData',
-              component: pcKeyData
-            },
-            {
-              path: 'chart',
-              name: 'pcKeyChart',
-              component: pcKeyChart
-            }
-          ]
+          path: 'key/data',
+          name: 'pcKeyData',
+          component: pcKeyData
+        },
+        {
+          path: 'key/chart',
+          name: 'pcKeyChart',
+          component: pcKeyChart
         }
       ]
     },

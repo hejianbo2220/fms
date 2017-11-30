@@ -25,6 +25,10 @@ body{
   margin-top: -11px;
   float: right;
 }
+.el-message-box__message{
+  max-height: 400px;
+  overflow-y: auto;
+}
 
 /*mobile global*/
 .mobile-mint-header{

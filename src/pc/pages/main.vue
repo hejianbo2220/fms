@@ -3,7 +3,7 @@
     <el-header height="100px">工厂管理系统</el-header>
     <el-container>
       <el-aside width="200px">
-        <el-menu :router="true" :style="{minHeight: height}">
+        <el-menu :unique-opened="true" :router="true" :style="{minHeight: height}">
           <template v-for="(item, index) in menu">
             <el-submenu v-if="item.submenu" :key="index" :index="String(index)">
               <template slot="title">
@@ -56,11 +56,11 @@ export default{
           submenu: [
             {
               title: '产品类型',
-              path: '/pc/main/class'
+              path: '/pc/main/product/class'
             },
             {
               title: '产品',
-              path: '/pc/main/product'
+              path: '/pc/main/product/data'
             }
           ]
         },

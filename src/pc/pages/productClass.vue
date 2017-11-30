@@ -50,7 +50,7 @@
 
 <script>
 export default{
-  name: 'class',
+  name: 'productClass',
   data () {
     return {
       table: [
@@ -89,7 +89,7 @@ export default{
     }
   },
   methods: {
-    dialogShow (type, proClass) {
+    dialogShow (type, productClass) {
       this.dialogVisible = true
       switch (type) {
         case 'add':
@@ -102,8 +102,8 @@ export default{
           this.dialogTitle = '编辑产品类型'
           this.$nextTick(() => {
             this.$refs.dialogForm.resetFields()
-            this.form.name = proClass.name
-            this.form.desc = proClass.desc
+            this.form.name = productClass.name
+            this.form.desc = productClass.desc
           })
           break
       }
