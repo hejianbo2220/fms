@@ -121,6 +121,7 @@ export default{
   },
   methods: {
     dialogShow (type, user) {
+      this.dialogVisible = true
       switch (type) {
         case 'add':
           this.dialogTitle = '新增用户'
@@ -137,7 +138,6 @@ export default{
           })
           break
       }
-      this.dialogVisible = true
     },
     dialogSure () {
       this.dialogVisible = false

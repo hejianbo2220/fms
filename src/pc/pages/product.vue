@@ -5,7 +5,7 @@
         <el-breadcrumb separator-class="el-icon-arrow-right">
           <el-breadcrumb-item :to="{path: '/pc/main/index'}">工厂管理系统</el-breadcrumb-item>
           <el-breadcrumb-item>产品管理</el-breadcrumb-item>
-          <el-breadcrumb-item>产品类型</el-breadcrumb-item>
+          <el-breadcrumb-item>产品</el-breadcrumb-item>
         </el-breadcrumb>
       </el-col>
       <el-col :span="3">
@@ -134,6 +134,7 @@ export default{
   },
   methods: {
     dialogShow (type, product) {
+      this.dialogVisible = true
       switch (type) {
         case 'add':
           this.dialogTitle = '新增产品'
@@ -151,7 +152,6 @@ export default{
           })
           break
       }
-      this.dialogVisible = true
     },
     dialogSure () {
       this.dialogVisible = false

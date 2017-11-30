@@ -89,6 +89,7 @@ export default{
   },
   methods: {
     dialogShow (type, line) {
+      this.dialogVisible = true
       switch (type) {
         case 'add':
           this.dialogTitle = '新增流水线'
@@ -105,7 +106,6 @@ export default{
           })
           break
       }
-      this.dialogVisible = true
     },
     dialogSure () {
       this.dialogVisible = false

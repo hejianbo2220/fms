@@ -90,6 +90,7 @@ export default{
   },
   methods: {
     dialogShow (type, proClass) {
+      this.dialogVisible = true
       switch (type) {
         case 'add':
           this.dialogTitle = '新增产品类型'
@@ -106,7 +107,6 @@ export default{
           })
           break
       }
-      this.dialogVisible = true
     },
     dialogSure () {
       this.dialogVisible = false

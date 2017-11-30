@@ -63,6 +63,20 @@ export default{
               path: '/pc/main/product'
             }
           ]
+        },
+        {
+          title: '关键数据管理',
+          icon: 'el-icon-star-off',
+          submenu: [
+            {
+              title: '关键数据',
+              path: '/pc/main/key/data'
+            },
+            {
+              title: '统计图',
+              path: '/pc/main/key/chart'
+            }
+          ]
         }
       ],
       height: ''
