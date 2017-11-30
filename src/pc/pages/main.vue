@@ -3,7 +3,7 @@
     <el-header height="100px">工厂管理系统</el-header>
     <el-container>
       <el-aside width="200px">
-        <el-menu :unique-opened="true" :router="true" :style="{minHeight: height}">
+        <el-menu :unique-opened="true" :router="true">
           <template v-for="(item, index) in menu">
             <el-submenu v-if="item.submenu" :key="index" :index="String(index)">
               <template slot="title">
@@ -22,7 +22,7 @@
           </template>
         </el-menu>
       </el-aside>
-      <el-main>
+      <el-main :style="{minHeight: height}">
         <router-view />
       </el-main>
     </el-container>
@@ -84,9 +84,9 @@ export default{
   },
   mounted () {
     // 撑满浏览器高度
-    this.height = (window.innerHeight - 100) + 'px'
-    window.onresize = () => {
-      this.height = (window.innerHeight - 100) + 'px'
+    this.height = (innerHeight - 100) + 'px'
+    onresize = () => {
+      this.height = (innerHeight - 100) + 'px'
     }
   }
 }
@@ -98,5 +98,11 @@ export default{
   line-height: 100px;
   font-size: 26px;
   color: #fff;
+}
+.el-menu{
+  border-right: none;
+}
+.el-main{
+  border-left: 1px solid #e6e6e6;
 }
 </style>
