@@ -17,14 +17,10 @@
           <el-table-column label="流水线名称" prop="name"></el-table-column>
           <el-table-column label="描述" prop="desc"></el-table-column>
           <el-table-column label="状态" prop="status">
-            <template slot-scope="scope">
-              <span :class="classSwitch(scope.row.status)">{{scope.row.status}}</span>
-            </template>
+            <span slot-scope="scope" :class="classSwitch(scope.row.status)">{{scope.row.status}}</span>
           </el-table-column>
           <el-table-column label="操作">
-            <template slot-scope="scope">
-              <el-button size="mini" icon="el-icon-edit" @click="dialogShow('edit', scope.row)">编辑</el-button>
-            </template>
+            <el-button slot-scope="scope" size="mini" icon="el-icon-edit" @click="dialogShow('edit', scope.row)">编辑</el-button>
           </el-table-column>
         </el-table>
       </el-col>

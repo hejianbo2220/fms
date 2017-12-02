@@ -61,6 +61,10 @@ export default{
             {
               title: '产品编码',
               path: '/pc/main/product/data'
+            },
+            {
+              title: '基础数据',
+              path: '/pc/main/product/basic'
             }
           ]
         },

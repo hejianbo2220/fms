@@ -17,9 +17,7 @@
           <el-table-column label="角色名称" prop="name"></el-table-column>
           <el-table-column label="角色说明" prop="desc"></el-table-column>
           <el-table-column label="操作">
-            <template slot-scope="scope">
-              <el-button v-if="scope.row.name !== '管理员'" size="mini" icon="el-icon-edit" @click="dialogShow('edit', scope.row)">编辑</el-button>
-            </template>
+            <el-button slot-scope="scope" v-if="scope.row.name !== '管理员'" size="mini" icon="el-icon-edit" @click="dialogShow('edit', scope.row)">编辑</el-button>
           </el-table-column>
         </el-table>
       </el-col>

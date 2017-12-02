@@ -8,6 +8,7 @@ import pcRole from '@/pc/pages/role'
 import pcLine from '@/pc/pages/line'
 import pcProductClass from '@/pc/pages/productClass'
 import pcProductData from '@/pc/pages/productData'
+import pcProductBasic from '@/pc/pages/productBasic'
 import pcKeyConfig from '@/pc/pages/keyConfig'
 import pcKeyData from '@/pc/pages/keyData'
 import pcKeyChart from '@/pc/pages/keyChart'
@@ -65,6 +66,11 @@ export default new Router({
           path: 'product/data',
           name: 'pcProductData',
           component: pcProductData
+        },
+        {
+          path: 'product/basic',
+          name: 'pcProductBasic',
+          component: pcProductBasic
         },
         {
           path: 'key/config',
