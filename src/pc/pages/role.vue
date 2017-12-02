@@ -18,8 +18,7 @@
           <el-table-column label="角色说明" prop="desc"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
-              <el-button size="mini" icon="el-icon-edit-outline" @click="dialogShow('edit', scope.row)">编辑</el-button>
-              <el-button type="danger" size="mini" icon="el-icon-delete" @click="isDelete(scope.$index)">删除</el-button>
+              <el-button v-if="scope.row.name !== '管理员'" size="mini" icon="el-icon-edit-outline" @click="dialogShow('edit', scope.row)">编辑</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -144,19 +143,6 @@ export default{
         type: 'success',
         duration: 1500
       })
-    },
-    isDelete (index) {
-      this.$confirm('确认删除该项？', {
-        type: 'warning',
-        closeOnClickModal: false
-      }).then(() => {
-        console.log(this.table[index].name + '已删除')
-        this.$message({
-          message: '删除成功',
-          type: 'success',
-          duration: 1500
-        })
-      }).catch(() => {})
     },
     pageChanged (page) {
       console.log(page)

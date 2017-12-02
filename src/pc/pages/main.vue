@@ -59,7 +59,7 @@ export default{
               path: '/pc/main/product/class'
             },
             {
-              title: '产品',
+              title: '产品编码',
               path: '/pc/main/product/data'
             }
           ]
@@ -69,7 +69,11 @@ export default{
           icon: 'el-icon-star-off',
           submenu: [
             {
-              title: '关键数据',
+              title: '配置表',
+              path: '/pc/main/key/config'
+            },
+            {
+              title: '内容列表',
               path: '/pc/main/key/data'
             },
             {

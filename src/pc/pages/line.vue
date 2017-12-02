@@ -16,10 +16,14 @@
         <el-table :data="table" :stripe="true">
           <el-table-column label="流水线名称" prop="name"></el-table-column>
           <el-table-column label="描述" prop="desc"></el-table-column>
+          <el-table-column label="状态" prop="status">
+            <template slot-scope="scope">
+              <span :class="classSwitch(scope.row.status)">{{scope.row.status}}</span>
+            </template>
+          </el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
               <el-button size="mini" icon="el-icon-edit-outline" @click="dialogShow('edit', scope.row)">编辑</el-button>
-              <el-button type="danger" size="mini" icon="el-icon-delete" @click="isDelete(scope.$index)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -55,11 +59,18 @@ export default{
       table: [
         {
           name: '流水线1',
-          desc: '这是生产水泥的流水线'
+          desc: '这是生产水泥的流水线',
+          status: '开启'
         },
         {
           name: '流水线2',
-          desc: '这是生产瓷砖的流水线'
+          desc: '这是生产瓷砖的流水线',
+          status: '关闭'
+        },
+        {
+          name: '流水线3',
+          desc: '这是生产地板的流水线',
+          status: '暂停'
         }
       ],
       tableTotal: 89,
@@ -88,6 +99,16 @@ export default{
     }
   },
   methods: {
+    classSwitch (status) {
+      switch (status) {
+        case '开启':
+          return 'green'
+        case '关闭':
+          return 'red'
+        case '暂停':
+          return 'orange'
+      }
+    },
     dialogShow (type, line) {
       this.dialogVisible = true
       switch (type) {
@@ -115,22 +136,21 @@ export default{
         duration: 1500
       })
     },
-    isDelete (index) {
-      this.$confirm('确认删除该项？', {
-        type: 'warning',
-        closeOnClickModal: false
-      }).then(() => {
-        console.log(this.table[index].name + '已删除')
-        this.$message({
-          message: '删除成功',
-          type: 'success',
-          duration: 1500
-        })
-      }).catch(() => {})
-    },
     pageChanged (page) {
       console.log(page)
     }
   }
 }
 </script>
+
+<style scoped>
+.green{
+  color: #67C23A;
+}
+.red{
+  color: #FA5555;
+}
+.orange{
+  color: #EB9E05;
+}
+</style>

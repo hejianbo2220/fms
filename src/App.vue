@@ -29,6 +29,9 @@ body{
   max-height: 400px;
   overflow-y: auto;
 }
+.chart{
+  height: 240px;
+}
 
 /*mobile global*/
 .mobile-mint-header{

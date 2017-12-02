@@ -5,7 +5,7 @@
         <el-breadcrumb separator-class="el-icon-arrow-right">
           <el-breadcrumb-item :to="{path: '/pc/main/index'}">工厂管理系统</el-breadcrumb-item>
           <el-breadcrumb-item>产品管理</el-breadcrumb-item>
-          <el-breadcrumb-item>产品</el-breadcrumb-item>
+          <el-breadcrumb-item>产品编码</el-breadcrumb-item>
         </el-breadcrumb>
       </el-col>
       <el-col :span="3">
@@ -15,9 +15,10 @@
     <el-row>
       <el-col :span="24">
         <el-table :data="table" :stripe="true">
+          <el-table-column label="产品编码" prop="id"></el-table-column>
           <el-table-column label="产品名称" prop="name"></el-table-column>
           <el-table-column label="产品类型" prop="productClass"></el-table-column>
-          <el-table-column label="描述" prop="desc"></el-table-column>
+          <el-table-column label="规格型号" prop="standard"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
               <el-button size="mini" icon="el-icon-edit-outline" @click="dialogShow('edit', scope.row)">编辑</el-button>
@@ -34,6 +35,9 @@
     </el-row>
     <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" :close-on-click-modal="false">
       <el-form :model="form" :rules="rules" label-width="82px" ref="dialogForm">
+        <el-form-item label="产品编码" prop="id">
+          <el-input v-model="form.id" placeholder="请输入产品编码"></el-input>
+        </el-form-item>
         <el-form-item label="产品名称" prop="name">
           <el-input v-model="form.name" placeholder="请输入产品名称"></el-input>
         </el-form-item>
@@ -42,8 +46,8 @@
             <el-option v-for="item in classOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="描述" prop="desc">
-          <el-input v-model="form.desc" placeholder="请输入描述"></el-input>
+        <el-form-item label="规格型号" prop="standard">
+          <el-input v-model="form.standard" placeholder="请输入规格型号"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer">
@@ -61,24 +65,28 @@ export default{
     return {
       table: [
         {
+          id: 'id1',
           name: '产品名称1',
           productClass: '产品类型1',
-          desc: '这里是产品1的描述'
+          standard: '规格1'
         },
         {
+          id: 'id2',
           name: '产品名称2',
           productClass: '产品类型2',
-          desc: '这里是产品2的描述'
+          standard: '规格2'
         },
         {
+          id: 'id3',
           name: '产品名称3',
           productClass: '产品类型3',
-          desc: '这里是产品3的描述'
+          standard: '规格3'
         },
         {
+          id: 'id4',
           name: '产品名称4',
           productClass: '产品类型4',
-          desc: '这里是产品4的描述'
+          standard: '规格4'
         }
       ],
       tableTotal: 89,
@@ -103,11 +111,19 @@ export default{
         }
       ],
       form: {
+        id: '',
         name: '',
         productClass: '',
-        desc: ''
+        standard: ''
       },
       rules: {
+        id: [
+          {
+            required: true,
+            message: '请输入产品编码',
+            trigger: 'blur'
+          }
+        ],
         name: [
           {
             required: true,
@@ -122,10 +138,10 @@ export default{
             trigger: 'change'
           }
         ],
-        desc: [
+        standard: [
           {
             required: true,
-            message: '请输入描述',
+            message: '请输入规格型号',
             trigger: 'blur'
           }
         ]
@@ -146,9 +162,10 @@ export default{
           this.dialogTitle = '编辑产品'
           this.$nextTick(() => {
             this.$refs.dialogForm.resetFields()
+            this.form.id = product.id
             this.form.name = product.name
             this.form.productClass = product.productClass
-            this.form.desc = product.desc
+            this.form.standard = product.standard
           })
           break
       }
