@@ -36,11 +36,11 @@
           <el-input v-model="form.username" placeholder="请输入用户名" :disabled="form.username === 'admin'"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
-          <el-input v-model="form.password" placeholder="请输入密码"></el-input>
+          <el-input type="password" v-model="form.password" placeholder="请输入密码"></el-input>
         </el-form-item>
         <el-form-item label="角色" prop="role">
           <el-select v-model="form.role" placeholder="请选择角色" :disabled="form.username === 'admin'">
-            <el-option v-for="item in roles" :key="item.value" :label="item.label" :value="item.value"></el-option>
+            <el-option v-for="(item, index) in roles" :key="index" :value="item.name"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -80,20 +80,24 @@ export default{
       dialogVisible: false,
       roles: [
         {
-          label: '管理员',
-          value: 'admin'
+          name: '管理员',
+          desc: '这是管理员角色',
+          permission: ['角色管理', '用户管理', '模块3', '模块4']
         },
         {
-          label: '角色1',
-          value: 'role1'
+          name: '角色1',
+          desc: '这是角色1',
+          permission: ['用户管理', '模块3']
         },
         {
-          label: '角色2',
-          value: 'role2'
+          name: '角色2',
+          desc: '这是角色2',
+          permission: ['角色管理']
         },
         {
-          label: '角色3',
-          value: 'role3'
+          name: '角色3',
+          desc: '这是角色3',
+          permission: ['角色管理', '模块3', '模块4']
         }
       ],
       form: {
