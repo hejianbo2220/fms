@@ -4,7 +4,7 @@
       <el-col :span="24">
         <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb-height">
           <el-breadcrumb-item :to="{path: '/pc/main/index'}">工厂管理系统</el-breadcrumb-item>
-          <el-breadcrumb-item>关键数据</el-breadcrumb-item>
+          <el-breadcrumb-item>质量检测</el-breadcrumb-item>
           <el-breadcrumb-item>内容列表</el-breadcrumb-item>
         </el-breadcrumb>
       </el-col>
@@ -32,7 +32,7 @@
 
 <script>
 export default{
-  name: 'keyData',
+  name: 'qualityData',
   data () {
     return {
       table: [
@@ -54,8 +54,8 @@ export default{
   },
   methods: {
     detail () {
-      this.$alert('<strong>这里是关键数据详情内容</strong>', {
-        title: '关键数据详情',
+      this.$alert('<strong>这里是质量检测详情内容</strong>', {
+        title: '质量检测详情',
         dangerouslyUseHTMLString: true,
         showConfirmButton: false
       }).catch(() => {})

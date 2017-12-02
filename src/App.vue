@@ -29,6 +29,13 @@ body{
   max-height: 400px;
   overflow-y: auto;
 }
+.breadcrumb-height{
+  height: 25px;
+}
+.chart-filter{
+  float: right;
+  margin: -13px 0 0 10px;
+}
 .chart{
   height: 240px;
 }

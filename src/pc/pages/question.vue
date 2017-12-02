@@ -4,17 +4,15 @@
       <el-col :span="24">
         <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb-height">
           <el-breadcrumb-item :to="{path: '/pc/main/index'}">工厂管理系统</el-breadcrumb-item>
-          <el-breadcrumb-item>关键数据</el-breadcrumb-item>
-          <el-breadcrumb-item>内容列表</el-breadcrumb-item>
+          <el-breadcrumb-item>问题提交</el-breadcrumb-item>
         </el-breadcrumb>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="24">
         <el-table :data="table" :stripe="true">
-          <el-table-column label="编号" prop="id"></el-table-column>
-          <el-table-column label="产品编码+批次号" prop="productIdAndBatchId"></el-table-column>
-          <el-table-column label="创建时间" prop="time"></el-table-column>
+          <el-table-column label="问题名称" prop="name"></el-table-column>
+          <el-table-column label="创建人" prop="create"></el-table-column>
           <el-table-column label="提交人" prop="submit"></el-table-column>
           <el-table-column label="操作">
             <el-button slot-scope="scope" size="mini" icon="el-icon-news" @click="detail(scope.row)">查看</el-button>
@@ -32,21 +30,19 @@
 
 <script>
 export default{
-  name: 'keyData',
+  name: 'question',
   data () {
     return {
       table: [
         {
-          id: '编号1',
-          productIdAndBatchId: 'productId1_BatchId1',
-          time: '2017-11-11 11:11:11',
+          name: '问题1',
+          create: '创建人1',
           submit: '提交人1'
         },
         {
-          id: '编号2',
-          productIdAndBatchId: 'productId2_BatchId2',
-          time: '2017-12-12 12:12:12',
-          submit: '提交人2'
+          name: '问题1',
+          create: '创建人1',
+          submit: '提交人1'
         }
       ],
       tableTotal: 89
@@ -54,8 +50,8 @@ export default{
   },
   methods: {
     detail () {
-      this.$alert('<strong>这里是关键数据详情内容</strong>', {
-        title: '关键数据详情',
+      this.$alert('<strong>这里是问题详情内容</strong>', {
+        title: '问题详情',
         dangerouslyUseHTMLString: true,
         showConfirmButton: false
       }).catch(() => {})

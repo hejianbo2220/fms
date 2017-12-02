@@ -4,7 +4,7 @@
       <el-col :span="21">
         <el-breadcrumb separator-class="el-icon-arrow-right">
           <el-breadcrumb-item :to="{path: '/pc/main/index'}">工厂管理系统</el-breadcrumb-item>
-          <el-breadcrumb-item>角色管理</el-breadcrumb-item>
+          <el-breadcrumb-item>角色权限</el-breadcrumb-item>
         </el-breadcrumb>
       </el-col>
       <el-col :span="3">
@@ -18,7 +18,7 @@
           <el-table-column label="角色说明" prop="desc"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
-              <el-button v-if="scope.row.name !== '管理员'" size="mini" icon="el-icon-edit-outline" @click="dialogShow('edit', scope.row)">编辑</el-button>
+              <el-button v-if="scope.row.name !== '管理员'" size="mini" icon="el-icon-edit" @click="dialogShow('edit', scope.row)">编辑</el-button>
             </template>
           </el-table-column>
         </el-table>

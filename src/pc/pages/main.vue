@@ -36,7 +36,7 @@ export default{
     return {
       menu: [
         {
-          title: '角色管理',
+          title: '角色权限',
           icon: 'el-icon-goods',
           path: '/pc/main/role'
         },
@@ -65,7 +65,7 @@ export default{
           ]
         },
         {
-          title: '关键数据管理',
+          title: '关键数据',
           icon: 'el-icon-star-off',
           submenu: [
             {
@@ -81,6 +81,52 @@ export default{
               path: '/pc/main/key/chart'
             }
           ]
+        },
+        {
+          title: '自检自测',
+          icon: 'el-icon-date',
+          submenu: [
+            {
+              title: '配置表',
+              path: '/pc/main/inspection/config'
+            },
+            {
+              title: '内容列表',
+              path: '/pc/main/inspection/data'
+            },
+            {
+              title: '统计图',
+              path: '/pc/main/inspection/chart'
+            }
+          ]
+        },
+        {
+          title: '质量检测',
+          icon: 'el-icon-bell',
+          submenu: [
+            {
+              title: '配置表',
+              path: '/pc/main/quality/config'
+            },
+            {
+              title: '内容列表',
+              path: '/pc/main/quality/data'
+            },
+            {
+              title: '统计图',
+              path: '/pc/main/quality/chart'
+            }
+          ]
+        },
+        {
+          title: '问题提交',
+          icon: 'el-icon-edit-outline',
+          path: '/pc/main/question'
+        },
+        {
+          title: '数据预览',
+          icon: 'el-icon-view',
+          path: '/pc/main/preview'
         }
       ],
       height: ''

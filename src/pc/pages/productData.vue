@@ -21,7 +21,7 @@
           <el-table-column label="规格型号" prop="standard"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
-              <el-button size="mini" icon="el-icon-edit-outline" @click="dialogShow('edit', scope.row)">编辑</el-button>
+              <el-button size="mini" icon="el-icon-edit" @click="dialogShow('edit', scope.row)">编辑</el-button>
               <el-button type="danger" size="mini" icon="el-icon-delete" @click="isDelete(scope.$index)">删除</el-button>
             </template>
           </el-table-column>

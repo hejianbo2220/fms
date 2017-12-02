@@ -11,6 +11,14 @@ import pcProductData from '@/pc/pages/productData'
 import pcKeyConfig from '@/pc/pages/keyConfig'
 import pcKeyData from '@/pc/pages/keyData'
 import pcKeyChart from '@/pc/pages/keyChart'
+import pcInspectionConfig from '@/pc/pages/inspectionConfig'
+import pcInspectionData from '@/pc/pages/inspectionData'
+import pcInspectionChart from '@/pc/pages/inspectionChart'
+import pcQualityConfig from '@/pc/pages/qualityConfig'
+import pcQualityData from '@/pc/pages/qualityData'
+import pcQualityChart from '@/pc/pages/qualityChart'
+import pcQuestion from '@/pc/pages/question'
+import pcPreview from '@/pc/pages/preview'
 import mobileLogin from '@/mobile/pages/login'
 import mobileTemplate from '@/mobile/pages/template'
 
@@ -72,6 +80,46 @@ export default new Router({
           path: 'key/chart',
           name: 'pcKeyChart',
           component: pcKeyChart
+        },
+        {
+          path: 'inspection/config',
+          name: 'pcInspectionConfig',
+          component: pcInspectionConfig
+        },
+        {
+          path: 'inspection/data',
+          name: 'pcInspectionData',
+          component: pcInspectionData
+        },
+        {
+          path: 'inspection/chart',
+          name: 'pcInspectionChart',
+          component: pcInspectionChart
+        },
+        {
+          path: 'quality/config',
+          name: 'pcQualityConfig',
+          component: pcQualityConfig
+        },
+        {
+          path: 'quality/data',
+          name: 'pcQualityData',
+          component: pcQualityData
+        },
+        {
+          path: 'quality/chart',
+          name: 'pcQualityChart',
+          component: pcQualityChart
+        },
+        {
+          path: 'question',
+          name: 'pcQuestion',
+          component: pcQuestion
+        },
+        {
+          path: 'preview',
+          name: 'pcPreview',
+          component: pcPreview
         }
       ]
     },
