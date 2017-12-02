@@ -39,10 +39,7 @@
         </el-form-item>
         <el-form-item label="模块权限" prop="permission">
           <el-checkbox-group v-model="form.permission">
-            <el-checkbox label="角色管理"></el-checkbox>
-            <el-checkbox label="用户管理"></el-checkbox>
-            <el-checkbox label="模块3"></el-checkbox>
-            <el-checkbox label="模块4"></el-checkbox>
+            <el-checkbox v-for="(item, index) in permissions" :key="index" :label="item"></el-checkbox>
           </el-checkbox-group>
         </el-form-item>
       </el-form>
@@ -84,6 +81,7 @@ export default{
       tableTotal: 89,
       dialogTitle: '',
       dialogVisible: false,
+      permissions: ['角色管理', '用户管理', '流水线管理', '产品管理', '关键数据', '自检自测', '质量检测', '问题提交', '数据预览'],
       form: {
         name: '',
         desc: '',
@@ -150,3 +148,10 @@ export default{
   }
 }
 </script>
+
+<style scoped>
+.el-checkbox{
+  width: 94px;
+  margin-left: 30px;
+}
+</style>
