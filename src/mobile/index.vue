@@ -13,7 +13,7 @@ export default{
         {
           title: '开关控制',
           isPermit: true,
-          path: '/mobile/main/switch/list'
+          path: '/mobile/main/line/list'
         },
         {
           title: '关键数据',

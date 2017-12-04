@@ -23,7 +23,8 @@ import pcPreview from '@/pc/preview'
 import mobileLogin from '@/mobile/login'
 import mobileMain from '@/mobile/main'
 import mobileIndex from '@/mobile/index'
-import mobileSwitchList from '@/mobile/switchList'
+import mobileLineList from '@/mobile/lineList'
+import mobileLineDetail from '@/mobile/lineDetail'
 import mobileTemplate from '@/mobile/template'
 
 Vue.use(Router)
@@ -148,9 +149,14 @@ export default new Router({
           component: mobileIndex
         },
         {
-          path: 'switch/list',
-          name: 'mobileSwitchList',
-          component: mobileSwitchList
+          path: 'line/list',
+          name: 'mobileLineList',
+          component: mobileLineList
+        },
+        {
+          path: 'line/detail/:id',
+          name: 'mobileLineDetail',
+          component: mobileLineDetail
         },
         {
           path: 'template',

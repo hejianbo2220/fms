@@ -3,7 +3,7 @@
     <mt-header title="开关控制">
       <mt-button icon="back" @click="back" slot="left"></mt-button>
     </mt-header>
-    <mt-cell v-for="(item, index) in line" :key="index" :title="item.name" :is-link="true" :to="'/#/mobile/switch/detail/' + item.id">
+    <mt-cell v-for="(item, index) in line" :key="index" :title="item.name" :is-link="true" :to="'/#/mobile/main/line/detail/' + item.id">
       状态：<span :class="statusClass(item.status)">{{item.status}}</span>
     </mt-cell>
   </div>
@@ -11,7 +11,7 @@
 
 <script>
 export default{
-  name: 'switchList',
+  name: 'lineList',
   data () {
     return {
       line: [
