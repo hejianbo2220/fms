@@ -22,4 +22,15 @@ body{
 input:focus, button:focus{
   outline: none;
 }
+
+/*global*/
+.green{
+  color: #67C23A;
+}
+.red{
+  color: #FA5555;
+}
+.orange{
+  color: #EB9E05;
+}
 </style>

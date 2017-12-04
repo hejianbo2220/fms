@@ -9,11 +9,10 @@ export default{
 </script>
 
 <style>
+/*global*/
 html{
   background-color: #fafafa;
 }
-
-/*mobile global*/
 .mint-header{
   height: 44px;
 }

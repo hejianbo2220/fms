@@ -56,17 +56,17 @@ export default{
         {
           name: '流水线1',
           desc: '这是生产水泥的流水线',
-          status: '开启'
+          status: '运行中'
         },
         {
           name: '流水线2',
           desc: '这是生产瓷砖的流水线',
-          status: '关闭'
+          status: '已关闭'
         },
         {
           name: '流水线3',
           desc: '这是生产地板的流水线',
-          status: '暂停'
+          status: '已暂停'
         }
       ],
       tableTotal: 89,
@@ -97,11 +97,11 @@ export default{
   methods: {
     classSwitch (status) {
       switch (status) {
-        case '开启':
+        case '运行中':
           return 'green'
-        case '关闭':
+        case '已关闭':
           return 'red'
-        case '暂停':
+        case '已暂停':
           return 'orange'
       }
     },
@@ -138,15 +138,3 @@ export default{
   }
 }
 </script>
-
-<style scoped>
-.green{
-  color: #67C23A;
-}
-.red{
-  color: #FA5555;
-}
-.orange{
-  color: #EB9E05;
-}
-</style>
