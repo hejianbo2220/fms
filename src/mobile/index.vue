@@ -37,20 +37,25 @@ export default{
         },
         {
           title: '问题列表',
-          isPermit: true,
+          isPermit: false,
           path: '/mobile/main/question'
         }
-      ]
+      ],
+      toast: []
     }
   },
   methods: {
     goTo (item) {
       if (item.isPermit) {
+        this.toast.forEach(item => {
+          item.close()
+        })
         this.$router.push(item.path)
       } else {
-        this.$toast({
-          message: '无操作权限，无法进入'
-        })
+        this.toast.push(this.$toast({
+          message: '无操作权限，无法进入',
+          duration: 1000
+        }))
       }
     }
   }
