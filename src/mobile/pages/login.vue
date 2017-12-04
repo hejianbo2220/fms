@@ -12,7 +12,7 @@ export default{
   name: 'login',
   methods: {
     login () {
-      this.$router.push('/mobile/index')
+      this.$router.push('/mobile/main/index')
     }
   }
 }
@@ -39,9 +39,6 @@ export default{
   font-size: 14px;
   color: #fff;
 }
-.login-input:focus{
-  outline: none;
-}
 .login-input::-webkit-input-placeholder{
   color: #fff;
 }
@@ -56,8 +53,5 @@ export default{
   font-size: 16px;
   font-weight: bold;
   color: #fff;
-}
-.login-btn:focus{
-  outline: none;
 }
 </style>

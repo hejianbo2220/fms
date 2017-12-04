@@ -19,6 +19,9 @@ body{
   margin: 0;
   -webkit-font-smoothing: antialiased;
 }
+input:focus, button:focus{
+  outline: none;
+}
 
 /*pc global*/
 .el-message-box__message{

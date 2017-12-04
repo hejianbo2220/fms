@@ -21,7 +21,9 @@ import pcQualityChart from '@/pc/pages/qualityChart'
 import pcQuestion from '@/pc/pages/question'
 import pcPreview from '@/pc/pages/preview'
 import mobileLogin from '@/mobile/pages/login'
+import mobileMain from '@/mobile/pages/main'
 import mobileIndex from '@/mobile/pages/index'
+import mobileSwitchList from '@/mobile/pages/switchList'
 import mobileTemplate from '@/mobile/pages/template'
 
 Vue.use(Router)
@@ -136,14 +138,26 @@ export default new Router({
       component: mobileLogin
     },
     {
-      path: '/mobile/index',
-      name: 'mobileIndex',
-      component: mobileIndex
-    },
-    {
-      path: '/mobile/template',
-      name: 'mobileTemplate',
-      component: mobileTemplate
+      path: '/mobile/main',
+      name: 'mobileMain',
+      component: mobileMain,
+      children: [
+        {
+          path: 'index',
+          name: 'mobileIndex',
+          component: mobileIndex
+        },
+        {
+          path: 'switch/list',
+          name: 'mobileSwitchList',
+          component: mobileSwitchList
+        },
+        {
+          path: 'template',
+          name: 'mobileTemplate',
+          component: mobileTemplate
+        }
+      ]
     }
   ]
 })
