@@ -3,7 +3,7 @@
     <el-header height="100px">工厂管理系统</el-header>
     <el-container>
       <el-aside width="200px">
-        <el-menu :unique-opened="true" :router="true">
+        <el-menu :unique-opened="true" :router="true" :default-active="menuActive">
           <template v-for="(item, index) in menu">
             <el-submenu v-if="item.submenu" :key="index" :index="String(index)">
               <template slot="title">
@@ -133,6 +133,7 @@ export default{
           path: '/pc/main/preview'
         }
       ],
+      menuActive: '',
       height: ''
     }
   },
@@ -142,6 +143,21 @@ export default{
     onresize = () => {
       this.height = (innerHeight - 100) + 'px'
     }
+
+    // menu active
+    this.menu.forEach((item, index) => {
+      if (item.submenu) {
+        item.submenu.forEach((subItem, subIndex) => {
+          if (subItem.path === this.$route.path) {
+            this.menuActive = String(index) + '-' + String(subIndex)
+          }
+        })
+      } else {
+        if (item.path === this.$route.path) {
+          this.menuActive = String(index)
+        }
+      }
+    })
   }
 }
 </script>

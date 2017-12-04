@@ -29,6 +29,10 @@ export default{
           value: 'class1',
           children: [
             {
+              label: '全部',
+              value: ''
+            },
+            {
               label: '产品编码1',
               value: 'id1'
             },
@@ -42,6 +46,10 @@ export default{
           label: '产品类型2',
           value: 'class2',
           children: [
+            {
+              label: '全部',
+              value: ''
+            },
             {
               label: '产品编码3',
               value: 'id3'

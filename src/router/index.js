@@ -43,14 +43,14 @@ export default new Router({
           component: pcIndex
         },
         {
-          path: 'user',
-          name: 'pcUser',
-          component: pcUser
-        },
-        {
           path: 'role',
           name: 'pcRole',
           component: pcRole
+        },
+        {
+          path: 'user',
+          name: 'pcUser',
+          component: pcUser
         },
         {
           path: 'line',
