@@ -1,6 +1,6 @@
 <template>
   <div>
-    <mt-header title="开关控制" class="mobile-mint-header">
+    <mt-header title="开关控制">
       <mt-button icon="back" @click="back" slot="left"></mt-button>
     </mt-header>
     <!-- <ul>

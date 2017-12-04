@@ -9,14 +9,14 @@
         </el-breadcrumb>
       </el-col>
       <el-col :span="17">
-        <el-date-picker v-model="filter.date" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" class="pc-filter"></el-date-picker>
-        <el-cascader expand-trigger="hover" :options="product" v-model="filter.product" placeholder="请选择产品编码" class="pc-filter"></el-cascader>
+        <el-date-picker v-model="filter.date" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" class="filter"></el-date-picker>
+        <el-cascader expand-trigger="hover" :options="product" v-model="filter.product" placeholder="请选择产品编码" class="filter"></el-cascader>
       </el-col>
     </el-row>
     <el-row v-for="(procedure, procedureIndex) in procedures" :key="procedureIndex">
       <el-col :span="24">
         <p class="procedure-title">{{procedure.title}}</p>
-        <div v-for="(attr, attrIndex) in procedure.attrs" :key="attrIndex" class="pc-chart" :id="'chart' + procedureIndex + '-' + attrIndex"></div>
+        <div v-for="(attr, attrIndex) in procedure.attrs" :key="attrIndex" class="chart" :id="'chart' + procedureIndex + '-' + attrIndex"></div>
       </el-col>
     </el-row>
   </div>

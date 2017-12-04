@@ -2,7 +2,7 @@
   <div>
     <el-row>
       <el-col :span="24">
-        <el-breadcrumb separator-class="el-icon-arrow-right" class="pc-breadcrumb-height">
+        <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb-height">
           <el-breadcrumb-item :to="{path: '/pc/main/index'}">工厂管理系统</el-breadcrumb-item>
           <el-breadcrumb-item>产品管理</el-breadcrumb-item>
           <el-breadcrumb-item>基础数据</el-breadcrumb-item>

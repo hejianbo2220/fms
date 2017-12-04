@@ -9,11 +9,11 @@
         </el-breadcrumb>
       </el-col>
       <el-col :span="17">
-        <el-date-picker v-model="filter.date" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" class="pc-filter"></el-date-picker>
-        <el-cascader expand-trigger="hover" :options="product" v-model="filter.product" placeholder="请选择产品编码" class="pc-filter"></el-cascader>
+        <el-date-picker v-model="filter.date" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" class="filter"></el-date-picker>
+        <el-cascader expand-trigger="hover" :options="product" v-model="filter.product" placeholder="请选择产品编码" class="filter"></el-cascader>
       </el-col>
     </el-row>
-    <div v-for="(item, index) in attrs" :key="index" class="pc-chart" :id="'chart' + index"></div>
+    <div v-for="(item, index) in attrs" :key="index" class="chart" :id="'chart' + index"></div>
   </div>
 </template>
 

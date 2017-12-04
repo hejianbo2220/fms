@@ -1,6 +1,6 @@
 <template>
   <div>
-    <mt-header title="顶部标题" class="mobile-mint-header">
+    <mt-header title="顶部标题">
       <mt-button icon="back" @click="back" slot="left"></mt-button>
     </mt-header>
     <mt-field label="文本" placeholder="请输入文本"></mt-field>
@@ -11,7 +11,7 @@
     </mt-cell>
     <mt-radio title="单选框" :options="['选项A', '选项B', '选项C']"></mt-radio>
     <mt-checklist title="复选框" :options="['选项A', '选项B', '选项C']" v-model="checklist"></mt-checklist>
-    <div class="mobile-btn-wrap">
+    <div class="btn-wrap">
       <mt-button type="primary" size="large">提 交</mt-button>
     </div>
   </div>

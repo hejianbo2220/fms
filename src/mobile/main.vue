@@ -12,4 +12,12 @@ export default{
 html{
   background-color: #fafafa;
 }
+
+/*mobile global*/
+.mint-header{
+  height: 44px;
+}
+.btn-wrap{
+  padding: 20px 10px;
+}
 </style>

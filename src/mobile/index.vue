@@ -1,5 +1,5 @@
 <template>
-  <div class="mobile-bg">
+  <div class="index-bg">
     <button v-for="(item, index) in menu" :key="index" @click="goTo(item)" class="menu-btn">{{item.title}}</button>
   </div>
 </template>
@@ -58,6 +58,15 @@ export default{
 </script>
 
 <style scoped>
+.index-bg{
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: url(../assets/mobile-login-bg.png);
+  background-size: 100% auto;
+}
 .menu-btn{
   display: block;
   width: 50%;

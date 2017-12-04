@@ -2,15 +2,15 @@
   <div>
     <el-row>
       <el-col :span="7">
-        <el-breadcrumb separator-class="el-icon-arrow-right" class="pc-breadcrumb-height">
+        <el-breadcrumb separator-class="el-icon-arrow-right">
           <el-breadcrumb-item :to="{path: '/pc/main/index'}">工厂管理系统</el-breadcrumb-item>
-          <el-breadcrumb-item>关键数据</el-breadcrumb-item>
+          <el-breadcrumb-item>自检自测</el-breadcrumb-item>
           <el-breadcrumb-item>内容列表</el-breadcrumb-item>
         </el-breadcrumb>
       </el-col>
       <el-col :span="17">
-        <el-date-picker v-model="filter.date" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" class="pc-filter"></el-date-picker>
-        <el-cascader expand-trigger="hover" :options="product" v-model="filter.product" placeholder="请选择产品编码" class="pc-filter"></el-cascader>
+        <el-date-picker v-model="filter.date" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" class="filter"></el-date-picker>
+        <el-cascader expand-trigger="hover" :options="product" v-model="filter.product" placeholder="请选择产品编码" class="filter"></el-cascader>
       </el-col>
     </el-row>
     <el-row>
@@ -36,7 +36,7 @@
 
 <script>
 export default{
-  name: 'keyData',
+  name: 'inspectionData',
   data () {
     return {
       product: [
@@ -104,8 +104,8 @@ export default{
   },
   methods: {
     detail () {
-      this.$alert('<strong>这里是关键数据详情内容</strong>', {
-        title: '关键数据详情',
+      this.$alert('<strong>这里是自检自测详情内容</strong>', {
+        title: '自检自测详情',
         dangerouslyUseHTMLString: true,
         showConfirmButton: false
       }).catch(() => {})

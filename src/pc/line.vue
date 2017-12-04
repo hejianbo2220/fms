@@ -8,7 +8,7 @@
         </el-breadcrumb>
       </el-col>
       <el-col :span="3">
-        <el-button type="primary" size="medium" icon="el-icon-circle-plus-outline" @click="dialogShow('add')" class="pc-add-btn">新增流水线</el-button>
+        <el-button type="primary" size="medium" icon="el-icon-circle-plus-outline" @click="dialogShow('add')" class="add-btn">新增流水线</el-button>
       </el-col>
     </el-row>
     <el-row>

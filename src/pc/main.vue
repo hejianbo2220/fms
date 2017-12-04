@@ -162,7 +162,26 @@ export default{
 }
 </script>
 
-<style scoped>
+<style>
+/*global*/
+.el-message-box__message{
+  max-height: 400px;
+  overflow-y: auto;
+}
+.add-btn{
+  margin-top: -8px;
+  float: right;
+}
+.breadcrumb-height{
+  height: 25px;
+}
+.filter{
+  float: right;
+  margin: -13px 0 0 10px;
+}
+.chart{
+  height: 240px;
+}
 .el-header{
   background-color: #409EFF;
   line-height: 100px;

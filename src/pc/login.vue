@@ -65,7 +65,7 @@ export default{
   right: 0;
   bottom: 0;
   left: 0;
-  background-image: url(../../assets/pc-login-bg.png);
+  background-image: url(../assets/pc-login-bg.png);
   background-size: 100% auto;
 }
 .login-wrap{

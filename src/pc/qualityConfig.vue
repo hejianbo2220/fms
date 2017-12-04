@@ -4,18 +4,18 @@
       <el-col :span="21">
         <el-breadcrumb separator-class="el-icon-arrow-right">
           <el-breadcrumb-item :to="{path: '/pc/main/index'}">工厂管理系统</el-breadcrumb-item>
-          <el-breadcrumb-item>自检自测</el-breadcrumb-item>
+          <el-breadcrumb-item>质量检测</el-breadcrumb-item>
           <el-breadcrumb-item>配置表</el-breadcrumb-item>
         </el-breadcrumb>
       </el-col>
       <el-col :span="3">
-        <el-button type="primary" size="medium" icon="el-icon-circle-plus-outline" @click="dialogShow" class="pc-add-btn">新增自检自测</el-button>
+        <el-button type="primary" size="medium" icon="el-icon-circle-plus-outline" @click="dialogShow" class="add-btn">新增质量检测</el-button>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="24">
         <el-table :data="table" :stripe="true">
-          <el-table-column label="自检自测名称" prop="name"></el-table-column>
+          <el-table-column label="质量检测名称" prop="name"></el-table-column>
           <el-table-column label="产品类型" prop="productClass"></el-table-column>
           <el-table-column label="操作">
             <el-button slot-scope="scope" size="mini" icon="el-icon-news" @click="detail(scope.row)">查看</el-button>
@@ -28,7 +28,7 @@
         <el-pagination @current-change="pageChanged" :total="tableTotal"></el-pagination>
       </el-col>
     </el-row>
-    <el-dialog title="新增自检自测" :visible.sync="dialogVisible" :close-on-click-modal="false">
+    <el-dialog title="新增质量检测" :visible.sync="dialogVisible" :close-on-click-modal="false">
       <el-form :model="form" label-width="82px" ref="dialogForm">
         <el-form-item :rules="{required: true, message: '请选择产品类型', trigger: 'change'}" label="产品类型" prop="productClass">
           <el-select v-model="form.productClass" placeholder="请选择产品类型">
@@ -53,16 +53,16 @@
 
 <script>
 export default{
-  name: 'inspectionConfig',
+  name: 'qualityConfig',
   data () {
     return {
       table: [
         {
-          name: '自检自测123',
+          name: '质量检测123',
           productClass: '类型1'
         },
         {
-          name: '自检自测3',
+          name: '质量检测3',
           productClass: '类型1'
         }
       ],
@@ -124,8 +124,8 @@ export default{
       this.form.attrs.splice(index, 1)
     },
     detail () {
-      this.$alert('<strong>这里是自检自测详情内容</strong>', {
-        title: '自检自测详情',
+      this.$alert('<strong>这里是质量检测详情内容</strong>', {
+        title: '质量检测详情',
         dangerouslyUseHTMLString: true,
         showConfirmButton: false
       }).catch(() => {})
