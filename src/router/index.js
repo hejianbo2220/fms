@@ -21,6 +21,7 @@ import pcQualityChart from '@/pc/pages/qualityChart'
 import pcQuestion from '@/pc/pages/question'
 import pcPreview from '@/pc/pages/preview'
 import mobileLogin from '@/mobile/pages/login'
+import mobileIndex from '@/mobile/pages/index'
 import mobileTemplate from '@/mobile/pages/template'
 
 Vue.use(Router)
@@ -133,6 +134,11 @@ export default new Router({
       path: '/mobile',
       name: 'mobileLogin',
       component: mobileLogin
+    },
+    {
+      path: '/mobile/index',
+      name: 'mobileIndex',
+      component: mobileIndex
     },
     {
       path: '/mobile/template',

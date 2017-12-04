@@ -21,22 +21,22 @@ body{
 }
 
 /*pc global*/
-.pc-add-btn{
-  margin-top: -11px;
-  float: right;
-}
 .el-message-box__message{
   max-height: 400px;
   overflow-y: auto;
 }
-.breadcrumb-height{
+.pc-add-btn{
+  margin-top: -11px;
+  float: right;
+}
+.pc-breadcrumb-height{
   height: 25px;
 }
-.chart-filter{
+.pc-filter{
   float: right;
   margin: -13px 0 0 10px;
 }
-.chart{
+.pc-chart{
   height: 240px;
 }
 
@@ -46,5 +46,14 @@ body{
 }
 .mobile-btn-wrap{
   padding: 20px 10px;
+}
+.mobile-bg{
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: url(assets/mobile-login-bg.png);
+  background-size: 100% auto;
 }
 </style>

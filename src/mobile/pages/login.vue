@@ -1,5 +1,5 @@
 <template>
-  <div class="login-bg">
+  <div class="mobile-bg">
     <p class="login-title">工厂管理系统</p>
     <input class="login-input" type="text" placeholder="请输入用户名">
     <input class="login-input" type="password" placeholder="请输入密码">
@@ -12,22 +12,13 @@ export default{
   name: 'login',
   methods: {
     login () {
-      this.$router.push('/mobile/template')
+      this.$router.push('/mobile/index')
     }
   }
 }
 </script>
 
 <style scoped>
-.login-bg{
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background-image: url(../../assets/mobile-login-bg.png);
-  background-size: 100% auto;
-}
 .login-title{
   margin: 80px 0 60px;
   font-size: 26px;
