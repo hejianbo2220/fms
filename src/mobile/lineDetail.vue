@@ -15,7 +15,7 @@
     <mt-cell title="规格型号" :value="line.productStandard"></mt-cell>
     <mt-field v-if="line.status === '已关闭'" label="批次号" placeholder="请输入批次号" v-model="line.batchId"></mt-field>
     <mt-cell v-else title="批次号" :value="line.batchId"></mt-cell>
-    <!-- todo 运行时间 -->
+    <p v-if="line.status !== '已关闭'" class="clock">{{clock}}</p>
     <div v-if="line.status === '已关闭'" class="btn-wrap">
       <mt-button type="primary" size="large" @click="open">开 启</mt-button>
     </div>
@@ -38,8 +38,10 @@ export default{
         productName: '',
         productClass: '',
         productStandard: '',
-        batchId: ''
+        batchId: '',
+        createTime: 0
       },
+      timer: null,
       popupVisible: false,
       productIds: [
         {
@@ -65,6 +67,27 @@ export default{
       ]
     }
   },
+  computed: {
+    clock () {
+      let hour, minute, second
+      hour = minute = second = 0
+      const now = new Date()
+      const time = now.getTime() - this.line.createTime
+      hour = parseInt(time / (60 * 60 * 1000))
+      minute = parseInt((time % (60 * 60 * 1000)) / (60 * 1000))
+      second = parseInt(((time % (60 * 60 * 1000)) % (60 * 1000)) / 1000)
+      if (hour < 10) {
+        hour = '0' + hour
+      }
+      if (minute < 10) {
+        minute = '0' + minute
+      }
+      if (second < 10) {
+        second = '0' + second
+      }
+      return hour + ' : ' + minute + ' : ' + second
+    }
+  },
   methods: {
     getLineStatus () {
       console.log('获取流水线状态')
@@ -74,7 +97,8 @@ export default{
         productName: '产品1',
         productClass: '产品类型1',
         productStandard: '规格型号1',
-        batchId: '批次1'
+        batchId: '批次1',
+        createTime: 1512477400000
       }
       Object.assign(this.line, data)
     },
@@ -131,6 +155,14 @@ export default{
   },
   mounted () {
     this.getLineStatus()
+
+    // 每秒更新createTime，触发computed.clock
+    this.timer = setInterval(() => {
+      this.line.createTime += 1
+    }, 1000)
+  },
+  beforeDestroy () {
+    clearInterval(this.timer)
   }
 }
 </script>
@@ -151,5 +183,10 @@ export default{
 }
 .btn-inline > .mint-button:first-child{
   margin-right: 10px;
+}
+.clock{
+  margin: 15px 0 0;
+  font-size: 32px;
+  text-align: center;
 }
 </style>
