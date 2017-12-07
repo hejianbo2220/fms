@@ -6,7 +6,7 @@
       </el-row>
       <el-row>
         <el-col :span="16" :offset="4">
-          <el-form :model="form" :rules="rules">
+          <el-form :model="form" :rules="rules" ref="dialogForm">
             <el-form-item prop="username">
               <el-input v-model="form.username" prefix-icon="el-icon-tickets" placeholder="请输入用户名"></el-input>
             </el-form-item>
@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import axios from '@/axios'
 export default{
   name: 'login',
   data () {
@@ -52,7 +53,18 @@ export default{
   },
   methods: {
     login () {
-      this.$router.push('/pc/main/index')
+      this.$refs.dialogForm.validate(valid => {
+        if (valid) {
+          axios(this, {
+            msgType: 1,
+            userID: this.form.username,
+            password: this.form.password
+          }).then(data => {
+            this.$store.commit('setToken', data.token)
+            this.$router.push('/pc/main/index')
+          })
+        }
+      })
     }
   }
 }

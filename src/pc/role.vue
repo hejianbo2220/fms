@@ -50,6 +50,7 @@
 </template>
 
 <script>
+import axios from '@/axios'
 export default{
   name: 'role',
   data () {
@@ -112,6 +113,11 @@ export default{
     }
   },
   methods: {
+    getTable (startPage) {
+      axios(this, {msgType: '6'}).then(data => {
+        console.log(data)
+      })
+    },
     dialogShow (type, role) {
       this.dialogVisible = true
       switch (type) {
@@ -143,6 +149,9 @@ export default{
     pageChanged (page) {
       console.log(page)
     }
+  },
+  mounted () {
+    this.getTable()
   }
 }
 </script>

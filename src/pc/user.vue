@@ -15,11 +15,12 @@
       <el-col :span="24">
         <el-table :data="table" :stripe="true">
           <el-table-column label="用户名" prop="username"></el-table-column>
-          <el-table-column label="角色" prop="role"></el-table-column>
+          <el-table-column label="角色" prop="rolename"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
               <el-button size="mini" icon="el-icon-edit" @click="dialogShow('edit', scope.row)">编辑</el-button>
-              <el-button v-if="scope.row.username !== 'admin'" type="danger" size="mini" icon="el-icon-delete" @click="isDelete(scope.$index)">删除</el-button>
+              <!-- todo 管理员的roleid是几 -->
+              <el-button v-if="scope.row.role_id !== 1" type="danger" size="mini" icon="el-icon-delete" @click="isDelete(scope.row.accID)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -31,16 +32,21 @@
       </el-col>
     </el-row>
     <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" :close-on-click-modal="false">
-      <el-form :model="form" :rules="rules" label-width="82px" ref="dialogForm">
-        <el-form-item label="用户名" prop="username">
-          <el-input v-model="form.username" placeholder="请输入用户名" :disabled="form.username === 'admin'"></el-input>
+      <el-form :model="form" label-width="82px" ref="dialogForm">
+        <el-form-item :rules="{required: true, message: '请输入用户名', trigger: 'blur'}" label="用户名" prop="username">
+          <!-- todo 管理员的roleid是几 -->
+          <el-input v-model="form.username" placeholder="请输入用户名" :disabled="dialogTitle === '编辑用户' && form.roleid === 1"></el-input>
         </el-form-item>
-        <el-form-item label="密码" prop="password">
+        <el-form-item v-if="dialogTitle === '新增用户'" :rules="{required: true, message: '请输入密码', trigger: 'blur'}" label="密码" prop="password">
           <el-input type="password" v-model="form.password" placeholder="请输入密码"></el-input>
         </el-form-item>
-        <el-form-item label="角色" prop="role">
-          <el-select v-model="form.role" placeholder="请选择角色" :disabled="form.username === 'admin'">
-            <el-option v-for="(item, index) in roles" :key="index" :value="item.name"></el-option>
+        <el-form-item v-else label="密码" prop="password">
+          <el-input type="password" v-model="form.password" placeholder="请输入密码"></el-input>
+        </el-form-item>
+        <el-form-item :rules="{type: 'number', required: true, message: '请选择角色'}" label="角色" prop="roleid">
+          <!-- todo 管理员的roleid是几 -->
+          <el-select v-model="form.roleid" placeholder="请选择角色" :disabled="dialogTitle === '编辑用户' && form.roleid === 1">
+            <el-option v-for="(item, index) in roles" :key="index" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -53,120 +59,99 @@
 </template>
 
 <script>
+import axios from '@/axios'
 export default{
   name: 'user',
   data () {
     return {
-      table: [
-        {
-          username: 'admin',
-          role: '管理员'
-        },
-        {
-          username: 'user1',
-          role: '角色1'
-        },
-        {
-          username: 'user2',
-          role: '角色2'
-        },
-        {
-          username: 'user3',
-          role: '角色3'
-        }
-      ],
+      table: [],
       tableTotal: 89,
       dialogTitle: '',
       dialogVisible: false,
-      roles: [
-        {
-          name: '管理员',
-          desc: '这是管理员角色',
-          permission: ['角色管理', '用户管理', '模块3', '模块4']
-        },
-        {
-          name: '角色1',
-          desc: '这是角色1',
-          permission: ['用户管理', '模块3']
-        },
-        {
-          name: '角色2',
-          desc: '这是角色2',
-          permission: ['角色管理']
-        },
-        {
-          name: '角色3',
-          desc: '这是角色3',
-          permission: ['角色管理', '模块3', '模块4']
-        }
-      ],
+      roles: [],
       form: {
         username: '',
         password: '',
-        role: ''
-      },
-      rules: {
-        username: [
-          {
-            required: true,
-            message: '请输入用户名',
-            trigger: 'blur'
-          }
-        ],
-        role: [
-          {
-            required: true,
-            message: '请选择角色',
-            trigger: 'change'
-          }
-        ]
+        roleid: ''
       }
     }
   },
   methods: {
+    getTable (startPage) {
+      axios(this, {msgType: 4}).then(data => {
+        this.table = data.list
+      })
+    },
     dialogShow (type, user) {
       this.dialogVisible = true
-      switch (type) {
-        case 'add':
-          this.dialogTitle = '新增用户'
-          this.$nextTick(() => {
-            this.$refs.dialogForm.resetFields()
-          })
-          break
-        case 'edit':
-          this.dialogTitle = '编辑用户'
-          this.$nextTick(() => {
-            this.$refs.dialogForm.resetFields()
-            this.form.username = user.username
-            this.form.role = user.role
-          })
-          break
+      if (type === 'add') {
+        this.dialogTitle = '新增用户'
+        this.$nextTick(() => {
+          this.$refs.dialogForm.resetFields()
+        })
+      } else {
+        this.dialogTitle = '编辑用户'
+        this.$nextTick(() => {
+          this.$refs.dialogForm.resetFields()
+          this.form.username = user.username
+          this.form.roleid = user.role_id
+        })
       }
     },
     dialogSure () {
-      this.dialogVisible = false
-      this.$message({
-        message: this.dialogTitle + '成功',
-        type: 'success',
-        duration: 1500
+      this.$refs.dialogForm.validate(valid => {
+        if (valid) {
+          let msgType
+          if (this.dialogTitle === '新增用户') {
+            msgType = 2
+          } else {
+            msgType = 3
+          }
+          axios(this, {
+            msgType: msgType,
+            username: this.form.username,
+            userID: this.form.username,
+            role_id: this.form.roleid,
+            password: this.form.password
+          }).then(data => {
+            this.dialogVisible = false
+            this.$message({
+              message: this.dialogTitle + '成功',
+              type: 'success',
+              duration: 1500
+            })
+            this.getTable()
+          })
+        }
       })
     },
-    isDelete (index) {
+    isDelete (userID) {
       this.$confirm('确认删除该项？', {
         type: 'warning',
         closeOnClickModal: false
       }).then(() => {
-        console.log(this.table[index].username + '已删除')
-        this.$message({
-          message: '删除成功',
-          type: 'success',
-          duration: 1500
+        axios(this, {
+          msgType: 40,
+          userID: userID
+        }).then(data => {
+          this.$message({
+            message: '删除成功',
+            type: 'success',
+            duration: 1500
+          })
+          this.getTable()
         })
       }).catch(() => {})
     },
     pageChanged (page) {
       console.log(page)
     }
+  },
+  mounted () {
+    axios(this, {msgType: 6}).then(data => {
+      this.roles = data.list
+    })
+    this.getTable()
   }
 }
 </script>
