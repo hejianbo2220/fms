@@ -1,0 +1,761 @@
+{
+	"variables": [],
+	"info": {
+		"name": "工厂管理",
+		"_postman_id": "ae118a59-989f-1eae-10d8-442cb3a9f918",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "登录",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"msgType\":1,\n\t\"userID\":\"arvin\",\n\t\"password\":\"123456\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "新增角色",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"msgType\":7,\n\t\"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\",\n\t\"name\":\"生成检测员\",\n\t\"desc\":\"在生成过程中检测关键数据\",\n\t\"permission\":\"0010000\",\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "修改角色信息",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"msgType\":8,\n\t\"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\",\n\t\"name\":\"生产检测员\",\n\t\"desc\":\"在生成过程中检测关键数据\",\n\t\"permission\":\"0010000\",\n\t\"id\":\"6\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "删除角色",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"msgType\":9,\n\t\"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\",\n\t\"id\":\"5\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "获取角色列表",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"msgType\":6,\n\t\"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "新增账号",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"msgType\":2,\n\t\"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\",\n\t\"username\":\"邹政\",\n\t\"userID\":\"arvin\",\n\t\"role_id\":6,\n\t\"password\":\"123456\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "编辑账号",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"msgType\":3,\n\t\"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\",\n\t\"username\":\"邹政\",\n\t\"userID\":\"arvin\",\n\t\"role_id\":6,\n\t\"password\":\"654321\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "获取账号列表",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"msgType\":4,\n\t\"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "删除账号",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"msgType\":40,\n\t\"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\",\n\t\"userID\":\"wo\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "新增生产线",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"msgType\":30,\n\t\"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\",\n\t\"name\":\"第一条条生产线\",\n\t\"desc\":\"这个是第二条生产线的说明\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "获取生产线列表",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"msgType\":10,\n\t\"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "编辑生产线",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"msgType\":31,\n\t\"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\",\n\t\"name\":\"第一条条生产线\",\n\t\"desc\":\"这个是第一条生产线的说明\",\n\t\"id\":5\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "删除生产线",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"msgType\":32,\n\t\"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\",\n\t\"id\":5\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "新增产品类型",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"msgType\":50,\n \"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\",\n \"name\":\"测试类型3\",\n \"desc\":\"无描述3\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "获取产品类型列表",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"msgType\":26,\n\t\"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "编辑产品类型",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"msgType\":50,\n \"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\",\n \"name\":\"测试类型31\",\n \"desc\":\"无描述31\",\n \"id\":12\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "删除产品类型",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"msgType\":52,\n \"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\",\n \"id\":12\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "添加产品编码",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"msgType\":53,\n \"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\",\n \"name\":\"产品编码名称\",\n \"serials\":\"sn99999\",\n \"type_id\":11,\n \"spec\":\"规格型号\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "编辑产品编码",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"msgType\":55,\n \"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\",\n \"name\":\"产品编码名称\",\n \"serials\":\"sn999992\",\n \"type_id\":10,\n \"spec\":\"规格型号\",\n \"id\":4\n \n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "获取产品编码列表",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"msgType\":27,\n \"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "关键数据",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"msgType\":70,\n    \"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\",\n    \"type_id\": 10,\n    \"process\": [\n        {\n            \"name\": \"配料\",\n            \"type_id\": \"10\",\n            \"id\": \"\",\n            \"list\": [\n                {\n                    \"id\": \"\",\n                    \"name\": \"温度\",\n                    \"value\": \"\"\n                },\n                {\n                    \"id\": \"\",\n                    \"name\": \"湿度\",\n                    \"value\": \"\"\n                }\n            ]\n        },\n        {\n            \"name\": \"出料\",\n            \"type_id\": \"10\",\n            \"id\": \"\",\n            \"list\": [\n                {\n                    \"id\": \"\",\n                    \"name\": \"温度\",\n                    \"value\": \"\"\n                },\n                {\n                    \"id\": \"\",\n                    \"name\": \"湿度\",\n                    \"value\": \"\"\n                }\n            ]\n        }\n    ]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "关键数据查询",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"msgType\":71,\n \"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\",\n type_id:\"10\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "关键数据内容提交",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"msgType\": \"72\",\n  \"type_id\":10,\n  \"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\",\n  \"serials\":\"sn99999\",\n  \"batch\":\"no10000\",\n  \"user\":\"管理员\",\n  \"list\": [\n    {\n      \"type_id\": 10,\n      \"name\": \"配料\",\n      \"id\": 1,\n      \"list\": [\n        {\n          \"process_id\": 1,\n          \"name\": \"温度\",\n          \"id\": 38,\n          \"value\": 32.7\n        },\n        {\n          \"process_id\": 1,\n          \"name\": \"湿度\",\n          \"id\": 39,\n          \"value\": 35\n        }\n      ]\n    },\n    {\n      \"type_id\": 10,\n      \"name\": \"出料\",\n      \"id\": 2,\n      \"list\": [\n        {\n          \"process_id\": 2,\n          \"name\": \"温度\",\n          \"id\": 40,\n          \"value\": 36\n        },\n        {\n          \"process_id\": 2,\n          \"name\": \"湿度\",\n          \"id\": 41,\n          \"value\": 37\n        }\n      ]\n    }\n  ]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "关键数据内容列表",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"msgType\":73,\n \"type_id\":10,\n \"serials\":\"sn99999\",\n \"startTime\":1512057600000,\n \"endTime\":1512662400000,\n \"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\",\n \"startNo\":0,\n \"num\":10\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "关键数据内容详情",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"msgType\":74,\n \"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\",\n \"id\":\"65\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "关键数据统计",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"msgType\":75,\n \"type_id\":10,\n \"serials\":\"\",\n \"startTime\":1512057600000,\n \"endTime\":1512662400000,\n \"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\",\n \"startNo\":0,\n \"num\":10\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "新增产品类型",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"msgType\":26,\n\t\"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "产品类型列表",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"msgType\":26,\n \"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "自检自测数据",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"msgType\":80,\n    \"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\",\n    \"type_id\": 10,\n    \"list\": [\n                {\n                    \"id\": \"\",\n                    \"name\": \"温度\",\n                    \"value\": \"\"\n                },\n                {\n                    \"id\": \"\",\n                    \"name\": \"湿度\",\n                    \"value\": \"\"\n                }\n            ]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "自检自测数据查询",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"msgType\":81,\n \"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\",\n \"type_id\":\"10\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "自检自测内容提交 ",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"msgType\": \"82\",\n  \"type_id\":10,\n  \"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\",\n  \"serials\":\"sn999991\",\n  \"batch\":\"no10000\",\n  \"user\":\"管理员\",\n  \"list\": [\n    {\n      \"property_id\": 1,\n      \"id\": 0,\n      \"name\": \"温度\",\n      \"value\": \"2\",\n      \"type_id\": 10\n    },\n    {\n      \"property_id\": 2,\n      \"id\": 0,\n      \"name\": \"湿度\",\n      \"value\": \"4\",\n      \"type_id\": 10\n    }\n  ],\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "自检自测数据内容列表",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"msgType\":83,\n \"type_id\":10,\n \"serials\":\"sn99999\",\n \"startTime\":1512057600000,\n \"endTime\":1512662400000,\n \"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\",\n \"startNo\":0,\n \"num\":10\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "自检自测数据内容详情",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"msgType\":84,\n \"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\",\n \"id\":\"9\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "自检自测数据统计",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"msgType\":85,\n \"type_id\":10,\n \"serials\":\"sn999991\",\n \"startTime\":1512057600000,\n \"endTime\":1512662400000,\n \"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\",\n \"startNo\":0,\n \"num\":10\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "质量检测数据",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"msgType\":90,\n    \"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\",\n    \"type_id\": 10,\n    \"list\": [\n                {\n                    \"id\": \"\",\n                    \"name\": \"硬度10\",\n                    \"value\": \"\"\n                },\n                {\n                    \"id\": \"\",\n                    \"name\": \"高度10\",\n                    \"value\": \"\"\n                }\n            ]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "质量检测数据查询",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"msgType\":91,\n \"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\",\n \"type_id\":\"11\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "质量检测内容提交",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"msgType\": \"92\",\n  \"type_id\":11,\n  \"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\",\n  \"serials\":\"sn99999\",\n  \"batch\":\"no10000\",\n  \"user\":\"管理员\",\n  \"list\": [\n    {\n      \"property_id\": 9,\n      \"id\": 0,\n      \"name\": \"硬度11\",\n      \"value\": \"15.5\",\n      \"type_id\": 11\n    },\n    {\n      \"property_id\": 10,\n      \"id\": 0,\n      \"name\": \"高度11\",\n      \"value\": \"22\",\n      \"type_id\": 11\n    }\n  ]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "质量检测数据内容列表",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"msgType\":93,\n \"type_id\":11,\n \"serials\":\"sn99999\",\n \"startTime\":1512057600000,\n \"endTime\":1512662400000,\n \"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\",\n \"startNo\":0,\n \"num\":10\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "质量检测数据内容详情",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"msgType\":94,\n \"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\",\n \"id\":\"9\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "质量检测数据统计",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"msgType\":95,\n \"type_id\":11,\n \"serials\":\"\",\n \"startTime\":1512057600000,\n \"endTime\":1512662400000,\n \"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\",\n \"startNo\":0,\n \"num\":10\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "新增问题",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"msgType\":100,\n  \"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\",\n  \"serials\":\"sn99999\",\n  \"batch\":\"no10000\",\n  \"source\":\"问题来源\",\n  \"person\":\"责任人1\",\n  \"desc\":\"问题描述\",\n  \"programe\":\"解决方案\",\n  \"improv\":\"改进措施\",\n  \"state\":0,\n  \"msg\":\"备注\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "问题列表",
+			"request": {
+				"url": "http://120.79.2.53:8080/WaterProof/Server",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"msgType\":101,\n \"type_id\":\"11\",\n \"serials\":\"\",\n \"startTime\":1512057600000,\n \"endTime\":1512662400000,\n \"token\":\"f6fdffe48c908deb0f4c3bd36c032e72\",\n \"startNo\":0,\n \"num\":10\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
