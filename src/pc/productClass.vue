@@ -20,7 +20,7 @@
           <el-table-column label="操作">
             <template slot-scope="scope">
               <el-button size="mini" icon="el-icon-edit" @click="dialogShow('edit', scope.row)">编辑</el-button>
-              <el-button type="danger" size="mini" icon="el-icon-delete" @click="isDelete(scope.$index)">删除</el-button>
+              <el-button type="danger" size="mini" icon="el-icon-delete" @click="isDelete(scope.row.id)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -49,24 +49,17 @@
 </template>
 
 <script>
+import axios from '@/axios'
 export default{
   name: 'productClass',
   data () {
     return {
-      table: [
-        {
-          name: '产品类型1',
-          desc: '这是产品类型1的描述'
-        },
-        {
-          name: '产品类型2',
-          desc: '这是产品类型2的描述'
-        }
-      ],
+      table: [],
       tableTotal: 89,
       dialogTitle: '',
       dialogVisible: false,
       form: {
+        id: '',
         name: '',
         desc: ''
       },
@@ -89,6 +82,11 @@ export default{
     }
   },
   methods: {
+    getTable (startPage) {
+      axios(this, {msgType: 26}).then(data => {
+        this.table = data.list
+      })
+    },
     dialogShow (type, productClass) {
       this.dialogVisible = true
       switch (type) {
@@ -102,6 +100,7 @@ export default{
           this.dialogTitle = '编辑产品类型'
           this.$nextTick(() => {
             this.$refs.dialogForm.resetFields()
+            this.form.id = productClass.id
             this.form.name = productClass.name
             this.form.desc = productClass.desc
           })
@@ -109,29 +108,55 @@ export default{
       }
     },
     dialogSure () {
-      this.dialogVisible = false
-      this.$message({
-        message: this.dialogTitle + '成功',
-        type: 'success',
-        duration: 1500
+      this.$refs.dialogForm.validate(valid => {
+        if (valid) {
+          let msgType
+          if (this.dialogTitle === '新增产品类型') {
+            msgType = 50
+          } else {
+            msgType = 51
+          }
+          axios(this, {
+            msgType: msgType,
+            id: this.form.id,
+            name: this.form.name,
+            desc: this.form.desc
+          }).then(data => {
+            this.dialogVisible = false
+            this.$message({
+              message: this.dialogTitle + '成功',
+              type: 'success',
+              duration: 1500
+            })
+            this.getTable()
+          })
+        }
       })
     },
-    isDelete (index) {
+    isDelete (id) {
       this.$confirm('确认删除该项？', {
         type: 'warning',
         closeOnClickModal: false
       }).then(() => {
-        console.log(this.table[index].name + '已删除')
-        this.$message({
-          message: '删除成功',
-          type: 'success',
-          duration: 1500
+        axios(this, {
+          msgType: 52,
+          id: id
+        }).then(data => {
+          this.$message({
+            message: '删除成功',
+            type: 'success',
+            duration: 1500
+          })
+          this.getTable()
         })
       }).catch(() => {})
     },
     pageChanged (page) {
       console.log(page)
     }
+  },
+  mounted () {
+    this.getTable()
   }
 }
 </script>

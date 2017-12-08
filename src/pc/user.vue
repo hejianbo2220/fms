@@ -139,14 +139,14 @@ export default{
         }
       })
     },
-    isDelete (userID) {
+    isDelete (id) {
       this.$confirm('确认删除该项？', {
         type: 'warning',
         closeOnClickModal: false
       }).then(() => {
         axios(this, {
           msgType: 40,
-          userID: userID
+          userID: id
         }).then(data => {
           this.$message({
             message: '删除成功',
