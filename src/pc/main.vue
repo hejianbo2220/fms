@@ -1,10 +1,13 @@
 <template>
   <el-container>
-    <el-header height="100px">工厂管理系统</el-header>
+    <el-header height="100px">
+      工厂管理系统
+      <el-button type="text" @click="logout" class="logout">退出登录</el-button>
+    </el-header>
     <el-container>
       <el-aside width="200px">
         <el-menu :unique-opened="true" :router="true" :default-active="menuActive">
-          <template v-for="(item, index) in menu">
+          <template v-for="(item, index) in menu" v-if="item.permission === '1'">
             <el-submenu v-if="item.submenu" :key="index" :index="String(index)">
               <template slot="title">
                 <i :class="item.icon"></i>
@@ -137,15 +140,28 @@ export default{
       height: ''
     }
   },
+  methods: {
+    logout () {
+      this.$store.commit('setToken', '')
+      this.$router.push('/pc')
+    }
+  },
   mounted () {
+    // 判断是否登录
+    if (this.$store.state.token === '') {
+      this.$router.push('/pc')
+      return false
+    }
+
     // 撑满浏览器高度
     this.height = (innerHeight - 100) + 'px'
     onresize = () => {
       this.height = (innerHeight - 100) + 'px'
     }
 
-    // menu active
+    // 菜单权限和激活项
     this.menu.forEach((item, index) => {
+      item.permission = this.$store.state.permission[index]
       if (item.submenu) {
         item.submenu.forEach((subItem, subIndex) => {
           if (subItem.path === this.$route.path) {
@@ -187,6 +203,15 @@ export default{
   line-height: 100px;
   font-size: 26px;
   color: #fff;
+}
+.logout{
+  float: right;
+  margin-top: 40px;
+  color: #fff;
+}
+.logout:hover{
+  color: #fff;
+  text-decoration: underline;
 }
 .el-menu{
   border-right: none;

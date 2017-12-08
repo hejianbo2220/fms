@@ -61,7 +61,7 @@ export default{
             userID: this.form.username,
             password: md5(this.form.password)
           }).then(data => {
-            this.$store.commit('setToken', data.token)
+            this.$store.commit('set', data)
             this.$router.push('/pc/main/index')
           })
         }

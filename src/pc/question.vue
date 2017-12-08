@@ -41,7 +41,7 @@ export default{
     return {
       product: [],
       filter: {
-        product: ['11', ''],
+        product: ['', ''],
         date: []
       },
       table: [],
