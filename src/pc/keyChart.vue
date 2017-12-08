@@ -67,78 +67,7 @@ export default{
         product: [],
         date: []
       },
-      procedures: [
-        {
-          title: '工序1',
-          attrs: [
-            {
-              title: '属性1',
-              data: [
-                ['2017-11-30', '16'],
-                ['2017-11-29', '5'],
-                ['2017-11-27', '3'],
-                ['2017-11-21', '10'],
-                ['2017-11-17', '0'],
-                ['2017-11-14', '40'],
-                ['2017-11-10', '30'],
-                ['2017-11-09', '22'],
-                ['2017-11-07', '20'],
-                ['2017-11-06', '14']
-              ]
-            },
-            {
-              title: '属性2',
-              data: [
-                ['2017-11-30', '26'],
-                ['2017-11-29', '5'],
-                ['2017-11-27', '3'],
-                ['2017-11-21', '10'],
-                ['2017-11-17', '10'],
-                ['2017-11-14', '40'],
-                ['2017-11-10', '30'],
-                ['2017-11-09', '22'],
-                ['2017-11-07', '20'],
-                ['2017-11-06', '14']
-              ]
-            }
-          ]
-        },
-        {
-          title: '工序2',
-          attrs: [
-            {
-              title: '属性3',
-              data: [
-                ['2017-11-30', '36'],
-                ['2017-11-29', '5'],
-                ['2017-11-27', '3'],
-                ['2017-11-21', '10'],
-                ['2017-11-17', '20'],
-                ['2017-11-14', '40'],
-                ['2017-11-10', '30'],
-                ['2017-11-09', '22'],
-                ['2017-11-07', '20'],
-                ['2017-11-06', '14']
-              ]
-            },
-            {
-              title: '属性4',
-              data: [
-                ['2017-11-30', '6'],
-                ['2017-11-29', '5'],
-                ['2017-11-27', '3'],
-                ['2017-11-21', '10'],
-                ['2017-11-17', '30'],
-                ['2017-11-14', '40'],
-                ['2017-11-10', '30'],
-                ['2017-11-09', '22'],
-                ['2017-11-07', '20'],
-                ['2017-11-06', '14']
-              ]
-            }
-          ]
-        }
-      ]
+      procedures: []
     }
   },
   methods: {
@@ -150,50 +79,43 @@ export default{
         startTime: this.filter.date[0].getTime(),
         endTime: this.filter.date[1].getTime()
       }).then(data => {
-        data.list.forEach(procedure => {
-          procedure.propertys.forEach(attr => {
-            attr.chart = []
-            attr.points.forEach(item => {
-              const dateTemp = new Date()
-              dateTemp.setTime(item.time)
-              let arrTemp = []
-              arrTemp.push(dateTemp)
-              arrTemp.push(item.value)
-              attr.chart.push(arrTemp)
-            })
-          })
-        })
         this.procedures = data.list
-        this.procedures.forEach((procedure, procedureIndex) => {
-          procedure.propertys.forEach((attr, attrIndex) => {
-            const id = 'chart' + procedureIndex + '-' + attrIndex
-            this[id] = echarts.init(document.getElementById(id))
-            this[id].setOption({
-              title: {
-                text: attr.name,
-                textStyle: {
-                  fontSize: 16,
-                  fontWeight: 'normal'
+        this.$nextTick(() => {
+          this.procedures.forEach((procedure, procedureIndex) => {
+            procedure.propertys.forEach((attr, attrIndex) => {
+              attr.points.forEach(point => {
+                const dateTemp = new Date()
+                point[0] = dateTemp.setTime(point[0])
+              })
+              const id = 'chart' + procedureIndex + '-' + attrIndex
+              this[id] = echarts.init(document.getElementById(id))
+              this[id].setOption({
+                title: {
+                  text: attr.name,
+                  textStyle: {
+                    fontSize: 16,
+                    fontWeight: 'normal'
+                  }
+                },
+                xAxis: {
+                  type: 'time',
+                  splitLine: {
+                    show: false
+                  }
+                },
+                yAxis: {
+                  splitLine: {
+                    show: false
+                  }
+                },
+                series: {
+                  type: 'line',
+                  data: attr.points
+                },
+                tooltip: {
+                  trigger: 'axis'
                 }
-              },
-              xAxis: {
-                type: 'time',
-                splitLine: {
-                  show: false
-                }
-              },
-              yAxis: {
-                splitLine: {
-                  show: false
-                }
-              },
-              series: {
-                type: 'line',
-                data: attr.chart
-              },
-              tooltip: {
-                trigger: 'axis'
-              }
+              })
             })
           })
         })

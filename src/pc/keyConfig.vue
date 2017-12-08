@@ -25,7 +25,7 @@
     </el-row>
     <el-row>
       <el-col :span="24">
-        <el-pagination @current-change="pageChanged" :total="tableTotal"></el-pagination>
+        <el-pagination :current-page.sync="currentPage" @current-change="pageChanged" :total="tableTotal"></el-pagination>
       </el-col>
     </el-row>
     <el-dialog title="新增关键数据" :visible.sync="dialogVisible" :close-on-click-modal="false">
@@ -65,6 +65,7 @@ export default{
   data () {
     return {
       table: [],
+      currentPage: 1,
       tableTotal: 1,
       dialogVisible: false,
       classOptions: [],
@@ -93,6 +94,7 @@ export default{
         num: 10
       }).then(data => {
         this.table = data.list
+        this.currentPage = startPage
         this.tableTotal = data.total
       })
     },

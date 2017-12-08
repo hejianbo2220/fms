@@ -6,8 +6,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     token: sessionStorage.getItem('token') ? sessionStorage.getItem('token') : '',
-    // api: 'http://120.79.2.53:8080/WaterProof/Server'
-    api: 'http://10.9.36.25:8080/WaterProof/Server'
+    api: 'http://120.79.2.53:8080/WaterProof/Server'
+    // api: 'http://10.9.36.25:8080/WaterProof/Server'
   },
   mutations: {
     setToken (state, token) {
