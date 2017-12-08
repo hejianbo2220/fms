@@ -81,7 +81,7 @@ export default{
                     {
                       type: 'min',
                       name: '最小值'
-                    },
+                    }
                   ]
                 },
                 markLine: {
