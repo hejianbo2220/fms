@@ -15,30 +15,30 @@
     <el-row>
       <el-col :span="24">
         <el-table :data="table" :stripe="true">
-          <el-table-column label="质量检测名称" prop="name"></el-table-column>
-          <el-table-column label="产品类型" prop="productClass"></el-table-column>
+          <el-table-column label="质量检测ID" prop="id"></el-table-column>
+          <el-table-column label="产品类型" prop="name"></el-table-column>
           <el-table-column label="操作">
-            <el-button slot-scope="scope" size="mini" icon="el-icon-news" @click="detail(scope.row)">查看</el-button>
+            <el-button slot-scope="scope" size="mini" icon="el-icon-news" @click="detail(scope.row.id)">查看</el-button>
           </el-table-column>
         </el-table>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="24">
-        <el-pagination @current-change="pageChanged" :total="tableTotal"></el-pagination>
+        <el-pagination :current-page.sync="currentPage" @current-change="getTable" :total="tableTotal"></el-pagination>
       </el-col>
     </el-row>
     <el-dialog title="新增质量检测" :visible.sync="dialogVisible" :close-on-click-modal="false">
       <el-form :model="form" label-width="82px" ref="dialogForm">
-        <el-form-item :rules="{required: true, message: '请选择产品类型', trigger: 'change'}" label="产品类型" prop="productClass">
-          <el-select v-model="form.productClass" placeholder="请选择产品类型">
-            <el-option v-for="item in classOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        <el-form-item :rules="{type: 'number', required: true, message: '请选择产品类型', trigger: 'change'}" label="产品类型" prop="type_id">
+          <el-select v-model="form.type_id" placeholder="请选择产品类型">
+            <el-option v-for="item in classOptions" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
         <el-button class="attr-add" @click="attrAdd">添加属性</el-button>
-        <div v-for="(item, index) in form.attrs" :key="index">
-          <el-form-item :rules="{required: true, message: '请输入属性名称', trigger: 'blur'}" label="属性名称" :prop="'attrs.' + index + '.value'" class="attr-wrap">
-            <el-input v-model="item.value" placeholder="请输入属性名称"></el-input>
+        <div v-for="(item, index) in form.list" :key="index">
+          <el-form-item :rules="{required: true, message: '请输入属性名称', trigger: 'blur'}" label="属性名称" :prop="'list.' + index + '.name'" class="attr-wrap">
+            <el-input v-model="item.name" placeholder="请输入属性名称"></el-input>
             <el-button class="attr-delete" @click="attrDelete(item)">删除属性</el-button>
           </el-form-item>
         </div>
@@ -52,44 +52,21 @@
 </template>
 
 <script>
+import axios from '@/axios'
 export default{
   name: 'qualityConfig',
   data () {
     return {
-      table: [
-        {
-          name: '质量检测123',
-          productClass: '类型1'
-        },
-        {
-          name: '质量检测3',
-          productClass: '类型1'
-        }
-      ],
-      tableTotal: 89,
+      table: [],
+      currentPage: 1,
+      tableTotal: 1,
       dialogVisible: false,
-      classOptions: [
-        {
-          label: '产品类型1',
-          value: 'class1'
-        },
-        {
-          label: '产品类型2',
-          value: 'class2'
-        },
-        {
-          label: '产品类型3',
-          value: 'class3'
-        },
-        {
-          label: '产品类型4',
-          value: 'class4'
-        }
-      ],
+      classOptions: [],
       form: {
-        productClass: '',
-        attrs: [
+        type_id: '',
+        list: [
           {
+            name: '',
             value: ''
           }
         ]
@@ -97,8 +74,21 @@ export default{
     }
   },
   methods: {
+    getTable (startPage) {
+      axios(this, {
+        msgType: 57,
+        modelID: 4,
+        startNo: startPage - 1,
+        num: 10
+      }).then(data => {
+        this.table = data.list
+        this.currentPage = startPage
+        this.tableTotal = data.total
+      })
+    },
     dialogShow () {
-      this.form.attrs = [{
+      this.form.list = [{
+        name: '',
         value: ''
       }]
       this.dialogVisible = true
@@ -107,32 +97,53 @@ export default{
       })
     },
     dialogSure () {
-      this.dialogVisible = false
-      this.$message({
-        message: '添加成功',
-        type: 'success',
-        duration: 1500
+      this.$refs.dialogForm.validate(valid => {
+        if (valid) {
+          Object.assign(this.form, {msgType: 90})
+          axios(this, this.form).then(data => {
+            this.dialogVisible = false
+            this.$message({
+              message: '新增成功',
+              type: 'success',
+              duration: 1500
+            })
+            this.getTable(1)
+          })
+        }
       })
     },
     attrAdd () {
-      this.form.attrs.push({
+      this.form.list.push({
+        name: '',
         value: ''
       })
     },
     attrDelete (attr) {
-      const index = this.form.attrs.indexOf(attr)
-      this.form.attrs.splice(index, 1)
+      const index = this.form.list.indexOf(attr)
+      this.form.list.splice(index, 1)
     },
-    detail () {
-      this.$alert('<strong>这里是质量检测详情内容</strong>', {
-        title: '质量检测详情',
-        dangerouslyUseHTMLString: true,
-        showConfirmButton: false
-      }).catch(() => {})
-    },
-    pageChanged (page) {
-      console.log(page)
+    detail (id) {
+      axios(this, {
+        msgType: 91,
+        type_id: id
+      }).then(data => {
+        this.$alert('<strong>这里是质量检测详情内容</strong>', {
+          title: '质量检测详情',
+          dangerouslyUseHTMLString: true,
+          showConfirmButton: false
+        }).catch(() => {})
+      })
     }
+  },
+  mounted () {
+    axios(this, {
+      msgType: 26,
+      startNo: 0,
+      num: 999
+    }).then(data => {
+      this.classOptions = data.list
+    })
+    this.getTable(1)
   }
 }
 </script>

@@ -123,7 +123,7 @@ export default{
           axios(this, this.form).then(data => {
             this.dialogVisible = false
             this.$message({
-              message: this.dialogTitle + '成功',
+              message: '新增成功',
               type: 'success',
               duration: 1500
             })
