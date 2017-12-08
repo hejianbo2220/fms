@@ -10,7 +10,7 @@
       </el-col>
       <el-col :span="17">
         <el-date-picker v-model="filter.date" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" @change="getChartData" class="filter"></el-date-picker>
-        <el-cascader expand-trigger="hover" :options="product" v-model="filter.product" placeholder="请选择产品编码" class="filter"></el-cascader>
+        <el-cascader expand-trigger="hover" :options="product" v-model="filter.product" placeholder="请选择产品编码" @change="getTable(1)" class="filter"></el-cascader>
       </el-col>
     </el-row>
     <div v-for="(item, index) in attrs" :key="index" class="chart" :id="'chart' + index"></div>
@@ -24,40 +24,7 @@ export default{
   name: 'qualityChart',
   data () {
     return {
-      product: [
-        {
-          label: '产品类型1',
-          value: 'class1',
-          children: [
-            {
-              label: '产品编码1',
-              value: 'id1'
-            },
-            {
-              label: '产品编码2',
-              value: 'id2'
-            }
-          ]
-        },
-        {
-          label: '产品类型2',
-          value: 'class2',
-          children: [
-            {
-              label: '产品编码3',
-              value: 'id3'
-            },
-            {
-              label: '产品编码4',
-              value: 'id4'
-            },
-            {
-              label: '产品编码5',
-              value: 'id5'
-            }
-          ]
-        }
-      ],
+      product: [],
       filter: {
         product: [],
         date: []
@@ -69,8 +36,8 @@ export default{
     getChartData () {
       axios(this, {
         msgType: 95,
-        type_id: 10,
-        serials: 'sn99999',
+        type_id: this.filter.product[0],
+        serials: this.filter.product[1],
         startTime: this.filter.date[0].getTime(),
         endTime: this.filter.date[1].getTime() + (24 * 60 * 60 * 1000)
       }).then(data => {
@@ -116,11 +83,34 @@ export default{
     }
   },
   mounted () {
-    let thirtyDay = new Date()
-    thirtyDay.setDate(thirtyDay.getDate() - 30)
-    this.filter.date = [thirtyDay, new Date()]
+    // 获取产品类型和产品编码列表
+    axios(this, {msgType: 24}).then(data => {
+      data.list.forEach(parent => {
+        parent.list.forEach(child => {
+          child.label = child.name
+          child.value = child.id
+        })
+        parent.list.unshift({
+          label: '全部',
+          value: ''
+        })
+        parent.label = parent.name
+        parent.value = parent.type_id
+        parent.children = parent.list
+      })
+      this.product = data.list
 
-    this.getChartData()
+      // 设置默认产品类型和产品编码
+      this.filter.product = [this.product[0].value, this.product[0].children[0].value]
+
+      // 设置默认时间范围为30天
+      let thirtyDay = new Date()
+      thirtyDay.setDate(thirtyDay.getDate() - 30)
+      this.filter.date = [thirtyDay, new Date()]
+
+      // 获取chart数据
+      this.getChartData()
+    })
   }
 }
 </script>
