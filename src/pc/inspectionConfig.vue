@@ -87,7 +87,7 @@ export default{
       })
     },
     dialogShow () {
-      this.form.attrs = [{
+      this.form.list = [{
         name: '',
         value: ''
       }]
@@ -113,7 +113,7 @@ export default{
       })
     },
     attrAdd () {
-      this.form.attrs.push({
+      this.form.list.push({
         name: '',
         value: ''
       })
