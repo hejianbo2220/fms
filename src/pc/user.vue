@@ -27,7 +27,7 @@
     </el-row>
     <el-row>
       <el-col :span="24">
-        <el-pagination :current-page.sync="currentPage" @current-change="pageChanged" :total="tableTotal"></el-pagination>
+        <el-pagination :current-page.sync="currentPage" @current-change="getTable" :total="tableTotal"></el-pagination>
       </el-col>
     </el-row>
     <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" :close-on-click-modal="false">
@@ -163,9 +163,6 @@ export default{
           this.getTable(1)
         })
       }).catch(() => {})
-    },
-    pageChanged (page) {
-      this.getTable(page)
     }
   },
   mounted () {

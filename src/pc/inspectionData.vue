@@ -9,7 +9,7 @@
         </el-breadcrumb>
       </el-col>
       <el-col :span="17">
-        <el-date-picker v-model="filter.date" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" class="filter"></el-date-picker>
+        <el-date-picker v-model="filter.date" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" @change="getTable(1)" class="filter"></el-date-picker>
         <el-cascader expand-trigger="hover" :options="product" v-model="filter.product" placeholder="请选择产品编码" class="filter"></el-cascader>
       </el-col>
     </el-row>
@@ -19,22 +19,23 @@
           <el-table-column label="编号" prop="id"></el-table-column>
           <el-table-column label="产品编码+批次号" prop="productIdAndBatchId"></el-table-column>
           <el-table-column label="创建时间" prop="time"></el-table-column>
-          <el-table-column label="提交人" prop="submit"></el-table-column>
+          <el-table-column label="提交人" prop="user"></el-table-column>
           <el-table-column label="操作">
-            <el-button slot-scope="scope" size="mini" icon="el-icon-news" @click="detail(scope.row)">查看</el-button>
+            <el-button slot-scope="scope" size="mini" icon="el-icon-news" @click="detail(scope.row.id)">查看</el-button>
           </el-table-column>
         </el-table>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="24">
-        <el-pagination @current-change="pageChanged" :total="tableTotal"></el-pagination>
+        <el-pagination :current-page.sync="currentPage" @current-change="getTable" :total="tableTotal"></el-pagination>
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
+import axios from '@/axios'
 export default{
   name: 'inspectionData',
   data () {
@@ -85,34 +86,55 @@ export default{
         product: [],
         date: []
       },
-      table: [
-        {
-          id: '编号1',
-          productIdAndBatchId: 'productId1_BatchId1',
-          time: '2017-11-11 11:11:11',
-          submit: '提交人1'
-        },
-        {
-          id: '编号2',
-          productIdAndBatchId: 'productId2_BatchId2',
-          time: '2017-12-12 12:12:12',
-          submit: '提交人2'
-        }
-      ],
-      tableTotal: 89
+      table: [],
+      currentPage: 1,
+      tableTotal: 1
     }
   },
   methods: {
-    detail () {
-      this.$alert('<strong>这里是自检自测详情内容</strong>', {
-        title: '自检自测详情',
-        dangerouslyUseHTMLString: true,
-        showConfirmButton: false
-      }).catch(() => {})
+    getTable (startPage) {
+      axios(this, {
+        msgType: 83,
+        type_id: 10,
+        serials: 'sn99999',
+        startTime: this.filter.date[0].getTime(),
+        endTime: this.filter.date[1].getTime() + (24 * 60 * 60 * 1000),
+        startNo: startPage - 1,
+        num: 10
+      }).then(data => {
+        data.list.forEach(item => {
+          // 产品编码+批次号
+          item.productIdAndBatchId = item.serials + '+' + item.batch
+
+          // 创建时间
+          const dateTemp = new Date()
+          dateTemp.setTime(item.time)
+          item.time = dateTemp.toLocaleDateString()
+        })
+        this.table = data.list
+        this.currentPage = startPage
+        this.tableTotal = data.total
+      })
     },
-    pageChanged (page) {
-      console.log(page)
+    detail (id) {
+      axios(this, {
+        msgType: 84,
+        id: id
+      }).then(data => {
+        this.$alert('<strong>这里是自检自测详情内容</strong>', {
+          title: '自检自测详情',
+          dangerouslyUseHTMLString: true,
+          showConfirmButton: false
+        }).catch(() => {})
+      })
     }
+  },
+  mounted () {
+    let thirtyDay = new Date()
+    thirtyDay.setDate(thirtyDay.getDate() - 30)
+    this.filter.date = [thirtyDay, new Date()]
+
+    this.getTable(1)
   }
 }
 </script>

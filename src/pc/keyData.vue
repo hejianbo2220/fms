@@ -9,7 +9,7 @@
         </el-breadcrumb>
       </el-col>
       <el-col :span="17">
-        <el-date-picker v-model="filter.date" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" class="filter"></el-date-picker>
+        <el-date-picker v-model="filter.date" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" @change="getTable(1)" class="filter"></el-date-picker>
         <el-cascader expand-trigger="hover" :options="product" v-model="filter.product" placeholder="请选择产品编码" class="filter"></el-cascader>
       </el-col>
     </el-row>
@@ -28,7 +28,7 @@
     </el-row>
     <el-row>
       <el-col :span="24">
-        <el-pagination :current-page.sync="currentPage" @current-change="pageChanged" :total="tableTotal"></el-pagination>
+        <el-pagination :current-page.sync="currentPage" @current-change="getTable" :total="tableTotal"></el-pagination>
       </el-col>
     </el-row>
   </div>
@@ -98,7 +98,7 @@ export default{
         type_id: 10,
         serials: 'sn99999',
         startTime: this.filter.date[0].getTime(),
-        endTime: this.filter.date[1].getTime(),
+        endTime: this.filter.date[1].getTime() + (24 * 60 * 60 * 1000),
         startNo: startPage - 1,
         num: 10
       }).then(data => {
@@ -127,9 +127,6 @@ export default{
           showConfirmButton: false
         }).catch(() => {})
       })
-    },
-    pageChanged (page) {
-      this.getTable(page)
     }
   },
   mounted () {

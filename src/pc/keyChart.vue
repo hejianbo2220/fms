@@ -9,7 +9,7 @@
         </el-breadcrumb>
       </el-col>
       <el-col :span="17">
-        <el-date-picker v-model="filter.date" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" class="filter"></el-date-picker>
+        <el-date-picker v-model="filter.date" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" @change="getChartData" class="filter"></el-date-picker>
         <el-cascader expand-trigger="hover" :options="product" v-model="filter.product" placeholder="请选择产品编码" class="filter"></el-cascader>
       </el-col>
     </el-row>
@@ -77,7 +77,7 @@ export default{
         type_id: 10,
         serials: 'sn99999',
         startTime: this.filter.date[0].getTime(),
-        endTime: this.filter.date[1].getTime()
+        endTime: this.filter.date[1].getTime() + (24 * 60 * 60 * 1000)
       }).then(data => {
         this.procedures = data.list
         this.$nextTick(() => {
