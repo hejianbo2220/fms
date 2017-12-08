@@ -25,6 +25,7 @@
 
 <script>
 import axios from '@/axios'
+import md5 from 'md5'
 export default{
   name: 'login',
   data () {
@@ -58,7 +59,7 @@ export default{
           axios(this, {
             msgType: 1,
             userID: this.form.username,
-            password: this.form.password
+            password: md5(this.form.password)
           }).then(data => {
             this.$store.commit('setToken', data.token)
             this.$router.push('/pc/main/index')

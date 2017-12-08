@@ -74,6 +74,7 @@
 
 <script>
 import axios from '@/axios'
+import md5 from 'md5'
 export default{
   name: 'user',
   data () {
@@ -133,7 +134,7 @@ export default{
             username: '',
             userID: this.form.userid,
             role_id: this.form.roleid,
-            password: this.form.password
+            password: this.form.password === '' ? '' : md5(this.form.password)
           }).then(data => {
             this.dialogVisible = false
             this.$message({
