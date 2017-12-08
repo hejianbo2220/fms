@@ -30,7 +30,6 @@
 </template>
 
 <script>
-import axios from '@/axios'
 export default{
   name: 'main',
   data () {
@@ -145,21 +144,19 @@ export default{
       this.height = (innerHeight - 100) + 'px'
     }
 
-    axios(this, {msgType: 6}).then(data => {
-      // menu active
-      this.menu.forEach((item, index) => {
-        if (item.submenu) {
-          item.submenu.forEach((subItem, subIndex) => {
-            if (subItem.path === this.$route.path) {
-              this.menuActive = String(index) + '-' + String(subIndex)
-            }
-          })
-        } else {
-          if (item.path === this.$route.path) {
-            this.menuActive = String(index)
+    // menu active
+    this.menu.forEach((item, index) => {
+      if (item.submenu) {
+        item.submenu.forEach((subItem, subIndex) => {
+          if (subItem.path === this.$route.path) {
+            this.menuActive = String(index) + '-' + String(subIndex)
           }
+        })
+      } else {
+        if (item.path === this.$route.path) {
+          this.menuActive = String(index)
         }
-      })
+      }
     })
   }
 }

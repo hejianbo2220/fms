@@ -14,13 +14,12 @@
     <el-row>
       <el-col :span="24">
         <el-table :data="table" :stripe="true">
-          <el-table-column label="用户名" prop="username"></el-table-column>
+          <el-table-column label="用户名" prop="accID"></el-table-column>
           <el-table-column label="角色" prop="rolename"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
               <el-button size="mini" icon="el-icon-edit" @click="dialogShow('edit', scope.row)">编辑</el-button>
-              <!-- todo 管理员的roleid是几 -->
-              <el-button v-if="scope.row.role_id !== 1" type="danger" size="mini" icon="el-icon-delete" @click="isDelete(scope.row.accID)">删除</el-button>
+              <el-button v-if="scope.row.accID !== 'admin'" type="danger" size="mini" icon="el-icon-delete" @click="isDelete(scope.row.accID)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -33,22 +32,37 @@
     </el-row>
     <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" :close-on-click-modal="false">
       <el-form :model="form" label-width="82px" ref="dialogForm">
-        <el-form-item :rules="{required: true, message: '请输入用户名', trigger: 'blur'}" label="用户名" prop="username">
-          <!-- todo 管理员的roleid是几 -->
-          <el-input v-model="form.username" placeholder="请输入用户名" :disabled="dialogTitle === '编辑用户' && form.roleid === 1"></el-input>
-        </el-form-item>
-        <el-form-item v-if="dialogTitle === '新增用户'" :rules="{required: true, message: '请输入密码', trigger: 'blur'}" label="密码" prop="password">
-          <el-input type="password" v-model="form.password" placeholder="请输入密码"></el-input>
-        </el-form-item>
-        <el-form-item v-else label="密码" prop="password">
-          <el-input type="password" v-model="form.password" placeholder="请输入密码"></el-input>
-        </el-form-item>
-        <el-form-item :rules="{type: 'number', required: true, message: '请选择角色'}" label="角色" prop="roleid">
-          <!-- todo 管理员的roleid是几 -->
-          <el-select v-model="form.roleid" placeholder="请选择角色" :disabled="dialogTitle === '编辑用户' && form.roleid === 1">
-            <el-option v-for="(item, index) in roles" :key="index" :label="item.name" :value="item.id"></el-option>
-          </el-select>
-        </el-form-item>
+        <template v-if="dialogTitle === '新增用户'">
+          <el-form-item :rules="{required: true, message: '请输入用户名', trigger: 'blur'}" label="用户名" prop="userid">
+            <el-input v-model="form.userid" placeholder="请输入用户名"></el-input>
+          </el-form-item>
+          <el-form-item :rules="{required: true, message: '请输入密码', trigger: 'blur'}" label="密码" prop="password">
+            <el-input type="password" v-model="form.password" placeholder="请输入密码"></el-input>
+          </el-form-item>
+          <el-form-item :rules="{type: 'number', required: true, message: '请选择角色'}" label="角色" prop="roleid">
+            <el-select v-model="form.roleid" placeholder="请选择角色">
+              <el-option v-for="(item, index) in roles" :key="index" :label="item.name" :value="item.id"></el-option>
+            </el-select>
+          </el-form-item>
+        </template>
+        <template v-else>
+          <el-form-item label="用户名" prop="userid">
+            <el-input v-model="form.userid" placeholder="请输入用户名" :disabled="true"></el-input>
+          </el-form-item>
+          <el-form-item label="密码" prop="password">
+            <el-input type="password" v-model="form.password" placeholder="请输入密码"></el-input>
+          </el-form-item>
+          <el-form-item v-if="form.userid === 'admin'" label="角色" prop="roleid">
+            <el-select v-model="form.roleid" placeholder="请选择角色" :disabled="true">
+              <el-option v-for="(item, index) in roles" :key="index" :label="item.name" :value="item.id"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item v-else :rules="{type: 'number', required: true, message: '请选择角色'}" label="角色" prop="roleid">
+            <el-select v-model="form.roleid" placeholder="请选择角色">
+              <el-option v-for="(item, index) in roles" :key="index" :label="item.name" :value="item.id"></el-option>
+            </el-select>
+          </el-form-item>
+        </template>
       </el-form>
       <div slot="footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -70,7 +84,7 @@ export default{
       dialogVisible: false,
       roles: [],
       form: {
-        username: '',
+        userid: '',
         password: '',
         roleid: ''
       }
@@ -93,7 +107,7 @@ export default{
         this.dialogTitle = '编辑用户'
         this.$nextTick(() => {
           this.$refs.dialogForm.resetFields()
-          this.form.username = user.username
+          this.form.userid = user.accID
           this.form.roleid = user.role_id
         })
       }
@@ -109,8 +123,8 @@ export default{
           }
           axios(this, {
             msgType: msgType,
-            username: this.form.username,
-            userID: this.form.username,
+            username: '',
+            userID: this.form.userid,
             role_id: this.form.roleid,
             password: this.form.password
           }).then(data => {

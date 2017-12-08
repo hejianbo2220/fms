@@ -55,33 +55,13 @@ export default{
   name: 'role',
   data () {
     return {
-      table: [
-        {
-          name: '管理员',
-          desc: '这是管理员角色',
-          permission: ['角色管理', '用户管理', '模块3', '模块4']
-        },
-        {
-          name: '角色1',
-          desc: '这是角色1',
-          permission: ['用户管理', '模块3']
-        },
-        {
-          name: '角色2',
-          desc: '这是角色2',
-          permission: ['角色管理']
-        },
-        {
-          name: '角色3',
-          desc: '这是角色3',
-          permission: ['角色管理', '模块3', '模块4']
-        }
-      ],
+      table: [],
       tableTotal: 89,
       dialogTitle: '',
       dialogVisible: false,
       permissions: ['角色管理', '用户管理', '流水线管理', '产品管理', '关键数据', '自检自测', '质量检测', '问题提交', '数据预览'],
       form: {
+        id: '',
         name: '',
         desc: '',
         permission: []
@@ -115,7 +95,7 @@ export default{
   methods: {
     getTable (startPage) {
       axios(this, {msgType: '6'}).then(data => {
-        console.log(data)
+        this.table = data.list
       })
     },
     dialogShow (type, role) {
@@ -131,19 +111,52 @@ export default{
           this.dialogTitle = '编辑角色'
           this.$nextTick(() => {
             this.$refs.dialogForm.resetFields()
+            this.form.id = role.id
             this.form.name = role.name
             this.form.desc = role.desc
-            this.form.permission = role.permission
+            for (let i = 0; i < role.permissions.length; i++) {
+              if (role.permissions[i] === '1') {
+                this.form.permission.push(this.permissions[i])
+              }
+            }
           })
           break
       }
     },
     dialogSure () {
-      this.dialogVisible = false
-      this.$message({
-        message: this.dialogTitle + '成功',
-        type: 'success',
-        duration: 1500
+      this.$refs.dialogForm.validate(valid => {
+        if (valid) {
+          let msgType
+          if (this.dialogTitle === '新增角色') {
+            msgType = 7
+          } else {
+            msgType = 8
+          }
+          let permission = Array(9).fill('0')
+          this.form.permission.forEach(selectedItem => {
+            this.permissions.forEach((item, index) => {
+              if (item === selectedItem) {
+                permission[index] = '1'
+              }
+            })
+          })
+          permission = permission.join('')
+          axios(this, {
+            msgType: msgType,
+            id: this.form.id,
+            name: this.form.name,
+            desc: this.form.desc,
+            permission: permission
+          }).then(data => {
+            this.dialogVisible = false
+            this.$message({
+              message: this.dialogTitle + '成功',
+              type: 'success',
+              duration: 1500
+            })
+            this.getTable()
+          })
+        }
       })
     },
     pageChanged (page) {
