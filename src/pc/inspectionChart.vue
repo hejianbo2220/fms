@@ -10,7 +10,7 @@
       </el-col>
       <el-col :span="17">
         <el-date-picker v-model="filter.date" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" @change="getChartData" class="filter"></el-date-picker>
-        <el-cascader expand-trigger="hover" :options="product" v-model="filter.product" placeholder="请选择产品编码" @change="getTable(1)" class="filter"></el-cascader>
+        <el-cascader expand-trigger="hover" :options="product" v-model="filter.product" placeholder="请选择产品编码" @change="getChartData" class="filter"></el-cascader>
       </el-col>
     </el-row>
     <div v-for="(item, index) in attrs" :key="index" class="chart" :id="'chart' + index"></div>
