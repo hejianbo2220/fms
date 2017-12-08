@@ -16,8 +16,8 @@
         <el-table :data="table" :stripe="true">
           <el-table-column label="流水线名称" prop="name"></el-table-column>
           <el-table-column label="描述" prop="desc"></el-table-column>
-          <el-table-column label="状态" prop="status">
-            <span slot-scope="scope" :class="classSwitch(scope.row.status)">{{scope.row.status}}</span>
+          <el-table-column label="状态" prop="state">
+            <span slot-scope="scope" :class="stateSwitch(scope.row.state).class">{{stateSwitch(scope.row.state).text}}</span>
           </el-table-column>
           <el-table-column label="操作">
             <el-button slot-scope="scope" size="mini" icon="el-icon-edit" @click="dialogShow('edit', scope.row)">编辑</el-button>
@@ -48,31 +48,17 @@
 </template>
 
 <script>
+import axios from '@/axios'
 export default{
   name: 'line',
   data () {
     return {
-      table: [
-        {
-          name: '流水线1',
-          desc: '这是生产水泥的流水线',
-          status: '运行中'
-        },
-        {
-          name: '流水线2',
-          desc: '这是生产瓷砖的流水线',
-          status: '已关闭'
-        },
-        {
-          name: '流水线3',
-          desc: '这是生产地板的流水线',
-          status: '已暂停'
-        }
-      ],
+      table: [],
       tableTotal: 89,
       dialogTitle: '',
       dialogVisible: false,
       form: {
+        id: '',
         name: '',
         desc: ''
       },
@@ -95,14 +81,19 @@ export default{
     }
   },
   methods: {
-    classSwitch (status) {
-      switch (status) {
-        case '运行中':
-          return 'green'
-        case '已关闭':
-          return 'red'
-        case '已暂停':
-          return 'orange'
+    getTable (startPage) {
+      axios(this, {msgType: 10}).then(data => {
+        this.table = data.list
+      })
+    },
+    stateSwitch (state) {
+      switch (state) {
+        case 0:
+          return {class: 'red', text: '已关闭'}
+        case 1:
+          return {class: 'green', text: '运行中'}
+        case 2:
+          return {class: 'orange', text: '已暂停'}
       }
     },
     dialogShow (type, line) {
@@ -118,6 +109,7 @@ export default{
           this.dialogTitle = '编辑流水线'
           this.$nextTick(() => {
             this.$refs.dialogForm.resetFields()
+            this.form.id = line.id
             this.form.name = line.name
             this.form.desc = line.desc
           })
@@ -125,16 +117,37 @@ export default{
       }
     },
     dialogSure () {
-      this.dialogVisible = false
-      this.$message({
-        message: this.dialogTitle + '成功',
-        type: 'success',
-        duration: 1500
+      this.$refs.dialogForm.validate(valid => {
+        if (valid) {
+          let msgType
+          if (this.dialogTitle === '新增流水线') {
+            msgType = 30
+          } else {
+            msgType = 31
+          }
+          axios(this, {
+            msgType: msgType,
+            id: this.form.id,
+            name: this.form.name,
+            desc: this.form.desc
+          }).then(data => {
+            this.dialogVisible = false
+            this.$message({
+              message: this.dialogTitle + '成功',
+              type: 'success',
+              duration: 1500
+            })
+            this.getTable()
+          })
+        }
       })
     },
     pageChanged (page) {
       console.log(page)
     }
+  },
+  mounted () {
+    this.getTable()
   }
 }
 </script>
