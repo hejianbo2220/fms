@@ -82,8 +82,13 @@ export default{
   },
   methods: {
     getTable (startPage) {
-      axios(this, {msgType: 10}).then(data => {
+      axios(this, {
+        msgType: 10,
+        startNo: startPage - 1,
+        num: 10
+      }).then(data => {
         this.table = data.list
+        this.tableTotal = data.total
       })
     },
     stateSwitch (state) {
@@ -137,17 +142,17 @@ export default{
               type: 'success',
               duration: 1500
             })
-            this.getTable()
+            this.getTable(1)
           })
         }
       })
     },
     pageChanged (page) {
-      console.log(page)
+      this.getTable(page)
     }
   },
   mounted () {
-    this.getTable()
+    this.getTable(1)
   }
 }
 </script>

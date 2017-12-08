@@ -83,8 +83,13 @@ export default{
   },
   methods: {
     getTable (startPage) {
-      axios(this, {msgType: 26}).then(data => {
+      axios(this, {
+        msgType: 26,
+        startNo: startPage - 1,
+        num: 10
+      }).then(data => {
         this.table = data.list
+        this.tableTotal = data.total
       })
     },
     dialogShow (type, productClass) {
@@ -128,7 +133,7 @@ export default{
               type: 'success',
               duration: 1500
             })
-            this.getTable()
+            this.getTable(1)
           })
         }
       })
@@ -147,16 +152,16 @@ export default{
             type: 'success',
             duration: 1500
           })
-          this.getTable()
+          this.getTable(1)
         })
       }).catch(() => {})
     },
     pageChanged (page) {
-      console.log(page)
+      this.getTable(page)
     }
   },
   mounted () {
-    this.getTable()
+    this.getTable(1)
   }
 }
 </script>

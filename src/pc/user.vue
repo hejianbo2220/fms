@@ -92,8 +92,13 @@ export default{
   },
   methods: {
     getTable (startPage) {
-      axios(this, {msgType: 4}).then(data => {
+      axios(this, {
+        msgType: 4,
+        startNo: startPage - 1,
+        num: 10
+      }).then(data => {
         this.table = data.list
+        this.tableTotal = data.total
       })
     },
     dialogShow (type, user) {
@@ -134,7 +139,7 @@ export default{
               type: 'success',
               duration: 1500
             })
-            this.getTable()
+            this.getTable(1)
           })
         }
       })
@@ -153,19 +158,23 @@ export default{
             type: 'success',
             duration: 1500
           })
-          this.getTable()
+          this.getTable(1)
         })
       }).catch(() => {})
     },
     pageChanged (page) {
-      console.log(page)
+      this.getTable(page)
     }
   },
   mounted () {
-    axios(this, {msgType: 6}).then(data => {
+    axios(this, {
+      msgType: 6,
+      startNo: 0,
+      num: 999
+    }).then(data => {
       this.roles = data.list
     })
-    this.getTable()
+    this.getTable(1)
   }
 }
 </script>
