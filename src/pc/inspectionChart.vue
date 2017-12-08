@@ -71,7 +71,27 @@ export default{
               },
               series: {
                 type: 'line',
-                data: item.points
+                data: item.points,
+                markPoint: {
+                  data: [
+                    {
+                      type: 'max',
+                      name: '最大值'
+                    },
+                    {
+                      type: 'min',
+                      name: '最小值'
+                    },
+                  ]
+                },
+                markLine: {
+                  data: [
+                    {
+                      type: 'average',
+                      name: '平均值'
+                    }
+                  ]
+                }
               },
               tooltip: {
                 trigger: 'axis'
