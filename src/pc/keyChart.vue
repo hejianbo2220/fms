@@ -15,14 +15,15 @@
     </el-row>
     <el-row v-for="(procedure, procedureIndex) in procedures" :key="procedureIndex">
       <el-col :span="24">
-        <p class="procedure-title">{{procedure.title}}</p>
-        <div v-for="(attr, attrIndex) in procedure.attrs" :key="attrIndex" class="chart" :id="'chart' + procedureIndex + '-' + attrIndex"></div>
+        <p class="procedure-title">{{procedure.name}}</p>
+        <div v-for="(attr, attrIndex) in procedure.propertys" :key="attrIndex" class="chart" :id="'chart' + procedureIndex + '-' + attrIndex"></div>
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
+import axios from '@/axios'
 import echarts from 'echarts'
 export default{
   name: 'keyChart',
@@ -140,44 +141,71 @@ export default{
       ]
     }
   },
-  mounted () {
-    this.procedures.forEach((procedure, procedureIndex) => {
-      procedure.attrs.forEach((attr, attrIndex) => {
-        const id = 'chart' + procedureIndex + '-' + attrIndex
-        this[id] = echarts.init(document.getElementById(id))
-        this[id].setOption({
-          title: {
-            text: attr.title,
-            textStyle: {
-              fontSize: 16,
-              fontWeight: 'normal'
-            }
-          },
-          xAxis: {
-            type: 'time',
-            splitLine: {
-              show: false
-            }
-          },
-          yAxis: {
-            splitLine: {
-              show: false
-            }
-          },
-          series: {
-            type: 'line',
-            data: attr.data
-          },
-          tooltip: {
-            trigger: 'axis'
-          }
+  methods: {
+    getChartData () {
+      axios(this, {
+        msgType: 75,
+        type_id: 10,
+        serials: 'sn99999',
+        startTime: this.filter.date[0].getTime(),
+        endTime: this.filter.date[1].getTime()
+      }).then(data => {
+        data.list.forEach(procedure => {
+          procedure.propertys.forEach(attr => {
+            attr.chart = []
+            attr.points.forEach(item => {
+              const dateTemp = new Date()
+              dateTemp.setTime(item.time)
+              let arrTemp = []
+              arrTemp.push(dateTemp)
+              arrTemp.push(item.value)
+              attr.chart.push(arrTemp)
+            })
+          })
+        })
+        this.procedures = data.list
+        this.procedures.forEach((procedure, procedureIndex) => {
+          procedure.propertys.forEach((attr, attrIndex) => {
+            const id = 'chart' + procedureIndex + '-' + attrIndex
+            this[id] = echarts.init(document.getElementById(id))
+            this[id].setOption({
+              title: {
+                text: attr.name,
+                textStyle: {
+                  fontSize: 16,
+                  fontWeight: 'normal'
+                }
+              },
+              xAxis: {
+                type: 'time',
+                splitLine: {
+                  show: false
+                }
+              },
+              yAxis: {
+                splitLine: {
+                  show: false
+                }
+              },
+              series: {
+                type: 'line',
+                data: attr.chart
+              },
+              tooltip: {
+                trigger: 'axis'
+              }
+            })
+          })
         })
       })
-    })
-
+    }
+  },
+  mounted () {
     let thirtyDay = new Date()
     thirtyDay.setDate(thirtyDay.getDate() - 30)
     this.filter.date = [thirtyDay, new Date()]
+
+    this.getChartData()
   }
 }
 </script>

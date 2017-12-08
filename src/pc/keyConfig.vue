@@ -15,10 +15,10 @@
     <el-row>
       <el-col :span="24">
         <el-table :data="table" :stripe="true">
-          <el-table-column label="关键数据名称" prop="name"></el-table-column>
-          <el-table-column label="产品类型" prop="productClass"></el-table-column>
+          <el-table-column label="关键数据ID" prop="id"></el-table-column>
+          <el-table-column label="产品类型" prop="name"></el-table-column>
           <el-table-column label="操作">
-            <el-button slot-scope="scope" size="mini" icon="el-icon-news" @click="detail(scope.row)">查看</el-button>
+            <el-button slot-scope="scope" size="mini" icon="el-icon-news" @click="detail(scope.row.id)">查看</el-button>
           </el-table-column>
         </el-table>
       </el-col>
@@ -64,36 +64,10 @@ export default{
   name: 'keyConfig',
   data () {
     return {
-      table: [
-        {
-          name: '关键数据123',
-          productClass: '类型1'
-        },
-        {
-          name: '关键数据3',
-          productClass: '类型1'
-        }
-      ],
-      tableTotal: 89,
+      table: [],
+      tableTotal: 1,
       dialogVisible: false,
-      classOptions: [
-        {
-          label: '产品类型1',
-          value: 'class1'
-        },
-        {
-          label: '产品类型2',
-          value: 'class2'
-        },
-        {
-          label: '产品类型3',
-          value: 'class3'
-        },
-        {
-          label: '产品类型4',
-          value: 'class4'
-        }
-      ],
+      classOptions: [],
       form: {
         type_id: '',
         process: [
@@ -178,12 +152,17 @@ export default{
       const index = procedure.list.indexOf(attr)
       procedure.list.splice(index, 1)
     },
-    detail () {
-      this.$alert('<strong>这里是关键数据详情内容</strong>', {
-        title: '关键数据详情',
-        dangerouslyUseHTMLString: true,
-        showConfirmButton: false
-      }).catch(() => {})
+    detail (id) {
+      axios(this, {
+        msgType: 71,
+        type_id: id
+      }).then(data => {
+        this.$alert('<strong>这里是关键数据详情内容</strong>', {
+          title: '关键数据详情',
+          dangerouslyUseHTMLString: true,
+          showConfirmButton: false
+        }).catch(() => {})
+      })
     },
     pageChanged (page) {
       this.getTable(page)

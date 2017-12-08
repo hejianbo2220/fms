@@ -55,7 +55,7 @@ export default{
   data () {
     return {
       table: [],
-      tableTotal: 89,
+      tableTotal: 1,
       dialogTitle: '',
       dialogVisible: false,
       form: {
