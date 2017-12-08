@@ -30,21 +30,21 @@
     </el-row>
     <el-dialog title="新增关键数据" :visible.sync="dialogVisible" :close-on-click-modal="false">
       <el-form :model="form" label-width="82px" ref="dialogForm">
-        <el-form-item :rules="{required: true, message: '请选择产品类型', trigger: 'change'}" label="产品类型" prop="productClass">
-          <el-select v-model="form.productClass" placeholder="请选择产品类型">
-            <el-option v-for="item in classOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        <el-form-item :rules="{type: 'number', required: true, message: '请选择产品类型', trigger: 'change'}" label="产品类型" prop="type_id">
+          <el-select v-model="form.type_id" placeholder="请选择产品类型">
+            <el-option v-for="item in classOptions" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
         <el-button class="procedure-add" @click="procedureAdd">添加工序</el-button>
-        <div v-for="(procedure, procedureIndex) in form.procedures" :key="procedureIndex">
-          <el-form-item :rules="{required: true, message: '请输入工序名称', trigger: 'blur'}" label="工序名称" :prop="'procedures.' + procedureIndex + '.name'" class="name-wrap">
+        <div v-for="(procedure, procedureIndex) in form.process" :key="procedureIndex">
+          <el-form-item :rules="{required: true, message: '请输入工序名称', trigger: 'blur'}" label="工序名称" :prop="'process.' + procedureIndex + '.name'" class="name-wrap">
             <el-input v-model="procedure.name" placeholder="请输入工序名称"></el-input>
             <el-button class="procedure-delete" @click="procedureDelete(procedure)">删除工序</el-button>
           </el-form-item>
           <div class="attrs-wrap">
             <el-button class="attr-add" @click="attrAdd(procedure)">添加属性</el-button>
-            <el-form-item v-for="(attr, attrIndex) in procedure.attrs" :key="attrIndex" :rules="{required: true, message: '请输入属性名称', trigger: 'blur'}" label="属性名称" :prop="'procedures.' + procedureIndex + '.attrs.' + attrIndex + '.value'" class="attr-wrap">
-              <el-input v-model="attr.value" placeholder="请输入属性名称"></el-input>
+            <el-form-item v-for="(attr, attrIndex) in procedure.list" :key="attrIndex" :rules="{required: true, message: '请输入属性名称', trigger: 'blur'}" label="属性名称" :prop="'process.' + procedureIndex + '.list.' + attrIndex + '.name'" class="attr-wrap">
+              <el-input v-model="attr.name" placeholder="请输入属性名称"></el-input>
               <el-button class="attr-delete" @click="attrDelete(procedure, attr)">删除属性</el-button>
             </el-form-item>
           </div>
@@ -59,6 +59,7 @@
 </template>
 
 <script>
+import axios from '@/axios'
 export default{
   name: 'keyConfig',
   data () {
@@ -94,12 +95,13 @@ export default{
         }
       ],
       form: {
-        productClass: '',
-        procedures: [
+        type_id: '',
+        process: [
           {
             name: '',
-            attrs: [
+            list: [
               {
+                name: '',
                 value: ''
               }
             ]
@@ -109,11 +111,23 @@ export default{
     }
   },
   methods: {
+    getTable (startPage) {
+      axios(this, {
+        msgType: 57,
+        modelID: 2,
+        startNo: startPage - 1,
+        num: 10
+      }).then(data => {
+        this.table = data.list
+        this.tableTotal = data.total
+      })
+    },
     dialogShow () {
-      this.form.procedures = [{
+      this.form.process = [{
         name: '',
-        attrs: [
+        list: [
           {
+            name: '',
             value: ''
           }
         ]
@@ -124,33 +138,45 @@ export default{
       })
     },
     dialogSure () {
-      this.dialogVisible = false
-      this.$message({
-        message: '添加成功',
-        type: 'success',
-        duration: 1500
+      this.$refs.dialogForm.validate(valid => {
+        if (valid) {
+          this.form.process.forEach(item => {
+            item.type_id = this.form.type_id
+          })
+          Object.assign(this.form, {msgType: 70})
+          axios(this, this.form).then(data => {
+            this.dialogVisible = false
+            this.$message({
+              message: this.dialogTitle + '成功',
+              type: 'success',
+              duration: 1500
+            })
+            this.getTable(1)
+          })
+        }
       })
     },
     procedureAdd () {
-      this.form.procedures.push({
+      this.form.process.push({
         name: '',
-        attrs: [
+        list: [
           {
+            name: '',
             value: ''
           }
         ]
       })
     },
     procedureDelete (procedure) {
-      const index = this.form.procedures.indexOf(procedure)
-      this.form.procedures.splice(index, 1)
+      const index = this.form.process.indexOf(procedure)
+      this.form.process.splice(index, 1)
     },
     attrAdd (procedure) {
-      procedure.attrs.push({vallue: ''})
+      procedure.list.push({name: '', vallue: ''})
     },
     attrDelete (procedure, attr) {
-      const index = procedure.attrs.indexOf(attr)
-      procedure.attrs.splice(index, 1)
+      const index = procedure.list.indexOf(attr)
+      procedure.list.splice(index, 1)
     },
     detail () {
       this.$alert('<strong>这里是关键数据详情内容</strong>', {
@@ -160,8 +186,18 @@ export default{
       }).catch(() => {})
     },
     pageChanged (page) {
-      console.log(page)
+      this.getTable(page)
     }
+  },
+  mounted () {
+    axios(this, {
+      msgType: 26,
+      startNo: 0,
+      num: 999
+    }).then(data => {
+      this.classOptions = data.list
+    })
+    this.getTable(1)
   }
 }
 </script>
