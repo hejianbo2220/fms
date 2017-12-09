@@ -1,18 +1,53 @@
 <template>
   <div class="login-bg">
     <p class="login-title">工厂管理系统</p>
-    <input class="login-input" type="text" placeholder="请输入用户名">
-    <input class="login-input" type="password" placeholder="请输入密码">
+    <input class="login-input" placeholder="请输入用户名" v-model="username">
+    <input type="password" class="login-input" placeholder="请输入密码" v-model="password">
     <button class="login-btn" @click="login">立 即 登 录</button>
   </div>
 </template>
 
 <script>
+import axios from '@/axios'
+import md5 from 'md5'
 export default{
   name: 'login',
+  data () {
+    return {
+      username: localStorage.getItem('username'),
+      password: localStorage.getItem('password'),
+      toast: []
+    }
+  },
   methods: {
     login () {
-      this.$router.push('/mobile/main/index')
+      if (this.username === '') {
+        this.toast.push(this.$toast({
+          message: '请输入用户名',
+          duration: 1000
+        }))
+        return false
+      }
+      if (this.password === '') {
+        this.toast.push(this.$toast({
+          message: '请输入密码',
+          duration: 1000
+        }))
+        return false
+      }
+      this.toast.forEach(item => {
+        item.close()
+      })
+      axios(this, {
+        msgType: 1,
+        userID: this.username,
+        password: md5(this.password)
+      }).then(data => {
+        localStorage.setItem('username', this.username)
+        localStorage.setItem('password', this.password)
+        this.$store.commit('set', data)
+        this.$router.push('/mobile/main/index')
+      })
     }
   }
 }

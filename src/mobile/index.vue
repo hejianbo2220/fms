@@ -1,6 +1,9 @@
 <template>
   <div class="index-bg">
-    <button v-for="(item, index) in menu" :key="index" @click="goTo(item)" class="menu-btn">{{item.title}}</button>
+    <button v-for="(item, index) in menu" :key="index" @click="goTo(item)" class="menu-btn">
+      <img :src="item.icon">
+      <p>{{item.title}}</p>
+    </button>
   </div>
 </template>
 
@@ -12,32 +15,32 @@ export default{
       menu: [
         {
           title: '开关控制',
-          isPermit: true,
+          icon: '../static/img/mobile-switch.png',
           path: '/mobile/main/line/list'
         },
         {
           title: '关键数据',
-          isPermit: true,
+          icon: '../static/img/mobile-key.png',
           path: '/mobile/main/key'
         },
         {
           title: '自检自测',
-          isPermit: true,
+          icon: '../static/img/mobile-inspection.png',
           path: '/mobile/main/inspection'
         },
         {
           title: '质量检测',
-          isPermit: false,
+          icon: '../static/img/mobile-quality.png',
           path: '/mobile/main/quality'
         },
         {
           title: '数据预览',
-          isPermit: true,
+          icon: '../static/img/mobile-preview.png',
           path: '/mobile/main/preview'
         },
         {
           title: '问题列表',
-          isPermit: false,
+          icon: '../static/img/mobile-question.png',
           path: '/mobile/main/question'
         }
       ],
@@ -46,7 +49,7 @@ export default{
   },
   methods: {
     goTo (item) {
-      if (item.isPermit) {
+      if (item.permission === '1') {
         this.toast.forEach(item => {
           item.close()
         })
@@ -58,6 +61,14 @@ export default{
         }))
       }
     }
+  },
+  mounted () {
+    this.menu[0].permission = this.$store.state.permission[2]
+    this.menu[1].permission = this.$store.state.permission[4]
+    this.menu[2].permission = this.$store.state.permission[5]
+    this.menu[3].permission = this.$store.state.permission[6]
+    this.menu[4].permission = this.$store.state.permission[8]
+    this.menu[5].permission = this.$store.state.permission[7]
   }
 }
 </script>
@@ -81,11 +92,15 @@ export default{
   border: none;
   border-bottom: 1px solid #fff;
   border-radius: 0;
-  line-height: 100px;
   font-size: 16px;
   color: #fff;
 }
 .menu-btn:nth-child(2n + 1){
   border-right: 1px solid #fff;
+}
+.menu-btn > img{
+  display: block;
+  width: 40px;
+  margin: 20px auto 0;
 }
 </style>

@@ -1,6 +1,18 @@
 import axios from 'axios'
 import store from '@/store'
 
+function showError (that, msg) {
+  const page = that.$route.name
+  if (page.indexOf('pc') !== -1) {
+    that.$alert(msg)
+  } else if (page.indexOf('mobile') !== -1) {
+    that.toast.push(that.$toast({
+      message: msg,
+      duration: 1500
+    }))
+  }
+}
+
 export default function (that, params) {
   return new Promise(resolve => {
     const page = that.$route.name
@@ -23,13 +35,13 @@ export default function (that, params) {
       if (res.data.res === 0) {
         resolve(res.data)
       } else {
-        that.$alert(res.data.msg)
+        showError(that, res.data.msg)
       }
     }).catch(err => {
       if (err.response) {
-        that.$alert(err.response.data.message)
+        showError(that, err.response.data.message)
       } else {
-        that.$alert(err.message)
+        showError(that, err.message)
       }
     })
   })
