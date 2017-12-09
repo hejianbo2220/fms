@@ -3,48 +3,55 @@
     <mt-header title="开关控制">
       <mt-button icon="back" @click="back" slot="left"></mt-button>
     </mt-header>
-    <mt-cell v-for="(item, index) in line" :key="index" :title="item.name" :is-link="true" :to="'/#/mobile/main/line/detail/' + item.id">
-      状态：<span :class="statusClass(item.status)">{{item.status}}</span>
-    </mt-cell>
+    <div v-infinite-scroll="loadMore" infinite-scroll-distance="10" infinite-scroll-disabled="loading">
+      <mt-cell v-for="(item, index) in line" :key="index" :title="item.name" :is-link="true" :to="'/#/mobile/main/line/detail/' + item.id">
+        状态：<span :class="stateSwitch(item.state).class">{{stateSwitch(item.state).text}}</span>
+      </mt-cell>
+    </div>
   </div>
 </template>
 
 <script>
+import axios from '@/axios'
 export default{
   name: 'lineList',
   data () {
     return {
-      line: [
-        {
-          id: '123',
-          name: '流水线1',
-          status: '运行中'
-        },
-        {
-          id: '456',
-          name: '流水线2',
-          status: '已关闭'
-        },
-        {
-          id: '789',
-          name: '流水线3',
-          status: '已暂停'
-        }
-      ]
+      line: [],
+      startNo: 0,
+      loadFlag: true
     }
   },
   methods: {
+    loadMore () {
+      if (this.loadFlag) {
+        axios(this, {
+          msgType: 10,
+          startNo: this.startNo,
+          num: 20
+        }).then(data => {
+          if (data.list.length > 0) {
+            data.list.forEach(item => {
+              this.line.push(item)
+            })
+            this.startNo++
+          } else {
+            this.loadFlag = false
+          }
+        })
+      }
+    },
     back () {
       this.$router.go(-1)
     },
-    statusClass (value) {
-      switch (value) {
-        case '运行中':
-          return 'green'
-        case '已关闭':
-          return 'red'
-        case '已暂停':
-          return 'orange'
+    stateSwitch (state) {
+      switch (state) {
+        case 0:
+          return {class: 'red', text: '已关闭'}
+        case 1:
+          return {class: 'green', text: '运行中'}
+        case 2:
+          return {class: 'orange', text: '已暂停'}
       }
     }
   }
