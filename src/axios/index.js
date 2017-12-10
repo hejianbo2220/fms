@@ -4,7 +4,7 @@ import store from '@/store'
 function showError (that, msg) {
   const page = that.$route.name
   if (page.indexOf('pc') !== -1) {
-    that.$alert(msg)
+    that.$alert(msg).catch(() => {})
   } else if (page.indexOf('mobile') !== -1) {
     that.toast.push(that.$toast({
       message: msg,

@@ -180,6 +180,9 @@ export default{
 
 <style>
 /*global*/
+ul{
+  list-style: none;
+}
 .el-message-box__message{
   max-height: 400px;
   overflow-y: auto;
