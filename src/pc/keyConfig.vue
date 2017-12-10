@@ -159,10 +159,19 @@ export default{
         msgType: 71,
         type_id: id
       }).then(data => {
-        this.$alert('<strong>这里是关键数据详情内容</strong>', {
+        const h = this.$createElement
+        const list = []
+        data.list.forEach(procedure => {
+          list.push(h('li', null, '工序名称：' + procedure.name))
+          procedure.list.forEach(attr => {
+            list.push(h('li', {style: 'padding-left: 20px'}, '属性名称：' + attr.name))
+          })
+        })
+        this.$msgbox({
           title: '关键数据详情',
-          dangerouslyUseHTMLString: true,
-          showConfirmButton: false
+          message: h('ul', null, list),
+          showConfirmButton: false,
+          closeOnClickModal: false
         }).catch(() => {})
       })
     }

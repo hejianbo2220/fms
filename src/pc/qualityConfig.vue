@@ -127,10 +127,16 @@ export default{
         msgType: 91,
         type_id: id
       }).then(data => {
-        this.$alert('<strong>这里是质量检测详情内容</strong>', {
+        const h = this.$createElement
+        const list = []
+        data.list.forEach(item => {
+          list.push(h('li', null, '属性名称：' + item.name))
+        })
+        this.$msgbox({
           title: '质量检测详情',
-          dangerouslyUseHTMLString: true,
-          showConfirmButton: false
+          message: h('ul', null, list),
+          showConfirmButton: false,
+          closeOnClickModal: false
         }).catch(() => {})
       })
     }

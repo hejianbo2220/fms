@@ -80,10 +80,16 @@ export default{
         msgType: 84,
         id: id
       }).then(data => {
-        this.$alert('<strong>这里是自检自测详情内容</strong>', {
+        const h = this.$createElement
+        const list = []
+        data.list.forEach(item => {
+          list.push(h('li', null, item.name + '：' + item.value))
+        })
+        this.$msgbox({
           title: '自检自测详情',
-          dangerouslyUseHTMLString: true,
-          showConfirmButton: false
+          message: h('ul', null, list),
+          showConfirmButton: false,
+          closeOnClickModal: false
         }).catch(() => {})
       })
     }
