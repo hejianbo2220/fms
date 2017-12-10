@@ -19,4 +19,10 @@ html{
 .btn-wrap{
   padding: 20px 10px;
 }
+.title{
+  background-color: #D8DCE5;
+}
+.subtitle{
+  background-color: #EDF2FC;
+}
 </style>

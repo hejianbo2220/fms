@@ -10,7 +10,7 @@
       </mt-popup>
     </mt-cell>
     <template v-if="title === '关键数据'" v-for="procedure in form.list">
-      <mt-cell :key="procedure.id" :title="procedure.name"></mt-cell>
+      <mt-cell :key="procedure.id" :title="procedure.name" class="subtitle"></mt-cell>
       <mt-field v-for="attr in procedure.list" :key="attr.id" :label="attr.name" :placeholder="'请输入' + attr.name" v-model="attr.value"></mt-field>
     </template>
     <mt-field v-if="title !== '关键数据'" v-for="attr in form.list" :key="attr.id" :label="attr.name" :placeholder="'请输入' + attr.name" v-model="attr.value"></mt-field>

@@ -36,7 +36,7 @@ export default{
         {
           title: '数据预览',
           icon: '../static/img/mobile-preview.png',
-          path: '/mobile/main/preview'
+          path: '/mobile/main/data/list'
         },
         {
           title: '问题提交',

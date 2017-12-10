@@ -27,6 +27,8 @@ import mobileLineList from '@/mobile/lineList'
 import mobileLineDetail from '@/mobile/lineDetail'
 import mobileTemplate from '@/mobile/template'
 import mobileQuestion from '@/mobile/question'
+import mobileDataList from '@/mobile/dataList'
+import mobileDataDetail from '@/mobile/dataDetail'
 import mobileExample from '@/mobile/example'
 
 Vue.use(Router)
@@ -169,6 +171,16 @@ export default new Router({
           path: 'question',
           name: 'mobileQuestion',
           component: mobileQuestion
+        },
+        {
+          path: 'data/list',
+          name: 'mobileDataList',
+          component: mobileDataList
+        },
+        {
+          path: 'data/detail/:serial/:batch',
+          name: 'mobileDataDetail',
+          component: mobileDataDetail
         },
         {
           path: 'example',
