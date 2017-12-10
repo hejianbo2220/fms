@@ -41,7 +41,7 @@ export default{
     return {
       product: [],
       filter: {
-        product: ['', ''],
+        product: ['11', ''],
         date: []
       },
       table: [],
@@ -72,10 +72,19 @@ export default{
       })
     },
     detail (question) {
-      this.$alert('<strong>这里是问题详情内容</strong>', {
+      const h = this.$createElement
+      const list = []
+      list.push(h('li', null, '问题名称：' + question.title))
+      list.push(h('li', null, '问题来源：' + question.source))
+      list.push(h('li', null, '责任人：' + question.person))
+      list.push(h('li', null, '问题描述：' + question.desc))
+      list.push(h('li', null, '解决方案：' + question.programe))
+      list.push(h('li', null, '改进措施：' + question.improv))
+      this.$msgbox({
         title: '问题详情',
-        dangerouslyUseHTMLString: true,
-        showConfirmButton: false
+        message: h('ul', null, list),
+        showConfirmButton: false,
+        closeOnClickModal: false
       }).catch(() => {})
     }
   },
