@@ -69,7 +69,7 @@ export default{
       this.popupVisible = false
     },
     submit () {
-      axios(this, form).then(data => {
+      axios(this, this.form).then(data => {
         this.$messagebox.alert('提交成功').then(action => {
           this.back()
         })
