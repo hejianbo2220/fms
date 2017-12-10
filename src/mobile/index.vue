@@ -21,17 +21,17 @@ export default{
         {
           title: '关键数据',
           icon: '../static/img/mobile-key.png',
-          path: '/mobile/main/key'
+          path: '/mobile/main/template/关键数据'
         },
         {
           title: '自检自测',
           icon: '../static/img/mobile-inspection.png',
-          path: '/mobile/main/inspection'
+          path: '/mobile/main/template/自检自测'
         },
         {
           title: '质量检测',
           icon: '../static/img/mobile-quality.png',
-          path: '/mobile/main/quality'
+          path: '/mobile/main/template/质量检测'
         },
         {
           title: '数据预览',
