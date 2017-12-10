@@ -4,7 +4,7 @@
       <el-col :span="7">
         <el-breadcrumb separator-class="el-icon-arrow-right">
           <el-breadcrumb-item :to="{path: '/pc/main/index'}">工厂管理系统</el-breadcrumb-item>
-          <el-breadcrumb-item>问题提交</el-breadcrumb-item>
+          <el-breadcrumb-item>问题列表</el-breadcrumb-item>
         </el-breadcrumb>
       </el-col>
       <el-col :span="17">

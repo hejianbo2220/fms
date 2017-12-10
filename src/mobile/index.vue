@@ -39,7 +39,7 @@ export default{
           path: '/mobile/main/preview'
         },
         {
-          title: '问题列表',
+          title: '问题提交',
           icon: '../static/img/mobile-question.png',
           path: '/mobile/main/question'
         }

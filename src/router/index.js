@@ -26,6 +26,7 @@ import mobileIndex from '@/mobile/index'
 import mobileLineList from '@/mobile/lineList'
 import mobileLineDetail from '@/mobile/lineDetail'
 import mobileTemplate from '@/mobile/template'
+import mobileQuestion from '@/mobile/question'
 import mobileExample from '@/mobile/example'
 
 Vue.use(Router)
@@ -163,6 +164,11 @@ export default new Router({
           path: 'template/:type',
           name: 'mobileTemplate',
           component: mobileTemplate
+        },
+        {
+          path: 'question',
+          name: 'mobileQuestion',
+          component: mobileQuestion
         },
         {
           path: 'example',

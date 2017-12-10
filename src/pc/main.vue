@@ -126,7 +126,7 @@ export default{
           ]
         },
         {
-          title: '问题提交',
+          title: '问题列表',
           icon: 'el-icon-edit-outline',
           path: '/pc/main/question'
         },
