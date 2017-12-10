@@ -25,6 +25,7 @@ import mobileMain from '@/mobile/main'
 import mobileIndex from '@/mobile/index'
 import mobileLineList from '@/mobile/lineList'
 import mobileLineDetail from '@/mobile/lineDetail'
+import mobileKey from '@/mobile/key'
 import mobileTemplate from '@/mobile/template'
 
 Vue.use(Router)
@@ -154,9 +155,14 @@ export default new Router({
           component: mobileLineList
         },
         {
-          path: 'line/detail/:id',
+          path: 'line/detail/:id/:state/:serial/:batch/:time',
           name: 'mobileLineDetail',
           component: mobileLineDetail
+        },
+        {
+          path: 'key',
+          name: 'mobileKey',
+          component: mobileKey
         },
         {
           path: 'template',

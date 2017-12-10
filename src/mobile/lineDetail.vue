@@ -3,68 +3,55 @@
     <mt-header title="开关控制">
       <mt-button icon="back" @click="back" slot="left"></mt-button>
     </mt-header>
-    <mt-cell v-if="line.status === '已关闭'" title="产品编码">
-      <span @click="popupShow">{{line.productId}}</span>
+    <mt-cell v-if="line.state === '0'" title="产品编码">
+      <span @click="popupShow">{{line.serial}}</span>
       <mt-popup v-model="popupVisible" popup-transition="popup-fade">
-        <mt-picker :slots="productIds" valueKey="name" @change="popupSure"></mt-picker>
+        <mt-picker :slots="serials" valueKey="serial" @change="popupSure"></mt-picker>
       </mt-popup>
     </mt-cell>
-    <mt-cell v-else title="产品编码" :value="line.productId"></mt-cell>
+    <mt-cell v-else title="产品编码" :value="line.serial"></mt-cell>
     <mt-cell title="产品名称" :value="line.productName"></mt-cell>
-    <mt-cell title="产品类型" :value="line.productClass"></mt-cell>
-    <mt-cell title="规格型号" :value="line.productStandard"></mt-cell>
-    <mt-field v-if="line.status === '已关闭'" label="批次号" placeholder="请输入批次号" v-model="line.batchId"></mt-field>
-    <mt-cell v-else title="批次号" :value="line.batchId"></mt-cell>
-    <p v-if="line.status !== '已关闭'" class="clock">{{clock}}</p>
-    <div v-if="line.status === '已关闭'" class="btn-wrap">
+    <mt-cell title="产品类型" :value="line.typeName"></mt-cell>
+    <mt-cell title="规格型号" :value="line.spec"></mt-cell>
+    <mt-field v-if="line.state === '0'" label="批次号" placeholder="请输入批次号" v-model="line.batch"></mt-field>
+    <mt-cell v-else title="批次号" :value="line.batch"></mt-cell>
+    <p v-if="line.state !== '0'" class="clock">{{clock}}</p>
+    <div v-if="line.state === '0'" class="btn-wrap">
       <mt-button type="primary" size="large" @click="open">开 启</mt-button>
     </div>
     <div v-else class="btn-wrap btn-inline">
-      <mt-button v-if="line.status === '运行中'" @click="pause">暂 停</mt-button>
+      <mt-button v-if="line.state === '1'" @click="stateChange(2)">暂 停</mt-button>
       <mt-button v-else type="primary" @click="open">开 启</mt-button>
-      <mt-button type="danger" @click="stop">关 闭</mt-button>
+      <mt-button type="danger" @click="stateChange(0)">关 闭</mt-button>
     </div>
   </div>
 </template>
 
 <script>
+import axios from '@/axios'
 export default{
   name: 'lineDetail',
   data () {
     return {
       line: {
-        status: '',
-        productId: '',
+        state: '',
+        serial: '请选择产品编码',
         productName: '',
-        productClass: '',
-        productStandard: '',
-        batchId: '',
-        createTime: 0
+        typeName: '',
+        spec: '',
+        batch: '',
+        startTime: 0
       },
       timer: null,
       popupVisible: false,
-      productIds: [
-        {
-          values: [
-            {
-              name: '请选择产品编码',
-              value: ''
-            },
-            {
-              name: '产品编码1',
-              value: 'value1'
-            },
-            {
-              name: '产品编码2',
-              value: 'value2'
-            },
-            {
-              name: '产品编码3',
-              value: 'value3'
-            }
-          ]
-        }
-      ]
+      serials: [{
+        values: [
+          {
+            serial: '请选择产品编码',
+            value: ''
+          }
+        ]
+      }]
     }
   },
   computed: {
@@ -72,7 +59,7 @@ export default{
       let hour, minute, second
       hour = minute = second = 0
       const now = new Date()
-      const time = now.getTime() - this.line.createTime
+      const time = now.getTime() - this.line.startTime
       hour = parseInt(time / (60 * 60 * 1000))
       minute = parseInt((time % (60 * 60 * 1000)) / (60 * 1000))
       second = parseInt(((time % (60 * 60 * 1000)) % (60 * 1000)) / 1000)
@@ -89,19 +76,6 @@ export default{
     }
   },
   methods: {
-    getLineStatus () {
-      console.log('获取流水线状态')
-      const data = {
-        status: '运行中',
-        productId: '产品编码1',
-        productName: '产品1',
-        productClass: '产品类型1',
-        productStandard: '规格型号1',
-        batchId: '批次1',
-        createTime: 1512477400000
-      }
-      Object.assign(this.line, data)
-    },
     back () {
       this.$router.go(-1)
     },
@@ -109,20 +83,42 @@ export default{
       this.popupVisible = true
     },
     popupSure (picker, values) {
-      this.line.productId = values[0].name
-      if (values[0].value !== '') {
-        console.log('获取产品类型、产品名称、规格型号')
-        const data = {
-          productName: '产品1',
-          productClass: '产品类型1',
-          productStandard: '规格型号1'
-        }
-        Object.assign(this.line, data)
-        this.popupVisible = false
+      if (values[0].value === '') {
+        return false
       }
+      this.line.serial = values[0].serial
+      this.line.productName = values[0].name
+      this.line.typeName = values[0].type_name
+      this.line.spec = values[0].spec
+      this.popupVisible = false
+    },
+    stateChange (state) {
+      let stateText = ''
+      switch (state) {
+        case 0:
+          stateText = '关闭'
+          break
+        case 1:
+          stateText = '开启'
+          break
+        case 2:
+          stateText = '暂停'
+          break
+      }
+      this.$messagebox.confirm('确定' + stateText + '该流水线?').then(action => {
+        axios(this, {
+          msgType: 11,
+          serials: this.line.serial,
+          batch: this.line.batch,
+          state: state,
+          id: this.$route.params.id
+        }).then(data => {
+          this.back()
+        })
+      }).catch(() => {})
     },
     open () {
-      if (this.line.productId === '请选择产品编码') {
+      if (this.line.serial === '请选择产品编码') {
         this.$toast({
           message: '请选择产品编码',
           position: 'bottom',
@@ -130,7 +126,7 @@ export default{
         })
         return false
       }
-      if (this.line.batchId === '') {
+      if (this.line.batch === '') {
         this.$toast({
           message: '请输入批次号',
           position: 'bottom',
@@ -138,28 +134,44 @@ export default{
         })
         return false
       }
-      this.$messagebox.confirm('确定开启该流水线?').then(action => {
-        this.getLineStatus()
-      }).catch(() => {})
-    },
-    pause () {
-      this.$messagebox.confirm('确定暂停该流水线?').then(action => {
-        this.getLineStatus()
-      }).catch(() => {})
-    },
-    stop () {
-      this.$messagebox.confirm('确定关闭该流水线?').then(action => {
-        this.getLineStatus()
-      }).catch(() => {})
+      this.stateChange(1)
     }
   },
   mounted () {
-    this.getLineStatus()
+    // 获取产品编码列表
+    axios(this, {
+      msgType: 27,
+      startNo: 0,
+      num: 99999
+    }).then(data => {
+      // 流水线状态
+      this.line.state = this.$route.params.state
 
-    // 每秒更新createTime，触发computed.clock
-    this.timer = setInterval(() => {
-      this.line.createTime += 1
-    }, 1000)
+      data.list.forEach(item => {
+        if (this.$route.params.state === '0') {
+          // 流水线关闭时，产品编码选择赋值
+          item.value = item.id
+          this.serials[0].values.push(item)
+        } else {
+          // 流水线非关闭时，产品信息赋值
+          if (item.serial === this.$route.params.serial) {
+            this.line.serial = item.serial
+            this.line.productName = item.name
+            this.line.typeName = item.type_name
+            this.line.spec = item.spec
+          }
+          this.line.batch = this.$route.params.batch
+          this.line.startTime = Number(this.$route.params.time)
+        }
+      })
+
+      if (this.$route.params.state !== '0') {
+        // 每秒更新startTime，触发computed.clock
+        this.timer = setInterval(() => {
+          this.line.startTime += 1
+        }, 1000)
+      }
+    })
   },
   beforeDestroy () {
     clearInterval(this.timer)
