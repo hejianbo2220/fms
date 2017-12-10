@@ -51,7 +51,8 @@ export default{
             value: ''
           }
         ]
-      }]
+      }],
+      toast: []
     }
   },
   computed: {
@@ -119,19 +120,19 @@ export default{
     },
     open () {
       if (this.line.serial === '请选择产品编码') {
-        this.$toast({
+        this.toast.push(this.$toast({
           message: '请选择产品编码',
           position: 'bottom',
           duration: 1500
-        })
+        }))
         return false
       }
       if (this.line.batch === '') {
-        this.$toast({
+        this.toast.push(this.$toast({
           message: '请输入批次号',
           position: 'bottom',
           duration: 1500
-        })
+        }))
         return false
       }
       this.stateChange(1)

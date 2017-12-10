@@ -1,6 +1,6 @@
 <template>
   <div>
-    <mt-header title="关键数据">
+    <mt-header title="自检自测">
       <mt-button icon="back" @click="back" slot="left"></mt-button>
     </mt-header>
     <mt-cell title="产品编码">
@@ -9,10 +9,7 @@
         <mt-picker :slots="serials" valueKey="label" @change="popupSure"></mt-picker>
       </mt-popup>
     </mt-cell>
-    <template v-for="procedure in form.list">
-      <mt-cell :key="procedure.id" :title="procedure.name"></mt-cell>
-      <mt-field v-for="attr in procedure.list" :key="attr.id" :label="attr.name" :placeholder="'请输入' + attr.name" v-model="attr.value"></mt-field>
-    </template>
+    <mt-field v-for="attr in form.list" :key="attr.id" :label="attr.name" :placeholder="'请输入' + attr.name" v-model="attr.value"></mt-field>
     <div class="btn-wrap">
       <mt-button type="primary" size="large" @click="submit">提 交</mt-button>
     </div>
@@ -22,7 +19,7 @@
 <script>
 import axios from '@/axios'
 export default{
-  name: 'key',
+  name: 'inspection',
   data () {
     return {
       serial: '请选择产品编码',
@@ -36,7 +33,7 @@ export default{
         ]
       }],
       form: {
-        msgType: 72,
+        msgType: 82,
         type_id: '',
         serials: '',
         batch: '',
@@ -58,7 +55,7 @@ export default{
         return false
       }
       axios(this, {
-        msgType: 71,
+        msgType: 81,
         type_id: values[0].type_id
       }).then(data => {
         this.form.type_id = values[0].type_id

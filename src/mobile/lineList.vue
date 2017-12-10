@@ -19,7 +19,8 @@ export default{
     return {
       line: [],
       startNo: 0,
-      loadFlag: true
+      loadFlag: true,
+      toast: []
     }
   },
   methods: {
