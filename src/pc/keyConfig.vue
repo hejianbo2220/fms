@@ -43,10 +43,15 @@
           </el-form-item>
           <div class="attrs-wrap">
             <el-button class="attr-add" @click="attrAdd(procedure)">添加属性</el-button>
-            <el-form-item v-for="(attr, attrIndex) in procedure.list" :key="attrIndex" :rules="{required: true, message: '请输入属性名称', trigger: 'blur'}" label="属性名称" :prop="'process.' + procedureIndex + '.list.' + attrIndex + '.name'" class="attr-wrap">
-              <el-input v-model="attr.name" placeholder="请输入属性名称"></el-input>
-              <el-button class="attr-delete" @click="attrDelete(procedure, attr)">删除属性</el-button>
-            </el-form-item>
+            <template v-for="(attr, attrIndex) in procedure.list">
+              <el-form-item :key="attrIndex" :rules="{required: true, message: '请输入属性名称', trigger: 'blur'}" label="属性名称" :prop="'process.' + procedureIndex + '.list.' + attrIndex + '.name'" class="attr-wrap">
+                <el-input v-model="attr.name" placeholder="请输入属性名称"></el-input>
+                <el-button class="attr-delete" @click="attrDelete(procedure, attr)">删除属性</el-button>
+              </el-form-item>
+              <el-form-item :rules="{required: true, message: '请输入设备ID', trigger: 'blur'}" :prop="'process.' + procedureIndex + '.list.' + attrIndex + '.device'" class="attr-wrap">
+                <el-input v-model="attr.device" placeholder="请输入设备ID"></el-input>
+              </el-form-item>
+            </template>
           </div>
         </div>
       </el-form>
@@ -77,7 +82,7 @@ export default{
             list: [
               {
                 name: '',
-                value: ''
+                device: ''
               }
             ]
           }
@@ -104,7 +109,7 @@ export default{
         list: [
           {
             name: '',
-            value: ''
+            device: ''
           }
         ]
       }]
@@ -138,7 +143,7 @@ export default{
         list: [
           {
             name: '',
-            value: ''
+            device: ''
           }
         ]
       })
