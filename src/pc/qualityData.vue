@@ -21,7 +21,7 @@
           <el-table-column label="创建时间" prop="time"></el-table-column>
           <el-table-column label="提交人" prop="user"></el-table-column>
           <el-table-column label="操作">
-            <el-button slot-scope="scope" size="mini" icon="el-icon-news" @click="detail(scope.row.id)">查看</el-button>
+            <el-button slot-scope="scope" size="mini" icon="el-icon-news" @click="detailShow(scope.row.id)">查看</el-button>
           </el-table-column>
         </el-table>
       </el-col>
@@ -31,6 +31,14 @@
         <el-pagination :current-page.sync="currentPage" @current-change="getTable" :total="tableTotal"></el-pagination>
       </el-col>
     </el-row>
+    <el-dialog title="质量检测详情" :visible.sync="detailVisible" :close-on-click-modal="false" width="420px">
+      <el-row>
+        <template v-for="(item, index) in detail">
+          <el-col :span="6" :key="index">{{item.name}}</el-col>
+          <el-col :span="6">{{item.value}}</el-col>
+        </template>
+      </el-row>
+    </el-dialog>
   </div>
 </template>
 
@@ -47,7 +55,9 @@ export default{
       },
       table: [],
       currentPage: 1,
-      tableTotal: 1
+      tableTotal: 1,
+      detailVisible: false,
+      detail: []
     }
   },
   methods: {
@@ -75,22 +85,13 @@ export default{
         this.tableTotal = data.total
       })
     },
-    detail (id) {
+    detailShow (id) {
       axios(this, {
         msgType: 94,
         id: id
       }).then(data => {
-        const h = this.$createElement
-        const list = []
-        data.list.forEach(item => {
-          list.push(h('li', null, item.name + '：' + item.value))
-        })
-        this.$msgbox({
-          title: '质量检测详情',
-          message: h('ul', null, list),
-          showConfirmButton: false,
-          closeOnClickModal: false
-        }).catch(() => {})
+        this.detail = data.list
+        this.detailVisible = true
       })
     }
   },

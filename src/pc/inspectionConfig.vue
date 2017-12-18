@@ -18,7 +18,7 @@
           <el-table-column label="自检自测ID" prop="id"></el-table-column>
           <el-table-column label="产品类型" prop="name"></el-table-column>
           <el-table-column label="操作">
-            <el-button slot-scope="scope" size="mini" icon="el-icon-news" @click="detail(scope.row.id)">查看</el-button>
+            <el-button slot-scope="scope" size="mini" icon="el-icon-news" @click="detailShow(scope.row.id)">查看</el-button>
           </el-table-column>
         </el-table>
       </el-col>
@@ -48,6 +48,14 @@
         <el-button type="primary" @click="dialogSure">确 定</el-button>
       </div>
     </el-dialog>
+    <el-dialog title="自检自测详情" :visible.sync="detailVisible" :close-on-click-modal="false" width="420px">
+      <el-row>
+        <template v-for="(item, index) in detail">
+          <el-col :span="4" :key="index">{{'属性' + (index + 1) + '：'}}</el-col>
+          <el-col :span="8">{{item.name}}</el-col>
+        </template>
+      </el-row>
+    </el-dialog>
   </div>
 </template>
 
@@ -70,7 +78,9 @@ export default{
             value: ''
           }
         ]
-      }
+      },
+      detailVisible: false,
+      detail: []
     }
   },
   methods: {
@@ -122,22 +132,13 @@ export default{
       const index = this.form.list.indexOf(attr)
       this.form.list.splice(index, 1)
     },
-    detail (id) {
+    detailShow (id) {
       axios(this, {
         msgType: 81,
         type_id: id
       }).then(data => {
-        const h = this.$createElement
-        const list = []
-        data.list.forEach(item => {
-          list.push(h('li', null, '属性名称：' + item.name))
-        })
-        this.$msgbox({
-          title: '自检自测详情',
-          message: h('ul', null, list),
-          showConfirmButton: false,
-          closeOnClickModal: false
-        }).catch(() => {})
+        this.detail = data.list
+        this.detailVisible = true
       })
     }
   },

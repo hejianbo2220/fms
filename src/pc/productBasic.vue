@@ -1,12 +1,15 @@
 <template>
   <div>
     <el-row>
-      <el-col :span="24">
-        <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb-height">
+      <el-col :span="7">
+        <el-breadcrumb separator-class="el-icon-arrow-right">
           <el-breadcrumb-item :to="{path: '/pc/main/index'}">工厂管理系统</el-breadcrumb-item>
           <el-breadcrumb-item>产品管理</el-breadcrumb-item>
           <el-breadcrumb-item>基础数据</el-breadcrumb-item>
         </el-breadcrumb>
+      </el-col>
+      <el-col :span="17">
+        <el-date-picker v-model="filter.date" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" @change="getTable(1)" class="filter"></el-date-picker>
       </el-col>
     </el-row>
     <el-row>
@@ -29,17 +32,21 @@
     </el-row>
     <el-row>
       <el-col :span="24">
-        <el-pagination @current-change="pageChanged" :total="tableTotal"></el-pagination>
+        <el-pagination :current-page.sync="currentPage" @current-change="getTable" :total="tableTotal"></el-pagination>
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
+import axios from '@/axios'
 export default{
   name: 'productBasic',
   data () {
     return {
+      filter: {
+        date: [new Date(), new Date()]
+      },
       table: [
         {
           id: 'id1',
@@ -50,10 +57,24 @@ export default{
           detail: false
         }
       ],
+      currentPage: 1,
       tableTotal: 89
     }
   },
   methods: {
+    getTable (startPage) {
+      axios(this, {
+        msgType: 107,
+        startDate: this.filter.date[0].getTime(),
+        endDate: this.filter.date[1].getTime() + (24 * 60 * 60 * 1000),
+        startNo: startPage - 1,
+        num: 10
+      }).then(data => {
+        this.table = data.list
+        this.currentPage = startPage
+        this.tableTotal = data.total
+      })
+    },
     detail () {
       this.$alert('<strong>这里是基础数据详情内容</strong>', {
         title: '基础数据详情',
@@ -74,10 +95,11 @@ export default{
           reject(new Error('cancel'))
         })
       })
-    },
-    pageChanged (page) {
-      console.log(page)
     }
+  },
+  mounted () {
+    // 获取table数据
+    this.getTable(1)
   }
 }
 </script>

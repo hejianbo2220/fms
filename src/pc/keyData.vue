@@ -21,7 +21,7 @@
           <el-table-column label="创建时间" prop="time"></el-table-column>
           <el-table-column label="提交人" prop="user"></el-table-column>
           <el-table-column label="操作">
-            <el-button slot-scope="scope" size="mini" icon="el-icon-news" @click="detail(scope.row.id)">查看</el-button>
+            <el-button slot-scope="scope" size="mini" icon="el-icon-news" @click="detailShow(scope.row.id)">查看</el-button>
           </el-table-column>
         </el-table>
       </el-col>
@@ -31,6 +31,17 @@
         <el-pagination :current-page.sync="currentPage" @current-change="getTable" :total="tableTotal"></el-pagination>
       </el-col>
     </el-row>
+    <el-dialog title="关键数据详情" :visible.sync="detailVisible" :close-on-click-modal="false" width="420px">
+      <el-row v-for="(procedure, procedureIndex) in detail" :key="procedureIndex" class="detail-procedure-wrap">
+        <el-col :span="8" class="detail-procedure-title">{{procedure.name}}</el-col>
+        <el-col :span="16">
+          <el-row v-for="(attr, attrIndex) in procedure.list" :key="procedureIndex + '-' + attrIndex">
+            <el-col :span="12">{{attr.name}}</el-col>
+            <el-col :span="12">{{attr.value}}</el-col>
+          </el-row>
+        </el-col>
+      </el-row>
+    </el-dialog>
   </div>
 </template>
 
@@ -47,7 +58,9 @@ export default{
       },
       table: [],
       currentPage: 1,
-      tableTotal: 1
+      tableTotal: 1,
+      detailVisible: false,
+      detail: []
     }
   },
   methods: {
@@ -75,25 +88,13 @@ export default{
         this.tableTotal = data.total
       })
     },
-    detail (id) {
+    detailShow (id) {
       axios(this, {
         msgType: 74,
         id: id
       }).then(data => {
-        const h = this.$createElement
-        const list = []
-        data.list.forEach(procedure => {
-          list.push(h('li', null, procedure.name + '：'))
-          procedure.list.forEach(attr => {
-            list.push(h('li', {style: 'padding-left: 20px'}, attr.name + '：' + attr.value))
-          })
-        })
-        this.$msgbox({
-          title: '关键数据详情',
-          message: h('ul', null, list),
-          showConfirmButton: false,
-          closeOnClickModal: false
-        }).catch(() => {})
+        this.detail = data.list
+        this.detailVisible = true
       })
     }
   },
@@ -129,3 +130,12 @@ export default{
   }
 }
 </script>
+
+<style scoped>
+.detail-procedure-wrap{
+  margin-bottom: 20px;
+}
+.detail-procedure-title{
+  font-weight: bold;
+}
+</style>
