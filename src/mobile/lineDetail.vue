@@ -21,7 +21,7 @@
     </div>
     <div v-else class="btn-wrap btn-inline">
       <mt-button v-if="line.state === '1'" @click="stateChange(2)">暂 停</mt-button>
-      <mt-button v-else type="primary" @click="open">开 启</mt-button>
+      <mt-button v-else type="primary" @click="stateChange(1)">开 启</mt-button>
       <mt-button type="danger" @click="stateChange(0)">关 闭</mt-button>
     </div>
   </div>
@@ -38,6 +38,7 @@ export default{
         serial: '请选择产品编码',
         productName: '',
         typeName: '',
+        typeId: '',
         spec: '',
         batch: '',
         startTime: 0
@@ -90,6 +91,7 @@ export default{
       this.line.serial = values[0].serial
       this.line.productName = values[0].name
       this.line.typeName = values[0].type_name
+      this.line.typeId = values[0].type_id
       this.line.spec = values[0].spec
       this.popupVisible = false
     },
@@ -135,7 +137,15 @@ export default{
         }))
         return false
       }
-      this.stateChange(1)
+      axios(this, {
+        msgType: 35,
+        serials: this.line.serial,
+        batch: this.line.batch,
+        type_id: this.line.typeId,
+        pipeline: this.$route.params.id
+      }).then(data => {
+        this.back()
+      })
     }
   },
   mounted () {
