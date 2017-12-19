@@ -33,11 +33,12 @@
     </el-row>
     <el-dialog title="关键数据详情" :visible.sync="detailVisible" :close-on-click-modal="false" width="420px">
       <el-row v-for="(procedure, procedureIndex) in detail" :key="procedureIndex" class="detail-procedure-wrap">
-        <el-col :span="8" class="detail-procedure-title">{{procedure.name}}</el-col>
-        <el-col :span="16">
+        <el-col :span="7" class="detail-procedure-title">{{procedure.name}}</el-col>
+        <el-col :span="17">
           <el-row v-for="(attr, attrIndex) in procedure.list" :key="procedureIndex + '-' + attrIndex">
-            <el-col :span="12">{{attr.name}}</el-col>
-            <el-col :span="12">{{attr.value}}</el-col>
+            <el-col :span="9">{{attr.name}}</el-col>
+            <el-col :span="9">{{attr.value}}</el-col>
+            <el-col :span="6"><el-button type="text" @click="imgShow(attr.img)">查看照片</el-button></el-col>
           </el-row>
         </el-col>
       </el-row>
@@ -96,6 +97,13 @@ export default{
         this.detail = data.list
         this.detailVisible = true
       })
+    },
+    imgShow (img) {
+      this.$alert('<img style="width:100%" src="' + img + '">', {
+        title: '查看照片',
+        dangerouslyUseHTMLString: true,
+        showConfirmButton: false
+      })
     }
   },
   mounted () {
@@ -137,5 +145,8 @@ export default{
 }
 .detail-procedure-title{
   font-weight: bold;
+}
+.el-button--text{
+  padding: 5px 0;
 }
 </style>

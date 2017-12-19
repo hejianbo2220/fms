@@ -14,8 +14,8 @@ export default{
   name: 'login',
   data () {
     return {
-      username: localStorage.getItem('username'),
-      password: localStorage.getItem('password'),
+      username: localStorage.getItem('stfsUsername'),
+      password: localStorage.getItem('stfsPassword'),
       toast: []
     }
   },
@@ -43,8 +43,8 @@ export default{
         userID: this.username,
         password: md5(this.password)
       }).then(data => {
-        localStorage.setItem('username', this.username)
-        localStorage.setItem('password', this.password)
+        localStorage.setItem('stfsUsername', this.username)
+        localStorage.setItem('stfsPassword', this.password)
         this.$store.commit('set', data)
         this.$router.push('/mobile/main/index')
       })
