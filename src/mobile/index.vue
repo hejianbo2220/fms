@@ -4,6 +4,10 @@
       <img :src="item.icon">
       <p>{{item.title}}</p>
     </button>
+    <button class="menu-btn" @click="promptShow" v-if="isAdmin">
+      <img src="../assets/mobile-device-id.png">
+      <p>录入设备ID</p>
+    </button>
   </div>
 </template>
 
@@ -44,6 +48,7 @@ export default{
           path: '/mobile/main/question'
         }
       ],
+      isAdmin: false,
       toast: []
     }
   },
@@ -60,6 +65,14 @@ export default{
           duration: 1000
         }))
       }
+    },
+    promptShow () {
+      // prompt的第一个参数要传入一个空格
+      this.$messagebox.prompt(' ', '请输入设备ID').then(({value, action}) => {
+        if (value !== null) {
+          localStorage.setItem('stfsDeviceId', value)
+        }
+      }).catch(() => {})
     }
   },
   mounted () {
@@ -69,6 +82,9 @@ export default{
     this.menu[3].permission = this.$store.state.permission[6]
     this.menu[4].permission = this.$store.state.permission[8]
     this.menu[5].permission = this.$store.state.permission[7]
+    if (localStorage.getItem('stfsUsername') === 'admin') {
+      this.isAdmin = true
+    }
   }
 }
 </script>
