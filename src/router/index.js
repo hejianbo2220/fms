@@ -9,6 +9,7 @@ import pcLine from '@/pc/line'
 import pcProductClass from '@/pc/productClass'
 import pcProductData from '@/pc/productData'
 import pcProductBasic from '@/pc/productBasic'
+import pcProductChart from '@/pc/productChart'
 import pcKeyConfig from '@/pc/keyConfig'
 import pcKeyData from '@/pc/keyData'
 import pcKeyChart from '@/pc/keyChart'
@@ -79,6 +80,11 @@ export default new Router({
           path: 'product/basic',
           name: 'pcProductBasic',
           component: pcProductBasic
+        },
+        {
+          path: 'product/chart',
+          name: 'pcProductChart',
+          component: pcProductChart
         },
         {
           path: 'key/config',

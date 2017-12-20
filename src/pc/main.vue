@@ -68,6 +68,10 @@ export default{
             {
               title: '基础数据',
               path: '/pc/main/product/basic'
+            },
+            {
+              title: '统计图',
+              path: '/pc/main/product/chart'
             }
           ]
         },

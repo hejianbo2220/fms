@@ -9,23 +9,20 @@
         </el-breadcrumb>
       </el-col>
       <el-col :span="17">
+        <el-upload :action="this.$store.state.excelUpload" :http-request="upload" class="upload-btn">
+          <el-button type="primary" size="medium" icon="el-icon-upload">上传基础数据</el-button>
+        </el-upload>
         <el-date-picker v-model="filter.date" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" @change="getTable(1)" class="filter"></el-date-picker>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="24">
         <el-table :data="table" :stripe="true">
-          <el-table-column label="产品编码" prop="id"></el-table-column>
+          <el-table-column label="文件名" prop="filename"></el-table-column>
+          <el-table-column label="提交时间" prop="time"></el-table-column>
+          <el-table-column label="类型" prop="type"></el-table-column>
           <el-table-column label="操作">
-            <template slot-scope="scope">
-              <el-button v-if="scope.row.detail" size="mini" icon="el-icon-news" @click="detail(scope.row)">查看</el-button>
-              <el-upload v-if="scope.row.detail" action="http://www.baidu.com" :show-file-list="false" :before-upload="uploadConfirm" class="upload-btn">
-                <el-button size="mini" icon="el-icon-upload">重新导入</el-button>
-              </el-upload>
-              <el-upload v-else action="http://www.baidu.com" :show-file-list="false">
-                <el-button size="mini" icon="el-icon-upload">导入</el-button>
-              </el-upload>
-            </template>
+            <el-button slot-scope="scope" size="mini" icon="el-icon-download" @click="download(scope.row.address)">下载</el-button>
           </el-table-column>
         </el-table>
       </el-col>
@@ -39,65 +36,81 @@
 </template>
 
 <script>
-import axios from '@/axios'
+import axios from 'axios'
+import axiosData from '@/axios'
 export default{
   name: 'productBasic',
   data () {
     return {
       filter: {
-        date: [new Date(), new Date()]
+        date: []
       },
-      table: [
-        {
-          id: 'id1',
-          detail: true
-        },
-        {
-          id: 'id2',
-          detail: false
-        }
-      ],
+      table: [],
       currentPage: 1,
       tableTotal: 89
     }
   },
   methods: {
     getTable (startPage) {
-      axios(this, {
+      axiosData(this, {
         msgType: 107,
+        type: '',
         startDate: this.filter.date[0].getTime(),
         endDate: this.filter.date[1].getTime() + (24 * 60 * 60 * 1000),
         startNo: startPage - 1,
         num: 10
       }).then(data => {
+        data.list.forEach(item => {
+          // 创建时间
+          const dateTemp = new Date()
+          dateTemp.setTime(item.time)
+          item.time = dateTemp.toLocaleDateString()
+
+          // 类型
+          item.type = '类型' + item.type
+        })
         this.table = data.list
         this.currentPage = startPage
         this.tableTotal = data.total
       })
     },
-    detail () {
-      this.$alert('<strong>这里是基础数据详情内容</strong>', {
-        title: '基础数据详情',
-        dangerouslyUseHTMLString: true,
-        showConfirmButton: false
-      }).catch(() => {})
+    download (url) {
+      window.open(url)
     },
-    uploadConfirm (file) {
-      return new Promise((resolve, reject) => {
-        this.$confirm('是否覆盖已有基础数据？', {
-          type: 'warning',
-          confirmButtonText: '是',
-          cancelButtonText: '否',
-          closeOnClickModal: false
-        }).then(() => {
-          resolve()
-        }).catch(() => {
-          reject(new Error('cancel'))
-        })
+    upload (event) {
+      const formData = new FormData()
+      formData.append('file', event.file)
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }
+      axios.post(event.action, formData, config).then(res => {
+        if (res.data.res === 0) {
+          this.$message({
+            message: '上传成功',
+            type: 'success',
+            duration: 1500
+          })
+          this.getTable(1)
+        } else {
+          this.$alert(res.data.msg)
+        }
+      }).catch(err => {
+        if (err.response) {
+          this.$alert(err.response.data.message)
+        } else {
+          this.$alert(err.message)
+        }
       })
     }
   },
   mounted () {
+    // 设置默认时间范围为1天
+    let oneDay = new Date()
+    oneDay.setDate(oneDay.getDate() - 1)
+    this.filter.date = [oneDay, new Date()]
+
     // 获取table数据
     this.getTable(1)
   }
@@ -106,7 +119,7 @@ export default{
 
 <style>
 .upload-btn{
-  display: inline-block;
-  margin-left: 10px;
+  float: right;
+  margin: -11px 0 0 10px;
 }
 </style>
