@@ -9,17 +9,17 @@
         <mt-picker :slots="serials" valueKey="label" @change="popupSure"></mt-picker>
       </mt-popup>
     </mt-cell>
-    <template v-if="title === '关键数据'" v-for="procedure in form.list">
-      <mt-cell :key="procedure.id" :title="procedure.name" class="subtitle"></mt-cell>
-      <template v-for="attr in procedure.list">
-        <mt-field :key="procedure.id + '-' + attr.id" :label="attr.name" :placeholder="'请输入' + attr.name" v-model="attr.value" :disabled="attr.device !== deviceId"></mt-field>
-        <mt-field label="上传图片">
+    <template v-if="title === '关键数据'" v-for="(procedure, procedureIndex) in form.list">
+      <mt-cell :key="procedureIndex" :title="procedure.name" class="subtitle"></mt-cell>
+      <template v-for="(attr, attrIndex) in procedure.list">
+        <mt-field :key="procedureIndex + '-' + attrIndex" :label="attr.name" :placeholder="'请输入' + attr.name" v-model="attr.value" :disabled="attr.device !== deviceId"></mt-field>
+        <mt-field label="上传图片" class="upload-wrap">
           <p class="upload-text" :class="attr.img === '' ? 'upload-text-placeholder' : ''">{{attr.img === '' ? '请选择图片' : attr.img}}</p>
-          <input class="upload-input" type="file" :disabled="attr.device !== deviceId" @change="upload($event, attr.img)">
+          <input class="upload-input" type="file" :disabled="attr.device !== deviceId" @change="upload($event, procedureIndex, attrIndex)">
         </mt-field>
       </template>
     </template>
-    <mt-field v-if="title !== '关键数据'" v-for="attr in form.list" :key="attr.id" :label="attr.name" :placeholder="'请输入' + attr.name" v-model="attr.value"></mt-field>
+    <mt-field v-if="title !== '关键数据'" v-for="attr in form.list" :key="procedureIndex + '-' + attrIndex" :label="attr.name" :placeholder="'请输入' + attr.name" v-model="attr.value"></mt-field>
     <div class="btn-wrap">
       <mt-button type="primary" size="large" @click="submit">提 交</mt-button>
     </div>
@@ -28,7 +28,6 @@
 
 <script>
 import axios from 'axios'
-import store from '@/store'
 import axiosData from '@/axios'
 export default{
   name: 'template',
@@ -95,7 +94,7 @@ export default{
         this.popupVisible = false
       })
     },
-    upload (event, img) {
+    upload (event, procedureIndex, attrIndex) {
       if (event.target.files[0]) {
         const formData = new FormData()
         formData.append('img', event.target.files[0])
@@ -104,9 +103,9 @@ export default{
             'Content-Type': 'multipart/form-data'
           }
         }
-        axios.post(store.state.imgUpload, formData, config).then(res => {
+        axios.post(this.$store.state.imgUpload, formData, config).then(res => {
           if (res.data.res === 0) {
-            img = res.data.image
+            this.form.list[procedureIndex].list[attrIndex].img = res.data.image
           } else {
             this.toast.push(this.$toast({
               message: res.data.msg,
@@ -160,19 +159,31 @@ export default{
 }
 </script>
 
-<style scoped>
+<style>
 .mint-popup{
+  width: 100%;
+}
+.upload-wrap .mint-field-core{
+  display: none;
+}
+.upload-wrap .mint-field-other{
   width: 100%;
 }
 .upload-text{
   position: absolute;
+  width: 100%;
   margin: 0;
-  line-height: 21px;
+  line-height: 22px;
+  overflow: hidden;
 }
 .upload-text-placeholder{
   color: #757575;
 }
 .upload-input{
+  width: 100%;
   opacity: 0;
+}
+input[type="text"]:disabled{
+  background-color: #f9fafb;
 }
 </style>
