@@ -10,10 +10,10 @@
       </el-col>
       <el-col :span="17">
         <el-date-picker v-model="filter.date" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" @change="getChartData" class="filter"></el-date-picker>
-        <el-select v-model="filter.line" @change="getChartData" class="filter">
+        <el-select v-model="filter.line" @change="getChartData" class="filter product-chart-filter">
           <el-option v-for="item in line" :key="item.id" :label="item.name" :value="item.name"></el-option>
         </el-select>
-        <el-select v-model="filter.data" @change="getChartData" class="filter">
+        <el-select v-model="filter.data" @change="getChartData" class="filter product-chart-filter">
           <el-option label="基础数据1" :value="1"></el-option>
           <el-option label="基础数据2" :value="2"></el-option>
         </el-select>
@@ -132,3 +132,9 @@ export default{
   }
 }
 </script>
+
+<style scoped>
+.product-chart-filter{
+  width: 170px;
+}
+</style>
