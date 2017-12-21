@@ -3,6 +3,11 @@
     <mt-header title="数据预览">
       <mt-button icon="back" @click="back" slot="left"></mt-button>
     </mt-header>
+
+    <!-- 基础数据 -->
+    <mt-cell v-if="basic.length > 0" title="基础数据" class="title"></mt-cell>
+    <!-- 基础数据 -->
+
     <!-- 关键数据 -->
     <mt-cell v-if="key.length > 0" title="关键数据" class="title"></mt-cell>
     <template v-for="(item, itemIndex) in key">
@@ -57,6 +62,7 @@ export default{
   name: 'dataDetail',
   data () {
     return {
+      basic: [],
       key: [],
       inspection: [],
       quality: [],
@@ -74,6 +80,14 @@ export default{
       serials: this.$route.params.serial,
       batch: this.$route.params.batch
     }).then(data => {
+      // 基础数据
+      data.base_data.forEach(item => {
+        const dateTemp = new Date()
+        dateTemp.setTime(item.time)
+        item.time = dateTemp.toLocaleDateString()
+      })
+      this.basic = data.base_data
+
       // 关键数据
       data.key_datas.forEach(item => {
         const dateTemp = new Date()
