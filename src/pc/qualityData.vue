@@ -17,8 +17,12 @@
       <el-col :span="24">
         <el-table :data="table" :stripe="true">
           <el-table-column label="编号" prop="id"></el-table-column>
-          <el-table-column label="产品编码+批次号" prop="productIdAndBatchId"></el-table-column>
-          <el-table-column label="创建时间" prop="time"></el-table-column>
+          <el-table-column label="产品编码+批次号">
+            <template slot-scope="scope">{{scope.row.serials + '+' + scope.row.batch}}</template>
+          </el-table-column>
+          <el-table-column label="创建时间">
+            <template slot-scope="scope">{{scope.row.time|dateFormat}}</template>
+          </el-table-column>
           <el-table-column label="提交人" prop="user"></el-table-column>
           <el-table-column label="操作">
             <el-button slot-scope="scope" size="mini" icon="el-icon-news" @click="detailShow(scope.row.id)">查看</el-button>
@@ -68,15 +72,6 @@ export default{
         startNo: startPage - 1,
         num: 10
       }).then(data => {
-        data.list.forEach(item => {
-          // 产品编码+批次号
-          item.productIdAndBatchId = item.serials + '+' + item.batch
-
-          // 创建时间
-          const dateTemp = new Date()
-          dateTemp.setTime(item.time)
-          item.time = dateTemp.toLocaleDateString()
-        })
         this.table = data.list
         this.currentPage = startPage
         this.tableTotal = data.total

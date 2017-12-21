@@ -7,7 +7,9 @@
     <!-- 基础数据 -->
     <mt-cell v-if="basic.length > 0" title="基础数据" class="title"></mt-cell>
     <template v-for="(item, itemIndex) in basic">
-      <mt-cell :key="itemIndex" :title="item.user" :value="item.time"></mt-cell>
+      <mt-cell :key="itemIndex" :title="item.user">
+        <span>{{item.time|dateFormat}}</span>
+      </mt-cell>
       <mt-cell></mt-cell>
     </template>
     <!-- 基础数据 -->
@@ -15,7 +17,9 @@
     <!-- 关键数据 -->
     <mt-cell v-if="key.length > 0" title="关键数据" class="title"></mt-cell>
     <template v-for="(item, itemIndex) in key">
-      <mt-cell :key="itemIndex" :title="item.user" :value="item.time"></mt-cell>
+      <mt-cell :key="itemIndex" :title="item.user">
+        <span>{{item.time|dateFormat}}</span>
+      </mt-cell>
       <template v-for="(procedure, procedureIndex) in item.list">
         <mt-cell :key="itemIndex + '-' + procedureIndex" :title="procedure.name" class="subtitle"></mt-cell>
         <mt-cell v-for="(attr, attrIndex) in procedure.list" :key="itemIndex + '-' + procedureIndex + '-' + attrIndex" :title="attr.name" :value="attr.value"></mt-cell>
@@ -27,7 +31,9 @@
     <!-- 自检自测 -->
     <mt-cell v-if="inspection.length > 0" title="自检自测" class="title"></mt-cell>
     <template v-for="(item, itemIndex) in inspection">
-      <mt-cell :key="itemIndex" :title="item.user" :value="item.time"></mt-cell>
+      <mt-cell :key="itemIndex" :title="item.user">
+        <span>{{item.time|dateFormat}}</span>
+      </mt-cell>
       <mt-cell v-for="(attr, attrIndex) in item.list" :key="itemIndex + '-' + attrIndex" :title="attr.name" :value="attr.value"></mt-cell>
       <mt-cell></mt-cell>
     </template>
@@ -36,7 +42,9 @@
     <!-- 质量检测 -->
     <mt-cell v-if="quality.length > 0" title="质量检测" class="title"></mt-cell>
     <template v-for="(item, itemIndex) in quality">
-      <mt-cell :key="itemIndex" :title="item.user" :value="item.time"></mt-cell>
+      <mt-cell :key="itemIndex" :title="item.user">
+        <span>{{item.time|dateFormat}}</span>
+      </mt-cell>
       <mt-cell v-for="(attr, attrIndex) in item.list" :key="itemIndex + '-' + attrIndex" :title="attr.name" :value="attr.value"></mt-cell>
       <mt-cell></mt-cell>
     </template>
@@ -81,39 +89,10 @@ export default{
       serials: this.$route.params.serial,
       batch: this.$route.params.batch
     }).then(data => {
-      // 基础数据
-      data.base_data.forEach(item => {
-        const dateTemp = new Date()
-        dateTemp.setTime(item.time)
-        item.time = dateTemp.toLocaleDateString()
-      })
       this.basic = data.base_data
-
-      // 关键数据
-      data.key_datas.forEach(item => {
-        const dateTemp = new Date()
-        dateTemp.setTime(item.time)
-        item.time = dateTemp.toLocaleDateString()
-      })
       this.key = data.key_datas
-
-      // 自检自测
-      data.self_ins.forEach(item => {
-        const dateTemp = new Date()
-        dateTemp.setTime(item.time)
-        item.time = dateTemp.toLocaleDateString()
-      })
       this.inspection = data.self_ins
-
-      // 质量检测
-      data.qa_ins.forEach(item => {
-        const dateTemp = new Date()
-        dateTemp.setTime(item.time)
-        item.time = dateTemp.toLocaleDateString()
-      })
       this.quality = data.qa_ins
-
-      // 问题列表
       this.question = data.problem_list
     })
   }

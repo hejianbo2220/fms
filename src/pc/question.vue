@@ -18,7 +18,9 @@
           <el-table-column label="问题名称" prop="title"></el-table-column>
           <el-table-column label="责任人" prop="person"></el-table-column>
           <el-table-column label="提交人" prop="user"></el-table-column>
-          <el-table-column label="提交时间" prop="time"></el-table-column>
+          <el-table-column label="提交时间">
+            <template slot-scope="scope">{{scope.row.time|dateFormat}}</template>
+          </el-table-column>
           <el-table-column label="操作">
             <el-button slot-scope="scope" size="mini" icon="el-icon-news" @click="detailShow(scope.row)">查看</el-button>
           </el-table-column>
@@ -88,12 +90,6 @@ export default{
         startNo: startPage - 1,
         num: 10
       }).then(data => {
-        data.list.forEach(item => {
-          // 提交时间
-          const dateTemp = new Date()
-          dateTemp.setTime(item.time)
-          item.time = dateTemp.toLocaleDateString()
-        })
         this.table = data.list
         this.currentPage = startPage
         this.tableTotal = data.total

@@ -19,8 +19,12 @@
       <el-col :span="24">
         <el-table :data="table" :stripe="true">
           <el-table-column label="文件名" prop="filename"></el-table-column>
-          <el-table-column label="提交时间" prop="time"></el-table-column>
-          <el-table-column label="类型" prop="type"></el-table-column>
+          <el-table-column label="提交时间">
+            <template slot-scope="scope">{{scope.row.time|dateFormat}}</template>
+          </el-table-column>
+          <el-table-column label="类型" prop="type">
+            <template slot-scope="scope">{{'类型' + scope.row.type}}</template>
+          </el-table-column>
           <el-table-column label="操作">
             <el-button slot-scope="scope" size="mini" icon="el-icon-download" @click="download(scope.row.address)">下载</el-button>
           </el-table-column>
@@ -60,15 +64,6 @@ export default{
         startNo: startPage - 1,
         num: 10
       }).then(data => {
-        data.list.forEach(item => {
-          // 创建时间
-          const dateTemp = new Date()
-          dateTemp.setTime(item.time)
-          item.time = dateTemp.toLocaleDateString()
-
-          // 类型
-          item.type = '类型' + item.type
-        })
         this.table = data.list
         this.currentPage = startPage
         this.tableTotal = data.total

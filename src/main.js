@@ -15,6 +15,13 @@ Vue.use(Vuex)
 Vue.use(ElementUI)
 Vue.use(MintUI)
 
+// date format filter
+Vue.filter('dateFormat', value => {
+  const dateTemp = new Date()
+  dateTemp.setTime(value)
+  return dateTemp.toLocaleDateString()
+})
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
