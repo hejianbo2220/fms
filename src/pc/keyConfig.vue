@@ -62,12 +62,11 @@
     </el-dialog>
     <el-dialog title="关键数据详情" :visible.sync="detailVisible" :close-on-click-modal="false" width="420px">
       <el-row v-for="(procedure, procedureIndex) in detail" :key="procedureIndex" class="detail-procedure-wrap">
-        <el-col :span="5" class="detail-procedure-title">{{procedure.name}}</el-col>
-        <el-col :span="19">
+        <el-col :span="6" class="detail-procedure-title">{{procedure.name}}</el-col>
+        <el-col :span="18">
           <el-row v-for="(attr, attrIndex) in procedure.list" :key="procedureIndex + '-' + attrIndex">
-            <el-col :span="7">{{'属性' + (attrIndex + 1) + '：'}}</el-col>
-            <el-col :span="7">{{attr.name}}</el-col>
-            <el-col :span="10">{{attr.device}}</el-col>
+            <el-col :span="15">{{'属性' + (attrIndex + 1) + '：' + attr.name}}</el-col>
+            <el-col :span="9">{{attr.device}}</el-col>
           </el-row>
         </el-col>
       </el-row>

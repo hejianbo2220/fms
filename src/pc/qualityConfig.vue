@@ -50,10 +50,7 @@
     </el-dialog>
     <el-dialog title="质量检测详情" :visible.sync="detailVisible" :close-on-click-modal="false" width="420px">
       <el-row>
-        <template v-for="(item, index) in detail">
-          <el-col :span="4" :key="index">{{'属性' + (index + 1) + '：'}}</el-col>
-          <el-col :span="8">{{item.name}}</el-col>
-        </template>
+        <el-col v-for="(item, index) in detail" :key="index" :span="12">{{'属性' + (index + 1) + '：' + item.name}}</el-col>
       </el-row>
     </el-dialog>
   </div>

@@ -33,12 +33,11 @@
     </el-row>
     <el-dialog title="关键数据详情" :visible.sync="detailVisible" :close-on-click-modal="false" width="420px">
       <el-row v-for="(procedure, procedureIndex) in detail" :key="procedureIndex" class="detail-procedure-wrap">
-        <el-col :span="7" class="detail-procedure-title">{{procedure.name}}</el-col>
-        <el-col :span="17">
+        <el-col :span="6" class="detail-procedure-title">{{procedure.name}}</el-col>
+        <el-col :span="18">
           <el-row v-for="(attr, attrIndex) in procedure.list" :key="procedureIndex + '-' + attrIndex">
-            <el-col :span="9">{{attr.name}}</el-col>
-            <el-col :span="9">{{attr.value}}</el-col>
-            <el-col :span="6"><el-button type="text" @click="imgShow(attr.img)">查看照片</el-button></el-col>
+            <el-col :span="18">{{attr.name + '：' + attr.value}}</el-col>
+            <el-col :span="6"><el-button v-if="attr.img !== ''" type="text" @click="imgShow(attr.img)">查看照片</el-button></el-col>
           </el-row>
         </el-col>
       </el-row>

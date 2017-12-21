@@ -33,10 +33,7 @@
     </el-row>
     <el-dialog title="自检自测详情" :visible.sync="detailVisible" :close-on-click-modal="false" width="420px">
       <el-row>
-        <template v-for="(item, index) in detail">
-          <el-col :span="6" :key="index">{{item.name}}</el-col>
-          <el-col :span="6">{{item.value}}</el-col>
-        </template>
+        <el-col v-for="(item, index) in detail" :key="index" :span="12">{{item.name + '：' + item.value}}</el-col>
       </el-row>
     </el-dialog>
   </div>
