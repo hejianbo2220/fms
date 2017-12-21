@@ -14,8 +14,8 @@
       <template v-for="(attr, attrIndex) in procedure.list">
         <mt-field :key="procedureIndex + '-' + attrIndex" :label="attr.name" :placeholder="'请输入' + attr.name" v-model="attr.value" :disabled="attr.device !== deviceId"></mt-field>
         <mt-field label="上传图片" class="upload-wrap">
-          <p class="upload-text" :class="attr.img === '' ? 'upload-text-placeholder' : ''">{{attr.img === '' ? '请选择图片' : attr.img}}</p>
           <input class="upload-input" type="file" :disabled="attr.device !== deviceId" @change="upload($event, procedureIndex, attrIndex)">
+          <p class="upload-text" :class="attr.img === '' ? 'upload-text-placeholder' : ''">{{attr.img === '' ? '请选择图片' : attr.img}}</p>
         </mt-field>
       </template>
     </template>
@@ -103,6 +103,7 @@ export default{
             'Content-Type': 'multipart/form-data'
           }
         }
+        this.$indicator.open('上传中...')
         axios.post(this.$store.state.imgUpload, formData, config).then(res => {
           if (res.data.res === 0) {
             this.form.list[procedureIndex].list[attrIndex].img = res.data.image
@@ -112,6 +113,7 @@ export default{
               duration: 1500
             }))
           }
+          this.$indicator.close()
         }).catch(err => {
           if (err.response) {
             this.toast.push(this.$toast({
@@ -124,6 +126,7 @@ export default{
               duration: 1500
             }))
           }
+          this.$indicator.close()
         })
       }
     },
@@ -163,27 +166,38 @@ export default{
 .mint-popup{
   width: 100%;
 }
+.upload-wrap .mint-cell-value{
+  overflow: hidden;
+}
 .upload-wrap .mint-field-core{
   display: none;
 }
 .upload-wrap .mint-field-other{
   width: 100%;
 }
-.upload-text{
+.upload-input{
   position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 3;
   width: 100%;
+  height: 27px;
+  opacity: 0;
+}
+.upload-text{
+  width: 100%;
+  max-width: 100%;
   margin: 0;
-  line-height: 22px;
+  line-height: 27px;
   overflow: hidden;
 }
 .upload-text-placeholder{
   color: #757575;
 }
-.upload-input{
-  width: 100%;
-  opacity: 0;
-}
 input[type="text"]:disabled{
-  background-color: #f9fafb;
+  background-color: #eee;
+}
+input[type="file"]:disabled + .upload-text{
+  background-color: #eee;
 }
 </style>
