@@ -5,7 +5,7 @@
     </mt-header>
     <mt-cell title="产品编码">
       <span @click="popupShow">{{serial}}</span>
-      <mt-popup v-model="popupVisible" popup-transition="popup-fade">
+      <mt-popup v-model="popupVisible" popup-transition="popup-fade" class="product-select">
         <mt-picker :slots="serials" valueKey="label" @change="popupSure"></mt-picker>
       </mt-popup>
     </mt-cell>
@@ -16,6 +16,10 @@
         <mt-field label="上传图片" class="upload-wrap">
           <input class="upload-input" type="file" :disabled="attr.device !== deviceId" @change="upload($event, procedureIndex, attrIndex)">
           <p class="upload-text" :class="attr.img === '' ? 'upload-text-placeholder' : ''">{{attr.img === '' ? '请选择图片' : attr.img}}</p>
+          <mt-button v-if="attr.img !== ''" type="primary" size="small" class="upload-show" @click="showImg(attr.img)">查看图片</mt-button>
+          <mt-popup v-model="imgVisible" popup-transition="popup-fade">
+            <img :src="imgSrc">
+          </mt-popup>
         </mt-field>
       </template>
     </template>
@@ -44,6 +48,8 @@ export default{
           }
         ]
       }],
+      imgVisible: false,
+      imgSrc: '',
       deviceId: localStorage.getItem('stfsDeviceId'),
       form: {
         msgType: this.msgType().submit,
@@ -130,6 +136,10 @@ export default{
         })
       }
     },
+    showImg (img) {
+      this.imgSrc = img
+      this.imgVisible = true
+    },
     submit () {
       if (this.serial === '请选择产品编码') {
         this.toast.push(this.$toast({
@@ -163,7 +173,7 @@ export default{
 </script>
 
 <style>
-.mint-popup{
+.product-select{
   width: 100%;
 }
 .upload-wrap .mint-cell-value{
@@ -193,6 +203,12 @@ export default{
 }
 .upload-text-placeholder{
   color: #757575;
+}
+.upload-show{
+  position: absolute;
+  right: 0;
+  top: -3px;
+  z-index: 5;
 }
 input[type="text"]:disabled{
   background-color: #eee;

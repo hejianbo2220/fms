@@ -5,7 +5,7 @@
     </mt-header>
     <mt-cell v-if="line.state === '0'" title="产品编码">
       <span @click="popupShow">{{line.serial}}</span>
-      <mt-popup v-model="popupVisible" popup-transition="popup-fade">
+      <mt-popup v-model="popupVisible" popup-transition="popup-fade" class="product-select">
         <mt-picker :slots="serials" valueKey="serial" @change="popupSure"></mt-picker>
       </mt-popup>
     </mt-cell>
@@ -191,7 +191,7 @@ export default{
 </script>
 
 <style>
-.mint-popup{
+.product-select{
   width: 100%;
 }
 .mint-field-core{
