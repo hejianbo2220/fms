@@ -6,13 +6,16 @@
 
     <!-- 基础数据 -->
     <mt-cell v-if="basic.length > 0" title="基础数据" class="title"></mt-cell>
+    <template v-for="(item, itemIndex) in basic">
+      <mt-cell :key="itemIndex" :title="item.user" :value="item.time"></mt-cell>
+      <mt-cell></mt-cell>
+    </template>
     <!-- 基础数据 -->
 
     <!-- 关键数据 -->
     <mt-cell v-if="key.length > 0" title="关键数据" class="title"></mt-cell>
     <template v-for="(item, itemIndex) in key">
-      <mt-cell :key="itemIndex" title="提交人" :value="item.user"></mt-cell>
-      <mt-cell title="提交时间" :value="item.time"></mt-cell>
+      <mt-cell :key="itemIndex" :title="item.user" :value="item.time"></mt-cell>
       <template v-for="(procedure, procedureIndex) in item.list">
         <mt-cell :key="itemIndex + '-' + procedureIndex" :title="procedure.name" class="subtitle"></mt-cell>
         <mt-cell v-for="(attr, attrIndex) in procedure.list" :key="itemIndex + '-' + procedureIndex + '-' + attrIndex" :title="attr.name" :value="attr.value"></mt-cell>
@@ -24,8 +27,7 @@
     <!-- 自检自测 -->
     <mt-cell v-if="inspection.length > 0" title="自检自测" class="title"></mt-cell>
     <template v-for="(item, itemIndex) in inspection">
-      <mt-cell :key="itemIndex" title="提交人" :value="item.user"></mt-cell>
-      <mt-cell title="提交时间" :value="item.time"></mt-cell>
+      <mt-cell :key="itemIndex" :title="item.user" :value="item.time"></mt-cell>
       <mt-cell v-for="(attr, attrIndex) in item.list" :key="itemIndex + '-' + attrIndex" :title="attr.name" :value="attr.value"></mt-cell>
       <mt-cell></mt-cell>
     </template>
@@ -34,8 +36,7 @@
     <!-- 质量检测 -->
     <mt-cell v-if="quality.length > 0" title="质量检测" class="title"></mt-cell>
     <template v-for="(item, itemIndex) in quality">
-      <mt-cell :key="itemIndex" title="提交人" :value="item.user"></mt-cell>
-      <mt-cell title="提交时间" :value="item.time"></mt-cell>
+      <mt-cell :key="itemIndex" :title="item.user" :value="item.time"></mt-cell>
       <mt-cell v-for="(attr, attrIndex) in item.list" :key="itemIndex + '-' + attrIndex" :title="attr.name" :value="attr.value"></mt-cell>
       <mt-cell></mt-cell>
     </template>
@@ -118,3 +119,12 @@ export default{
   }
 }
 </script>
+
+<style scoped>
+.title{
+  background-color: #D8DCE5;
+}
+.subtitle{
+  background-color: #EDF2FC;
+}
+</style>

@@ -12,9 +12,8 @@
       <el-col :span="24">
         <el-table :data="table" :stripe="true">
           <el-table-column label="产品编码+批次号" prop="productIdAndBatchId"></el-table-column>
-          <!-- <el-table-column label="时间" prop="time"></el-table-column> -->
           <el-table-column label="操作">
-            <el-button slot-scope="scope" size="mini" icon="el-icon-news" @click="detail(scope.row)">查看</el-button>
+            <el-button slot-scope="scope" size="mini" icon="el-icon-news" @click="detailShow(scope.row)">查看</el-button>
           </el-table-column>
         </el-table>
       </el-col>
@@ -24,6 +23,106 @@
         <el-pagination :current-page.sync="currentPage" @current-change="getTable" :total="tableTotal"></el-pagination>
       </el-col>
     </el-row>
+    <el-dialog title="问题详情" :visible.sync="detailVisible" :close-on-click-modal="false" custom-class="detail-wrap">
+      <!-- 基础数据 -->
+      <el-row v-if="basic.length > 0">
+        <el-col :span="24">基础数据</el-col>
+      </el-row>
+      <!-- 基础数据 -->
+
+      <!-- 关键数据 -->
+      <el-row v-if="key.length > 0">
+        <el-col :span="24" class="title">关键数据</el-col>
+      </el-row>
+      <template v-for="(item, itemIndex) in key">
+        <el-row :key="itemIndex">
+          <el-col :span="12">{{item.user}}</el-col>
+          <el-col :span="12">{{item.time}}</el-col>
+        </el-row>
+        <el-row v-for="(procedure, procedureIndex) in item.list" :key="itemIndex + '-' + procedureIndex">
+          <el-col :span="6" class="subtitle">{{procedure.name}}</el-col>
+          <el-col :span="18">
+            <el-row>
+              <el-col v-for="(attr, attrIndex) in procedure.list" :key="itemIndex + '-' + procedureIndex + '-' + attrIndex" :span="12">{{attr.name + '：' + attr.value}}</el-col>
+            </el-row>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="24" class="cutline"></el-col>
+        </el-row>
+      </template>
+      <!-- 关键数据 -->
+
+      <!-- 自检自测 -->
+      <el-row v-if="inspection.length > 0">
+        <el-col :span="24" class="title">自检自测</el-col>
+      </el-row>
+      <template v-for="(item, itemIndex) in inspection">
+        <el-row :key="itemIndex">
+          <el-col :span="12">{{item.user}}</el-col>
+          <el-col :span="12">{{item.time}}</el-col>
+        </el-row>
+        <el-row>
+          <el-col v-for="(attr, attrIndex) in item.list" :key="itemIndex + '-' + attrIndex" :span="12">{{attr.name + '：' + attr.value}}</el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="24" class="cutline"></el-col>
+        </el-row>
+      </template>
+      <!-- 自检自测 -->
+
+      <!-- 质量检测 -->
+      <el-row v-if="quality.length > 0">
+        <el-col :span="24" class="title">质量检测</el-col>
+      </el-row>
+      <template v-for="(item, itemIndex) in quality">
+        <el-row :key="itemIndex">
+          <el-col :span="12">{{item.user}}</el-col>
+          <el-col :span="12">{{item.time}}</el-col>
+        </el-row>
+        <el-row>
+          <el-col v-for="(attr, attrIndex) in item.list" :key="itemIndex + '-' + attrIndex" :span="12">{{attr.name + '：' + attr.value}}</el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="24" class="cutline"></el-col>
+        </el-row>
+      </template>
+      <!-- 质量检测 -->
+
+      <!-- 问题列表 -->
+      <el-row v-if="question.length > 0">
+        <el-col :span="24" class="title">问题列表</el-col>
+      </el-row>
+      <template v-for="(item, itemIndex) in question">
+        <el-row :key="itemIndex">
+          <el-col :span="24" class="subtitle">{{item.title}}</el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="6">问题来源：</el-col>
+          <el-col :span="18">{{item.source}}</el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="6">责任人：</el-col>
+          <el-col :span="18">{{item.person}}</el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="6">问题描述：</el-col>
+          <el-col :span="18">{{item.desc}}</el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="6">解决方案：</el-col>
+          <el-col :span="18">{{item.programe}}</el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="6">改进措施：</el-col>
+          <el-col :span="18">{{item.improv}}</el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="24" class="cutline"></el-col>
+        </el-row>
+      </template>
+      <!-- 问题列表 -->
+    </el-dialog>
   </div>
 </template>
 
@@ -35,7 +134,13 @@ export default{
     return {
       table: [],
       currentPage: 1,
-      tableTotal: 1
+      tableTotal: 1,
+      detailVisible: false,
+      basic: [],
+      key: [],
+      inspection: [],
+      quality: [],
+      question: []
     }
   },
   methods: {
@@ -54,78 +159,48 @@ export default{
         this.tableTotal = data.total
       })
     },
-    detail (data) {
+    detailShow (data) {
       axios(this, {
         msgType: 106,
         serials: data.serials,
         batch: data.batch
       }).then(data => {
-        const h = this.$createElement
-        const list = []
+        // 基础数据
+        data.base_data.forEach(item => {
+          const dateTemp = new Date()
+          dateTemp.setTime(item.time)
+          item.time = dateTemp.toLocaleDateString()
+        })
+        this.basic = data.base_data
 
         // 关键数据
-        if (data.key_datas.length > 0) {
-          list.push(h('li', null, '关键数据：'))
-          data.key_datas.forEach(item => {
-            list.push(h('li', {style: 'padding: 10px 0 0 10px'}, '提交人：' + item.user))
-            const dateTemp = new Date()
-            dateTemp.setTime(item.time)
-            list.push(h('li', {style: 'padding-left: 10px'}, '提交时间：' + dateTemp.toLocaleDateString()))
-            item.list.forEach(procedure => {
-              list.push(h('li', {style: 'padding-left: 20px'}, procedure.name + '：'))
-              procedure.list.forEach(attr => {
-                list.push(h('li', {style: 'padding-left: 30px'}, attr.name + '：' + attr.value))
-              })
-            })
-          })
-        }
+        data.key_datas.forEach(item => {
+          const dateTemp = new Date()
+          dateTemp.setTime(item.time)
+          item.time = dateTemp.toLocaleDateString()
+        })
+        this.key = data.key_datas
 
         // 自检自测
-        if (data.self_ins.length > 0) {
-          list.push(h('li', {style: 'padding-top: 20px'}, '自检自测：'))
-          data.self_ins.forEach(item => {
-            list.push(h('li', {style: 'padding: 10px 0 0 10px'}, '提交人：' + item.user))
-            const dateTemp = new Date()
-            dateTemp.setTime(item.time)
-            list.push(h('li', {style: 'padding-left: 10px'}, '提交时间：' + dateTemp.toLocaleDateString()))
-            item.list.forEach(attr => {
-              list.push(h('li', {style: 'padding-left: 20px'}, attr.name + '：' + attr.value))
-            })
-          })
-        }
+        data.self_ins.forEach(item => {
+          const dateTemp = new Date()
+          dateTemp.setTime(item.time)
+          item.time = dateTemp.toLocaleDateString()
+        })
+        this.inspection = data.self_ins
 
         // 质量检测
-        if (data.qa_ins.length > 0) {
-          list.push(h('li', {style: 'padding-top: 20px'}, '质量检测：'))
-          data.qa_ins.forEach(item => {
-            list.push(h('li', {style: 'padding: 10px 0 0 10px'}, '提交人：' + item.user))
-            const dateTemp = new Date()
-            dateTemp.setTime(item.time)
-            list.push(h('li', {style: 'padding-left: 10px'}, '提交时间：' + dateTemp.toLocaleDateString()))
-            item.list.forEach(attr => {
-              list.push(h('li', {style: 'padding-left: 20px'}, attr.name + '：' + attr.value))
-            })
-          })
-        }
+        data.qa_ins.forEach(item => {
+          const dateTemp = new Date()
+          dateTemp.setTime(item.time)
+          item.time = dateTemp.toLocaleDateString()
+        })
+        this.quality = data.qa_ins
 
         // 问题列表
-        if (data.problem_list.length > 0) {
-          list.push(h('li', {style: 'padding-top: 20px'}, '问题列表：'))
-          data.problem_list.forEach(item => {
-            list.push(h('li', {style: 'padding-left: 10px'}, '问题名称：' + item.title))
-            list.push(h('li', {style: 'padding-left: 20px'}, '问题来源：' + item.source))
-            list.push(h('li', {style: 'padding-left: 20px'}, '责任人：' + item.person))
-            list.push(h('li', {style: 'padding-left: 20px'}, '问题描述：' + item.desc))
-            list.push(h('li', {style: 'padding-left: 20px'}, '解决方案：' + item.programe))
-            list.push(h('li', {style: 'padding-left: 20px'}, '改进措施：' + item.improv))
-          })
-        }
-        this.$msgbox({
-          title: '数据预览详情',
-          message: h('ul', null, list),
-          showConfirmButton: false,
-          closeOnClickModal: false
-        }).catch(() => {})
+        this.question = data.problem_list
+
+        this.detailVisible = true
       })
     }
   },
@@ -134,3 +209,17 @@ export default{
   }
 }
 </script>
+
+<style scoped>
+.title{
+  font-size: 16px;
+  font-weight: bold;
+}
+.subtitle{
+  font-weight: bold;
+}
+.cutline{
+  margin: 10px 0;
+  border-bottom: 1px solid #DCDFE6;
+}
+</style>
