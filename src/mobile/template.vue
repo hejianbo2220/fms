@@ -13,19 +13,19 @@
       <mt-cell :key="procedureIndex" :title="procedure.name" class="subtitle"></mt-cell>
       <template v-for="(attr, attrIndex) in procedure.list">
         <mt-field :key="procedureIndex + '-' + attrIndex" :label="attr.name" :placeholder="'请输入' + attr.name" v-model="attr.value" :disabled="attr.device !== deviceId"></mt-field>
-        <mt-field label="上传图片" class="upload-wrap">
+        <mt-field label="上传照片" class="upload-wrap">
           <input class="upload-input" type="file" :disabled="attr.device !== deviceId" @change="upload($event, procedureIndex, attrIndex)">
-          <p class="upload-text" :class="attr.img === '' ? 'upload-text-placeholder' : ''">{{attr.img === '' ? '请选择图片' : attr.img}}</p>
+          <p class="upload-text" :class="attr.img === '' ? 'upload-text-placeholder' : ''">{{attr.img === '' ? '请选择照片' : attr.img}}</p>
           <mt-button v-if="attr.img !== ''" type="primary" size="small" class="upload-show" @click="showImg(attr.img)">查看照片</mt-button>
           <mt-popup v-model="imgVisible" popup-transition="popup-fade">
-            <img :src="imgSrc">
+            <img :style="{maxWidth: imgMaxWidth, maxHeight: imgMaxHeight}" :src="imgSrc" @click="hideImg">
           </mt-popup>
         </mt-field>
       </template>
     </template>
-    <mt-field v-if="title !== '关键数据'" v-for="attr in form.list" :key="procedureIndex + '-' + attrIndex" :label="attr.name" :placeholder="'请输入' + attr.name" v-model="attr.value"></mt-field>
+    <mt-field v-if="title !== '关键数据'" v-for="(attr, index) in form.list" :key="index" :label="attr.name" :placeholder="'请输入' + attr.name" v-model="attr.value"></mt-field>
     <div class="btn-wrap">
-      <mt-button type="primary" size="large" @click="submit">提 交</mt-button>
+      <mt-button type="primary" size="large" @click="validate">提 交</mt-button>
     </div>
   </div>
 </template>
@@ -50,6 +50,8 @@ export default{
       }],
       imgVisible: false,
       imgSrc: '',
+      imgMaxWidth: innerWidth + 'px',
+      imgMaxHeight: innerHeight + 'px',
       deviceId: localStorage.getItem('stfsDeviceId'),
       form: {
         msgType: this.msgType().submit,
@@ -140,7 +142,10 @@ export default{
       this.imgSrc = img
       this.imgVisible = true
     },
-    submit () {
+    hideImg () {
+      this.imgVisible = false
+    },
+    validate () {
       if (this.serial === '请选择产品编码') {
         this.toast.push(this.$toast({
           message: '请选择产品编码',
@@ -151,9 +156,13 @@ export default{
       }
 
       if (this.title === '关键数据') {
+        // 定义是否弹窗确认，默认需要弹窗确认
+        let isAlert = true
+
         // forEach循环中return false无法结束整个函数，所以此处用for循环
         for (let i = 0; i < this.form.list.length; i++) {
           for (let j = 0; j < this.form.list[i].list.length; j++) {
+            // 找出该设备ID对应的属性，并判断该属性是否已填写完毕
             if (this.form.list[i].list[j].device === this.deviceId) {
               if (this.form.list[i].list[j].value === '') {
                 this.toast.push(this.$toast({
@@ -170,10 +179,26 @@ export default{
                 return false
               }
             }
+
+            // 判断是否所有属性都已有值，如有空值时，则视为不是该条关键数据的最后一次提交，无需弹窗确认
+            if (this.form.list[i].list[j].value === '' || this.form.list[i].list[j].img === '') {
+              isAlert = false
+            }
           }
         }
-      }
 
+        if (isAlert) {
+          this.$messagebox.confirm('数据提交后，将无法更改，是否继续？').then(action => {
+            this.submit()
+          }).catch(() => {})
+        } else {
+          this.submit()
+        }
+      } else {
+        this.submit()
+      }
+    },
+    submit () {
       axiosData(this, this.form).then(data => {
         this.$messagebox.alert('提交成功').then(action => {
           this.back()
@@ -200,6 +225,12 @@ export default{
 <style>
 .product-select{
   width: 100%;
+}
+input[type="text"]:disabled{
+  background-color: #eee;
+}
+input[type="file"]:disabled + .upload-text{
+  background-color: #eee;
 }
 .upload-wrap .mint-cell-value{
   overflow: hidden;
@@ -234,11 +265,5 @@ export default{
   right: 0;
   top: -3px;
   z-index: 5;
-}
-input[type="text"]:disabled{
-  background-color: #eee;
-}
-input[type="file"]:disabled + .upload-text{
-  background-color: #eee;
 }
 </style>
