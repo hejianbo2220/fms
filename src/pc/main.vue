@@ -205,6 +205,12 @@ ul{
 .chart{
   height: 240px;
 }
+.detail-wrap{
+  width: 420px;
+}
+.detail-wrap .el-dialog__body{
+  padding: 10px 20px 30px;
+}
 .el-header{
   background-color: #409EFF;
   line-height: 100px;

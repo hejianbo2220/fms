@@ -31,7 +31,7 @@
         <el-pagination :current-page.sync="currentPage" @current-change="getTable" :total="tableTotal"></el-pagination>
       </el-col>
     </el-row>
-    <el-dialog title="质量检测详情" :visible.sync="detailVisible" :close-on-click-modal="false" width="420px">
+    <el-dialog title="质量检测详情" :visible.sync="detailVisible" :close-on-click-modal="false" custom-class="detail-wrap">
       <el-row>
         <el-col v-for="(item, index) in detail" :key="index" :span="12">{{item.name + '：' + item.value}}</el-col>
       </el-row>

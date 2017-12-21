@@ -20,7 +20,7 @@
           <el-table-column label="提交人" prop="user"></el-table-column>
           <el-table-column label="提交时间" prop="time"></el-table-column>
           <el-table-column label="操作">
-            <el-button slot-scope="scope" size="mini" icon="el-icon-news" @click="detail(scope.row)">查看</el-button>
+            <el-button slot-scope="scope" size="mini" icon="el-icon-news" @click="detailShow(scope.row)">查看</el-button>
           </el-table-column>
         </el-table>
       </el-col>
@@ -30,6 +30,32 @@
         <el-pagination :current-page.sync="currentPage" @current-change="getTable" :total="tableTotal"></el-pagination>
       </el-col>
     </el-row>
+    <el-dialog title="问题详情" :visible.sync="detailVisible" :close-on-click-modal="false" custom-class="detail-wrap">
+      <el-row>
+        <el-col :span="6">问题名称：</el-col>
+        <el-col :span="18">{{detail.title}}</el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="6">问题来源：</el-col>
+        <el-col :span="18">{{detail.source}}</el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="6">责任人：</el-col>
+        <el-col :span="18">{{detail.person}}</el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="6">问题描述：</el-col>
+        <el-col :span="18">{{detail.desc}}</el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="6">解决方案：</el-col>
+        <el-col :span="18">{{detail.programe}}</el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="6">改进措施：</el-col>
+        <el-col :span="18">{{detail.improv}}</el-col>
+      </el-row>
+    </el-dialog>
   </div>
 </template>
 
@@ -46,7 +72,9 @@ export default{
       },
       table: [],
       currentPage: 1,
-      tableTotal: 1
+      tableTotal: 1,
+      detailVisible: false,
+      detail: {}
     }
   },
   methods: {
@@ -71,21 +99,9 @@ export default{
         this.tableTotal = data.total
       })
     },
-    detail (question) {
-      const h = this.$createElement
-      const list = []
-      list.push(h('li', null, '问题名称：' + question.title))
-      list.push(h('li', null, '问题来源：' + question.source))
-      list.push(h('li', null, '责任人：' + question.person))
-      list.push(h('li', null, '问题描述：' + question.desc))
-      list.push(h('li', null, '解决方案：' + question.programe))
-      list.push(h('li', null, '改进措施：' + question.improv))
-      this.$msgbox({
-        title: '问题详情',
-        message: h('ul', null, list),
-        showConfirmButton: false,
-        closeOnClickModal: false
-      }).catch(() => {})
+    detailShow (question) {
+      this.detail = question
+      this.detailVisible = true
     }
   },
   mounted () {

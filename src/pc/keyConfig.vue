@@ -60,7 +60,7 @@
         <el-button type="primary" @click="dialogSure">确 定</el-button>
       </div>
     </el-dialog>
-    <el-dialog title="关键数据详情" :visible.sync="detailVisible" :close-on-click-modal="false" width="420px">
+    <el-dialog title="关键数据详情" :visible.sync="detailVisible" :close-on-click-modal="false" custom-class="detail-wrap">
       <el-row v-for="(procedure, procedureIndex) in detail" :key="procedureIndex" class="detail-procedure-wrap">
         <el-col :span="6" class="detail-procedure-title">{{procedure.name}}</el-col>
         <el-col :span="18">

@@ -48,7 +48,7 @@
         <el-button type="primary" @click="dialogSure">确 定</el-button>
       </div>
     </el-dialog>
-    <el-dialog title="质量检测详情" :visible.sync="detailVisible" :close-on-click-modal="false" width="420px">
+    <el-dialog title="质量检测详情" :visible.sync="detailVisible" :close-on-click-modal="false" custom-class="detail-wrap">
       <el-row>
         <el-col v-for="(item, index) in detail" :key="index" :span="12">{{'属性' + (index + 1) + '：' + item.name}}</el-col>
       </el-row>
