@@ -16,7 +16,7 @@
         <mt-field label="上传图片" class="upload-wrap">
           <input class="upload-input" type="file" :disabled="attr.device !== deviceId" @change="upload($event, procedureIndex, attrIndex)">
           <p class="upload-text" :class="attr.img === '' ? 'upload-text-placeholder' : ''">{{attr.img === '' ? '请选择图片' : attr.img}}</p>
-          <mt-button v-if="attr.img !== ''" type="primary" size="small" class="upload-show" @click="showImg(attr.img)">查看图片</mt-button>
+          <mt-button v-if="attr.img !== ''" type="primary" size="small" class="upload-show" @click="showImg(attr.img)">查看照片</mt-button>
           <mt-popup v-model="imgVisible" popup-transition="popup-fade">
             <img :src="imgSrc">
           </mt-popup>
@@ -149,6 +149,31 @@ export default{
         }))
         return false
       }
+
+      if (this.title === '关键数据') {
+        // forEach循环中return false无法结束整个函数，所以此处用for循环
+        for (let i = 0; i < this.form.list.length; i++) {
+          for (let j = 0; j < this.form.list[i].list.length; j++) {
+            if (this.form.list[i].list[j].device === this.deviceId) {
+              if (this.form.list[i].list[j].value === '') {
+                this.toast.push(this.$toast({
+                  message: '请输入' + this.form.list[i].name + '-' + this.form.list[i].list[j].name,
+                  duration: 1500
+                }))
+                return false
+              }
+              if (this.form.list[i].list[j].img === '') {
+                this.toast.push(this.$toast({
+                  message: '请上传' + this.form.list[i].name + '-' + this.form.list[i].list[j].name + '的照片',
+                  duration: 1500
+                }))
+                return false
+              }
+            }
+          }
+        }
+      }
+
       axiosData(this, this.form).then(data => {
         this.$messagebox.alert('提交成功').then(action => {
           this.back()
