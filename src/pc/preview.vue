@@ -25,10 +25,19 @@
         <el-pagination :current-page.sync="currentPage" @current-change="getTable" :total="tableTotal"></el-pagination>
       </el-col>
     </el-row>
-    <el-dialog title="问题详情" :visible.sync="detailVisible" :close-on-click-modal="false" custom-class="detail-wrap">
+    <el-dialog title="数据预览" :visible.sync="detailVisible" :close-on-click-modal="false" custom-class="detail-wrap">
       <!-- 基础数据 -->
       <el-row v-if="basic.length > 0">
-        <el-col :span="24">基础数据</el-col>
+        <el-col :span="24" class="title">基础数据</el-col>
+      </el-row>
+      <el-row class="basic-table-wrap">
+        <el-col :span="24">
+          <el-table :data="basic" :stripe="true">
+            <el-table-column v-for="(item, index) in basic[0].list" :key="index" :label="item.name">
+              <template slot-scope="scope">{{scope.row.list[index].value}}</template>
+            </el-table-column>
+          </el-table>
+        </el-col>
       </el-row>
       <!-- 基础数据 -->
 
@@ -138,7 +147,9 @@ export default{
       currentPage: 1,
       tableTotal: 1,
       detailVisible: false,
-      basic: [],
+      basic: [{
+        list: []
+      }],
       key: [],
       inspection: [],
       quality: [],
@@ -189,5 +200,8 @@ export default{
 .cutline{
   margin: 10px 0;
   border-bottom: 1px solid #DCDFE6;
+}
+.basic-table-wrap{
+  margin-bottom: 20px;
 }
 </style>
