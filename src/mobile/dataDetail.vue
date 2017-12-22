@@ -6,12 +6,12 @@
 
     <!-- 基础数据 -->
     <mt-cell v-if="basic.length > 0" title="基础数据" class="title"></mt-cell>
-    <template v-for="(item, itemIndex) in basic">
-      <mt-cell :key="itemIndex" :title="item.user">
-        <span>{{item.time|dateFormat}}</span>
-      </mt-cell>
-      <mt-cell></mt-cell>
-    </template>
+    <el-table :data="basic" :stripe="true" size="mini">
+      <el-table-column v-for="(item, index) in basic[0].list" :key="index" :label="item.name">
+        <template slot-scope="scope">{{scope.row.list[index].value}}</template>
+      </el-table-column>
+    </el-table>
+    <mt-cell></mt-cell>
     <!-- 基础数据 -->
 
     <!-- 关键数据 -->
@@ -71,7 +71,9 @@ export default{
   name: 'dataDetail',
   data () {
     return {
-      basic: [],
+      basic: [{
+        list: []
+      }],
       key: [],
       inspection: [],
       quality: [],
