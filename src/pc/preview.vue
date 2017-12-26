@@ -25,9 +25,9 @@
         <el-pagination :current-page.sync="currentPage" @current-change="getTable" :total="tableTotal"></el-pagination>
       </el-col>
     </el-row>
-    <el-dialog title="数据预览" :visible.sync="detailVisible" :close-on-click-modal="false" width="600px">
+    <el-dialog title="数据预览" :visible.sync="detailVisible" :close-on-click-modal="false" custom-class="basic-detail-wrap">
       <!-- 基础数据 -->
-      <el-row v-if="basic.length > 0">
+      <el-row v-if="basic[0].list.length > 0">
         <el-col :span="24" class="title">基础数据</el-col>
       </el-row>
       <el-row class="basic-table-wrap">
@@ -174,7 +174,9 @@ export default{
         serials: data.serials,
         batch: data.batch
       }).then(data => {
-        this.basic = data.base_data
+        if (data.base_data.length > 0) {
+          this.basic = data.base_data
+        }
         this.key = data.key_datas
         this.inspection = data.self_ins
         this.quality = data.qa_ins
@@ -189,7 +191,7 @@ export default{
 }
 </script>
 
-<style scoped>
+<style>
 .title{
   font-size: 16px;
   font-weight: bold;
@@ -200,6 +202,12 @@ export default{
 .cutline{
   margin: 10px 0;
   border-bottom: 1px solid #DCDFE6;
+}
+.basic-detail-wrap{
+  width: 600px;
+}
+.basic-detail-wrap .el-dialog__body{
+  padding: 10px 20px 30px;
 }
 .basic-table-wrap{
   margin-bottom: 20px;
