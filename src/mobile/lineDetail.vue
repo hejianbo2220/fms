@@ -4,10 +4,13 @@
       <mt-button icon="back" @click="back" slot="left"></mt-button>
     </mt-header>
     <mt-cell v-if="line.state === '0'" title="产品编码">
-      <span @click="popupShow">{{line.serial}}</span>
+      <el-select v-model="serial" filterable placeholder="请选择产品编码">
+        <el-option v-for="(item, index) in serials" :key="index" :value="item.serial"></el-option>
+      </el-select>
+      <!-- <span @click="popupShow">{{line.serial}}</span>
       <mt-popup v-model="popupVisible" popup-transition="popup-fade" class="product-select">
         <mt-picker :slots="serials" valueKey="serial" @change="popupSure"></mt-picker>
-      </mt-popup>
+      </mt-popup> -->
     </mt-cell>
     <mt-cell v-else title="产品编码" :value="line.serial"></mt-cell>
     <mt-cell title="产品名称" :value="line.productName"></mt-cell>
@@ -45,14 +48,16 @@ export default{
       },
       timer: null,
       popupVisible: false,
-      serials: [{
-        values: [
-          {
-            serial: '请选择产品编码',
-            value: ''
-          }
-        ]
-      }],
+      // serials: [{
+      //   values: [
+      //     {
+      //       serial: '请选择产品编码',
+      //       value: ''
+      //     }
+      //   ]
+      // }],
+      serials: [],
+      serial: '',
       toast: []
     }
   },
@@ -114,7 +119,8 @@ export default{
           serials: this.line.serial,
           batch: this.line.batch,
           state: state,
-          id: this.$route.params.id
+          id: this.$route.params.id,
+          reason: ''
         }).then(data => {
           this.back()
         })
@@ -161,8 +167,9 @@ export default{
       data.list.forEach(item => {
         if (this.$route.params.state === '0') {
           // 流水线关闭时，产品编码选择赋值
-          item.value = item.id
-          this.serials[0].values.push(item)
+          // item.value = item.id
+          // this.serials[0].values.push(item)
+          this.serials = data.list
         } else {
           // 流水线非关闭时，产品信息赋值
           if (item.serial === this.$route.params.serial) {
