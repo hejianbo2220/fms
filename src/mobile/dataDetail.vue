@@ -3,6 +3,14 @@
     <mt-header title="数据预览">
       <mt-button icon="back" @click="back" slot="left"></mt-button>
     </mt-header>
+    <!-- 流水线 -->
+    <mt-cell :title="line.lineName">
+      <span :class="stateSwitch(line.state).class">{{stateSwitch(line.state).text}}</span>
+    </mt-cell>
+    <mt-cell v-for="(item, index) in line.list" :key="index" :value="item.reason">
+      <span slot="title" class="line-time">{{timeSwitch(item.time)}}</span>
+    </mt-cell>
+    <!-- 流水线 -->
 
     <!-- 基础数据 -->
     <template v-if="basic[0].list.length > 0">
@@ -73,6 +81,10 @@ export default{
   name: 'dataDetail',
   data () {
     return {
+      line: {
+        state: 0,
+        list: []
+      },
       basic: [{
         list: []
       }],
@@ -85,6 +97,21 @@ export default{
   methods: {
     back () {
       this.$router.go(-1)
+    },
+    stateSwitch (state) {
+      switch (state) {
+        case 0:
+          return {class: 'red', text: '已完成'}
+        case 1:
+          return {class: 'green', text: '生产中'}
+        case 2:
+          return {class: 'orange', text: '已暂停'}
+      }
+    },
+    timeSwitch (time) {
+      const dateTemp = new Date()
+      dateTemp.setTime(time)
+      return dateTemp.toLocaleString()
     }
   },
   mounted () {
@@ -93,6 +120,10 @@ export default{
       serials: this.$route.params.serial,
       batch: this.$route.params.batch
     }).then(data => {
+      // 流水线
+      this.line = data.product
+      this.line.list = data.pauseReason
+
       // 基础数据
       if (data.base_data.length > 0) {
         this.basic = data.base_data
@@ -116,11 +147,18 @@ export default{
 }
 </script>
 
-<style scoped>
+<style>
 .title{
   background-color: #D8DCE5;
 }
 .subtitle{
   background-color: #EDF2FC;
+}
+.line-time{
+  display: block;
+  min-width: 100px;
+}
+.mint-cell-wrapper{
+  line-height: 22px;
 }
 </style>
