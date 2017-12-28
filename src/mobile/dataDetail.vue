@@ -5,13 +5,15 @@
     </mt-header>
 
     <!-- 基础数据 -->
-    <mt-cell v-if="basic[0].list.length > 0" title="基础数据" class="title"></mt-cell>
-    <el-table :data="basic" :stripe="true" size="mini">
-      <el-table-column v-for="(item, index) in basic[0].list" :key="index" :label="item.name">
-        <template slot-scope="scope">{{scope.row.list[index].value}}</template>
-      </el-table-column>
-    </el-table>
-    <mt-cell v-if="basic[0].list.length > 0"></mt-cell>
+    <template v-if="basic[0].list.length > 0">
+      <mt-cell title="基础数据" class="title"></mt-cell>
+      <el-table :data="basic" :stripe="true" size="mini">
+        <el-table-column v-for="(item, index) in basic[0].list" :key="index" :label="item.name">
+          <template slot-scope="scope">{{scope.row.list[index].value}}</template>
+        </el-table-column>
+      </el-table>
+      <mt-cell></mt-cell>
+    </template>
     <!-- 基础数据 -->
 
     <!-- 关键数据 -->
@@ -91,12 +93,23 @@ export default{
       serials: this.$route.params.serial,
       batch: this.$route.params.batch
     }).then(data => {
+      // 基础数据
       if (data.base_data.length > 0) {
         this.basic = data.base_data
+      } else {
+        this.basic = [{list: []}]
       }
+
+      // 关键数据
       this.key = data.key_datas
+
+      // 自检自测
       this.inspection = data.self_ins
+
+      // 质量检测
       this.quality = data.qa_ins
+
+      // 问题列表
       this.question = data.problem_list
     })
   }
