@@ -4,13 +4,12 @@
       <mt-button icon="back" @click="back" slot="left"></mt-button>
     </mt-header>
     <mt-cell v-if="line.state === '0'" title="产品编码">
-      <el-select v-model="serial" filterable placeholder="请选择产品编码">
-        <el-option v-for="(item, index) in serials" :key="index" :value="item.serial"></el-option>
-      </el-select>
-      <!-- <span @click="popupShow">{{line.serial}}</span>
-      <mt-popup v-model="popupVisible" popup-transition="popup-fade" class="product-select">
-        <mt-picker :slots="serials" valueKey="serial" @change="popupSure"></mt-picker>
-      </mt-popup> -->
+      <span @click="popupShow">{{line.serial}}</span>
+      <mt-popup v-model="popupVisible" position="top" class="serial-select-wrap">
+        <el-select v-model="serial" popper-class="serial-select-item" filterable placeholder="请选择产品编码" class="serial-select" @change="popupSure">
+          <el-option v-for="(item, index) in serials" :key="index" :value="item.serial"></el-option>
+        </el-select>
+      </mt-popup>
     </mt-cell>
     <mt-cell v-else title="产品编码" :value="line.serial"></mt-cell>
     <mt-cell title="产品名称" :value="line.productName"></mt-cell>
@@ -23,9 +22,9 @@
       <mt-button type="primary" size="large" @click="open">开 启</mt-button>
     </div>
     <div v-else class="btn-wrap btn-inline">
-      <mt-button v-if="line.state === '1'" @click="stateChange(2)">暂 停</mt-button>
-      <mt-button v-else type="primary" @click="stateChange(1)">开 启</mt-button>
-      <mt-button type="danger" @click="stateChange(0)">关 闭</mt-button>
+      <mt-button v-if="line.state === '1'" @click="pause">暂 停</mt-button>
+      <mt-button v-else type="primary" @click="stateChangeConfirm(1)">开 启</mt-button>
+      <mt-button type="danger" @click="stateChangeConfirm(0)">关 闭</mt-button>
     </div>
   </div>
 </template>
@@ -44,18 +43,10 @@ export default{
         typeId: '',
         spec: '',
         batch: '',
-        startTime: 0
+        time: 0
       },
       timer: null,
       popupVisible: false,
-      // serials: [{
-      //   values: [
-      //     {
-      //       serial: '请选择产品编码',
-      //       value: ''
-      //     }
-      //   ]
-      // }],
       serials: [],
       serial: '',
       toast: []
@@ -65,11 +56,9 @@ export default{
     clock () {
       let hour, minute, second
       hour = minute = second = 0
-      const now = new Date()
-      const time = now.getTime() - this.line.startTime
-      hour = parseInt(time / (60 * 60 * 1000))
-      minute = parseInt((time % (60 * 60 * 1000)) / (60 * 1000))
-      second = parseInt(((time % (60 * 60 * 1000)) % (60 * 1000)) / 1000)
+      hour = parseInt(this.line.time / (60 * 60 * 1000))
+      minute = parseInt((this.line.time % (60 * 60 * 1000)) / (60 * 1000))
+      second = parseInt(((this.line.time % (60 * 60 * 1000)) % (60 * 1000)) / 1000)
       if (hour < 10) {
         hour = '0' + hour
       }
@@ -89,18 +78,39 @@ export default{
     popupShow () {
       this.popupVisible = true
     },
-    popupSure (picker, values) {
-      if (values[0].value === '') {
-        return false
-      }
-      this.line.serial = values[0].serial
-      this.line.productName = values[0].name
-      this.line.typeName = values[0].type_name
-      this.line.typeId = values[0].type_id
-      this.line.spec = values[0].spec
-      this.popupVisible = false
+    popupSure (value) {
+      this.serials.forEach(item => {
+        if (item.serial === value) {
+          this.line.serial = item.serial
+          this.line.productName = item.name
+          this.line.typeName = item.type_name
+          this.line.typeId = item.type_id
+          this.line.spec = item.spec
+          this.popupVisible = false
+        }
+      })
     },
-    stateChange (state) {
+    pause () {
+      // prompt的第一个参数要传入一个空格
+      this.$messagebox.prompt(' ', '请输入暂停原因').then(({value, action}) => {
+        if (value !== null) {
+          this.stateChange(2, value)
+        }
+      }).catch(() => {})
+    },
+    stateChange (state, reason) {
+      axios(this, {
+        msgType: 11,
+        serials: this.line.serial,
+        batch: this.line.batch,
+        state: state,
+        id: this.$route.params.id,
+        reason: reason
+      }).then(data => {
+        this.back()
+      })
+    },
+    stateChangeConfirm (state) {
       let stateText = ''
       switch (state) {
         case 0:
@@ -109,21 +119,9 @@ export default{
         case 1:
           stateText = '开启'
           break
-        case 2:
-          stateText = '暂停'
-          break
       }
       this.$messagebox.confirm('确定' + stateText + '该流水线?').then(action => {
-        axios(this, {
-          msgType: 11,
-          serials: this.line.serial,
-          batch: this.line.batch,
-          state: state,
-          id: this.$route.params.id,
-          reason: ''
-        }).then(data => {
-          this.back()
-        })
+        this.stateChange(state, '')
       }).catch(() => {})
     },
     open () {
@@ -165,7 +163,7 @@ export default{
       this.line.state = this.$route.params.state
 
       data.list.forEach(item => {
-        if (this.$route.params.state === '0') {
+        if (this.line.state === '0') {
           // 流水线关闭时，产品编码选择赋值
           // item.value = item.id
           // this.serials[0].values.push(item)
@@ -178,16 +176,25 @@ export default{
             this.line.typeName = item.type_name
             this.line.spec = item.spec
           }
-          this.line.batch = this.$route.params.batch
-          this.line.startTime = Number(this.$route.params.time)
         }
       })
 
-      if (this.$route.params.state !== '0') {
-        // 每秒更新startTime，触发computed.clock
-        this.timer = setInterval(() => {
-          this.line.startTime += 1
-        }, 1000)
+      // 流水线为非关闭时，批次号和运行时间赋值
+      if (this.line.state !== '0') {
+        this.line.batch = this.$route.params.batch
+        if (this.line.state === '1') {
+          // 流水线开启时，运行时间等于该次运行时间(当前时间 - 该次开启时间) + 历史运行时间
+          const now = new Date()
+          this.line.time = now.getTime() - Number(this.$route.params.start) + Number(this.$route.params.time)
+
+          // 流水线开启时，每秒更新time，触发computed.clock
+          this.timer = setInterval(() => {
+            this.line.time += 1000
+          }, 1000)
+        } else {
+          // 流水线暂停时，运行时间等于历史运行时间
+          this.line.time = Number(this.$route.params.time)
+        }
       }
     })
   },
@@ -198,8 +205,16 @@ export default{
 </script>
 
 <style>
-.product-select{
+.serial-select-wrap{
   width: 100%;
+  top: 44px;
+}
+.serial-select{
+  width: 100%;
+}
+.serial-select-item{
+  left: 0 !important;
+  z-index: 3000 !important;
 }
 .mint-field-core{
   text-align: right;

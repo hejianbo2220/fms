@@ -97,7 +97,7 @@ export default{
   bottom: 0;
   left: 0;
   background-image: url(../assets/mobile-login-bg.png);
-  background-size: 100% auto;
+  background-size: 100% 100%;
 }
 .menu-btn{
   display: block;

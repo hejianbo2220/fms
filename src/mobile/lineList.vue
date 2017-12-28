@@ -4,7 +4,7 @@
       <mt-button icon="back" @click="back" slot="left"></mt-button>
     </mt-header>
     <div v-infinite-scroll="loadMore" infinite-scroll-distance="10" infinite-scroll-disabled="loading">
-      <mt-cell v-for="(item, index) in line" :key="index" :title="item.name" :is-link="true" :to="'/#/mobile/main/line/detail/' + item.id + '/' + item.state + '/' + (item.serials === '' ? 'none' : item.serials) + '/' + (item.batch === '' ? 'none' : item.batch) + '/' + item.startTime">
+      <mt-cell v-for="(item, index) in line" :key="index" :title="item.name" :is-link="true" :to="'/#/mobile/main/line/detail/' + item.id + '/' + item.state + '/' + (item.serials === '' ? 'none' : item.serials) + '/' + (item.batch === '' ? 'none' : item.batch) + '/' + item.startTime + '/' + item.timelenth">
         状态：<span :class="stateSwitch(item.state).class">{{stateSwitch(item.state).text}}</span>
       </mt-cell>
     </div>

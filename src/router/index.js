@@ -164,7 +164,7 @@ export default new Router({
           component: mobileLineList
         },
         {
-          path: 'line/detail/:id/:state/:serial/:batch/:time',
+          path: 'line/detail/:id/:state/:serial/:batch/:start/:time',
           name: 'mobileLineDetail',
           component: mobileLineDetail
         },
