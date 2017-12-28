@@ -5,13 +5,13 @@
     </mt-header>
 
     <!-- 基础数据 -->
-    <mt-cell v-if="basic.length > 0" title="基础数据" class="title"></mt-cell>
+    <mt-cell v-if="basic[0].list.length > 0" title="基础数据" class="title"></mt-cell>
     <el-table :data="basic" :stripe="true" size="mini">
       <el-table-column v-for="(item, index) in basic[0].list" :key="index" :label="item.name">
         <template slot-scope="scope">{{scope.row.list[index].value}}</template>
       </el-table-column>
     </el-table>
-    <mt-cell></mt-cell>
+    <mt-cell v-if="basic[0].list.length > 0"></mt-cell>
     <!-- 基础数据 -->
 
     <!-- 关键数据 -->
@@ -91,7 +91,9 @@ export default{
       serials: this.$route.params.serial,
       batch: this.$route.params.batch
     }).then(data => {
-      this.basic = data.base_data
+      if (data.base_data.length > 0) {
+        this.basic = data.base_data
+      }
       this.key = data.key_datas
       this.inspection = data.self_ins
       this.quality = data.qa_ins
