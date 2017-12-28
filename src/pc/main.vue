@@ -146,7 +146,7 @@ export default{
   },
   methods: {
     logout () {
-      this.$store.commit('setToken', '')
+      this.$store.commit('set', {token: '', permis: ''})
       this.$router.push('/pc')
     }
   },
