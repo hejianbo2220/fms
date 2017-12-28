@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import lrz from 'lrz'
 import axios from 'axios'
 import axiosData from '@/axios'
 export default{
@@ -104,37 +105,39 @@ export default{
     },
     upload (event, procedureIndex, attrIndex) {
       if (event.target.files[0]) {
-        const formData = new FormData()
-        formData.append('img', event.target.files[0])
-        const config = {
-          headers: {
-            'Content-Type': 'multipart/form-data'
+        lrz(event.target.files[0], {
+          width: 750
+        }).then(rst => {
+          const config = {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
           }
-        }
-        this.$indicator.open('上传中...')
-        axios.post(this.$store.state.imgUpload, formData, config).then(res => {
-          if (res.data.res === 0) {
-            this.form.list[procedureIndex].list[attrIndex].img = res.data.image
-          } else {
-            this.toast.push(this.$toast({
-              message: res.data.msg,
-              duration: 1500
-            }))
-          }
-          this.$indicator.close()
-        }).catch(err => {
-          if (err.response) {
-            this.toast.push(this.$toast({
-              message: err.response.data.message,
-              duration: 1500
-            }))
-          } else {
-            this.toast.push(this.$toast({
-              message: err.message,
-              duration: 1500
-            }))
-          }
-          this.$indicator.close()
+          this.$indicator.open('上传中...')
+          axios.post(this.$store.state.imgUpload, rst.formData, config).then(res => {
+            if (res.data.res === 0) {
+              this.form.list[procedureIndex].list[attrIndex].img = res.data.image
+            } else {
+              this.toast.push(this.$toast({
+                message: res.data.msg,
+                duration: 1500
+              }))
+            }
+            this.$indicator.close()
+          }).catch(err => {
+            if (err.response) {
+              this.toast.push(this.$toast({
+                message: err.response.data.message,
+                duration: 1500
+              }))
+            } else {
+              this.toast.push(this.$toast({
+                message: err.message,
+                duration: 1500
+              }))
+            }
+            this.$indicator.close()
+          })
         })
       }
     },
