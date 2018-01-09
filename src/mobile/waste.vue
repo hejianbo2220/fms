@@ -10,7 +10,7 @@
       </mt-popup>
     </mt-cell>
     <mt-field label="废弃原因" placeholder="请输入问题描述" type="textarea" rows="4" v-model="form.reason"></mt-field>
-    <mt-field label="重量" placeholder="请输入问题标题" v-model="form.weight"></mt-field>
+    <mt-field label="重量" placeholder="请输入问题标题" type="number" v-model="form.weight"></mt-field>
     <div class="btn-wrap">
       <mt-button type="primary" size="large" @click="submit">提 交</mt-button>
     </div>
@@ -59,6 +59,7 @@ export default{
       this.popupVisible = false
     },
     submit () {
+      this.form.weight = Number(this.form.weight)
       axios(this, this.form).then(data => {
         this.$messagebox.alert('提交成功').then(action => {
           this.back()
