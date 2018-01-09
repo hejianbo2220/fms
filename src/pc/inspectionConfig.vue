@@ -18,7 +18,10 @@
           <el-table-column label="自检自测ID" prop="id"></el-table-column>
           <el-table-column label="产品类型" prop="name"></el-table-column>
           <el-table-column label="操作">
-            <el-button slot-scope="scope" size="mini" icon="el-icon-news" @click="detailShow(scope.row.id)">查看</el-button>
+            <template slot-scope="scope">
+              <el-button size="mini" icon="el-icon-news" @click="detailShow(scope.row.id)">查看</el-button>
+              <el-button type="danger" size="mini" icon="el-icon-delete" @click="isDelete(scope.row.id)">删除</el-button>
+            </template>
           </el-table-column>
         </el-table>
       </el-col>
@@ -137,6 +140,24 @@ export default{
         this.detail = data.list
         this.detailVisible = true
       })
+    },
+    isDelete (id) {
+      this.$confirm('确认删除该项？', {
+        type: 'warning',
+        closeOnClickModal: false
+      }).then(() => {
+        axios(this, {
+          msgType: 86,
+          type_id: id
+        }).then(data => {
+          this.$message({
+            message: '删除成功',
+            type: 'success',
+            duration: 1500
+          })
+          this.getTable(1)
+        })
+      }).catch(() => {})
     }
   },
   mounted () {
