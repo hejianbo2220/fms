@@ -72,6 +72,10 @@ export default{
             {
               title: '统计图',
               path: '/pc/main/product/chart'
+            },
+            {
+              title: '重量正态分布',
+              path: '/pc/main/product/nd'
             }
           ]
         },
@@ -126,6 +130,10 @@ export default{
             {
               title: '统计图',
               path: '/pc/main/quality/chart'
+            },
+            {
+              title: '废料记录',
+              path: '/pc/main/quality/waste'
             }
           ]
         },
