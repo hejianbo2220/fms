@@ -9,11 +9,10 @@
         </el-breadcrumb>
       </el-col>
       <el-col :span="17">
-        <el-date-picker v-model="filter.date" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" @change="getBarData" class="filter"></el-date-picker>
-        <el-select v-model="filter.line" @change="getBarData" class="filter product-chart-filter">
-          <el-option v-for="item in line" :key="item.id" :label="item.name" :value="item.name"></el-option>
+        <el-select v-model="filter.serial" @change="getBarData" class="filter">
+          <el-option v-for="(item, index) in serials" :key="index" :value="item.serials + '+' + item.batch"></el-option>
         </el-select>
-        <el-select v-model="filter.data" @change="getBarData" class="filter product-chart-filter">
+        <el-select v-model="filter.data" @change="getBarData" class="filter">
           <el-option label="基础数据1" :value="1"></el-option>
           <el-option label="基础数据2" :value="2"></el-option>
         </el-select>
@@ -30,24 +29,20 @@ export default{
   name: 'inspectionChart',
   data () {
     return {
-      line: [],
+      serials: [],
       filter: {
-        data: 1,
-        line: '',
-        date: []
+        serial: '',
+        data: 1
       }
     }
   },
   methods: {
     getBarData () {
+      const serial = this.filter.serial.split('+')
       axios(this, {
         msgType: 112,
-        // startDate: this.filter.date[0].getTime(),
-        // endDate: this.filter.date[1].getTime() + (24 * 60 * 60 * 1000),
-        // pipeline: this.filter.line,
-        startDate: 1500480000000,
-        endDate: 1514822400000,
-        pipeline: '1',
+        serials: serial[0],
+        batch: serial[1],
         data_type: this.filter.data
       }).then(data => {
         const xAxisData = []
@@ -77,23 +72,17 @@ export default{
     }
   },
   mounted () {
-    // 获取流水线列表
     axios(this, {
-      msgType: 10,
+      msgType: 5,
       startNo: 0,
       num: 99999
     }).then(data => {
-      this.line = data.list
+      this.serials = data.list
 
-      // 设置第一条流水线为默认选择
-      this.filter.line = data.list[0].name
+      // 设置第一条产品编码为默认选择
+      this.filter.serial = data.list[0].serials + '+' + data.list[0].batch
 
-      // 设置默认时间范围为1天
-      let oneDay = new Date()
-      oneDay.setDate(oneDay.getDate() - 1)
-      this.filter.date = [oneDay, new Date()]
-
-      // 获取chart数据
+      // 获取bar数据
       this.getBarData()
     })
   }
@@ -101,9 +90,6 @@ export default{
 </script>
 
 <style scoped>
-.product-chart-filter{
-  width: 170px;
-}
 .bar{
   height: 400px;
 }
