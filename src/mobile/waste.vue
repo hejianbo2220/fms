@@ -1,6 +1,6 @@
 <template>
   <div>
-    <mt-header title="问题提交">
+    <mt-header title="废料记录">
       <mt-button icon="back" @click="back" slot="left"></mt-button>
     </mt-header>
     <mt-cell title="产品编码" class="mint-field">
@@ -9,12 +9,8 @@
         <mt-picker :slots="serials" valueKey="label" @change="popupSure"></mt-picker>
       </mt-popup>
     </mt-cell>
-    <mt-field label="问题标题" placeholder="请输入问题标题" v-model="form.title"></mt-field>
-    <mt-field label="问题来源" placeholder="请输入问题来源" v-model="form.source"></mt-field>
-    <mt-field label="责任方" placeholder="请输入责任方" v-model="form.person"></mt-field>
-    <mt-field label="问题描述" placeholder="请输入问题描述" type="textarea" rows="4" v-model="form.desc"></mt-field>
-    <mt-field label="处理方案" placeholder="请输入处理方案" type="textarea" rows="4" v-model="form.programe"></mt-field>
-    <mt-field label="改进措施" placeholder="请输入改进措施" type="textarea" rows="4" v-model="form.improv"></mt-field>
+    <mt-field label="废弃原因" placeholder="请输入问题描述" type="textarea" rows="4" v-model="form.reason"></mt-field>
+    <mt-field label="重量" placeholder="请输入问题标题" v-model="form.weight"></mt-field>
     <div class="btn-wrap">
       <mt-button type="primary" size="large" @click="submit">提 交</mt-button>
     </div>
@@ -38,17 +34,11 @@ export default{
         ]
       }],
       form: {
-        msgType: 100,
+        msgType: 110,
         serials: '',
         batch: '',
-        title: '',
-        source: '',
-        person: '',
-        desc: '',
-        programe: '',
-        improv: '',
-        state: 0, // 接口预留
-        msg: '' // 接口预留
+        reason: '',
+        weight: ''
       }
     }
   },

@@ -29,6 +29,7 @@ import mobileIndex from '@/mobile/index'
 import mobileLineList from '@/mobile/lineList'
 import mobileLineDetail from '@/mobile/lineDetail'
 import mobileTemplate from '@/mobile/template'
+import mobileWaste from '@/mobile/waste'
 import mobileQuestion from '@/mobile/question'
 import mobileDataList from '@/mobile/dataList'
 import mobileDataDetail from '@/mobile/dataDetail'
@@ -184,6 +185,11 @@ export default new Router({
           path: 'template/:type',
           name: 'mobileTemplate',
           component: mobileTemplate
+        },
+        {
+          path: 'waste',
+          name: 'mobileWaste',
+          component: mobileWaste
         },
         {
           path: 'question',

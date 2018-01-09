@@ -38,6 +38,11 @@ export default{
           path: '/mobile/main/template/质量检测'
         },
         {
+          title: '废料记录',
+          icon: '../static/img/mobile-quality.png',
+          path: '/mobile/main/waste'
+        },
+        {
           title: '数据预览',
           icon: '../static/img/mobile-preview.png',
           path: '/mobile/main/data/list'
@@ -80,8 +85,9 @@ export default{
     this.menu[1].permission = this.$store.state.permission[4]
     this.menu[2].permission = this.$store.state.permission[5]
     this.menu[3].permission = this.$store.state.permission[6]
-    this.menu[4].permission = this.$store.state.permission[8]
-    this.menu[5].permission = this.$store.state.permission[7]
+    this.menu[4].permission = this.$store.state.permission[6]
+    this.menu[5].permission = this.$store.state.permission[8]
+    this.menu[6].permission = this.$store.state.permission[7]
     if (localStorage.getItem('stfsUsername') === 'admin') {
       this.isAdmin = true
     }
