@@ -1,14 +1,14 @@
 <template>
   <div>
     <el-row>
-      <el-col :span="21">
+      <el-col :span="7">
         <el-breadcrumb separator-class="el-icon-arrow-right">
           <el-breadcrumb-item :to="{path: '/pc/main/index'}">生产数据采集系统</el-breadcrumb-item>
           <el-breadcrumb-item>质量检测</el-breadcrumb-item>
           <el-breadcrumb-item>配置表</el-breadcrumb-item>
         </el-breadcrumb>
       </el-col>
-      <el-col :span="3">
+      <el-col :span="17">
         <el-button type="primary" size="medium" icon="el-icon-circle-plus-outline" @click="dialogShow" class="add-btn">新增质量检测</el-button>
       </el-col>
     </el-row>

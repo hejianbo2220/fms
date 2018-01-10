@@ -1,14 +1,14 @@
 <template>
   <div>
     <el-row>
-      <el-col :span="21">
+      <el-col :span="7">
         <el-breadcrumb separator-class="el-icon-arrow-right">
           <el-breadcrumb-item :to="{path: '/pc/main/index'}">生产数据采集系统</el-breadcrumb-item>
           <el-breadcrumb-item>产品管理</el-breadcrumb-item>
           <el-breadcrumb-item>产品类型</el-breadcrumb-item>
         </el-breadcrumb>
       </el-col>
-      <el-col :span="3">
+      <el-col :span="17">
         <el-button type="primary" size="medium" icon="el-icon-circle-plus-outline" @click="dialogShow('add')" class="add-btn">新增产品类型</el-button>
       </el-col>
     </el-row>

@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-row>
-      <el-col :span="7">
-        <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-col :span="24">
+        <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb-height">
           <el-breadcrumb-item :to="{path: '/pc/main/index'}">生产数据采集系统</el-breadcrumb-item>
           <el-breadcrumb-item>质量检测</el-breadcrumb-item>
           <el-breadcrumb-item>废料记录</el-breadcrumb-item>
