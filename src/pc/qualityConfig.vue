@@ -3,7 +3,7 @@
     <el-row>
       <el-col :span="21">
         <el-breadcrumb separator-class="el-icon-arrow-right">
-          <el-breadcrumb-item :to="{path: '/pc/main/index'}">工厂管理系统</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{path: '/pc/main/index'}">生产数据采集系统</el-breadcrumb-item>
           <el-breadcrumb-item>质量检测</el-breadcrumb-item>
           <el-breadcrumb-item>配置表</el-breadcrumb-item>
         </el-breadcrumb>

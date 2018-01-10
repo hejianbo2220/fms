@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-header height="100px">
-      工厂管理系统
+      生产数据采集系统
       <el-button type="text" @click="logout" class="logout">退出登录</el-button>
     </el-header>
     <el-container>

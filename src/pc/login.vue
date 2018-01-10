@@ -2,7 +2,7 @@
   <el-row type="flex" align="middle" class="login-bg">
     <el-col :span="8" :offset="8" class="login-wrap">
       <el-row>
-        <el-col :span="24" class="login-title">工厂管理系统</el-col>
+        <el-col :span="24" class="login-title">生产数据采集系统</el-col>
       </el-row>
       <el-row>
         <el-col :span="16" :offset="4">

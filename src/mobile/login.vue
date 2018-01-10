@@ -1,6 +1,6 @@
 <template>
   <div class="login-bg">
-    <p class="login-title">工厂管理系统</p>
+    <p class="login-title">生产数据采集系统</p>
     <input class="login-input" placeholder="请输入用户名" v-model="username">
     <input type="password" class="login-input" placeholder="请输入密码" v-model="password">
     <button class="login-btn" @click="login">立 即 登 录</button>
@@ -65,7 +65,7 @@ export default{
 }
 .login-title{
   margin: 80px 0 60px;
-  font-size: 26px;
+  font-size: 24px;
   font-weight: bold;
   color: #fff;
   text-align: center;
