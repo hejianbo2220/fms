@@ -12,7 +12,9 @@
     <el-row>
       <el-col :span="24">
         <el-table :data="table" :stripe="true">
-          <el-table-column label="废料ID" prop="id"></el-table-column>
+          <el-table-column label="产品编码+批次号">
+            <template slot-scope="scope">{{scope.row.serials + '+' + scope.row.batch}}</template>
+          </el-table-column>
           <el-table-column label="废弃原因" prop="reason"></el-table-column>
           <el-table-column label="重量" prop="weight"></el-table-column>
           <el-table-column label="提交时间">
