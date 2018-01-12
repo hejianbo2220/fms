@@ -112,6 +112,10 @@ export default{
             {
               title: '统计图',
               path: '/pc/main/inspection/chart'
+            },
+            {
+              title: '废料记录',
+              path: '/pc/main/inspection/waste'
             }
           ]
         },
@@ -130,10 +134,6 @@ export default{
             {
               title: '统计图',
               path: '/pc/main/quality/chart'
-            },
-            {
-              title: '废料记录',
-              path: '/pc/main/quality/waste'
             }
           ]
         },

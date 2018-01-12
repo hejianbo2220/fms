@@ -33,14 +33,14 @@ export default{
           path: '/mobile/main/template/自检自测'
         },
         {
-          title: '质量检测',
-          icon: '../static/img/mobile-quality.png',
-          path: '/mobile/main/template/质量检测'
-        },
-        {
           title: '废料记录',
           icon: '../static/img/mobile-quality.png',
           path: '/mobile/main/waste'
+        },
+        {
+          title: '质量检测',
+          icon: '../static/img/mobile-quality.png',
+          path: '/mobile/main/template/质量检测'
         },
         {
           title: '数据预览',
@@ -84,7 +84,7 @@ export default{
     this.menu[0].permission = this.$store.state.permission[2]
     this.menu[1].permission = this.$store.state.permission[4]
     this.menu[2].permission = this.$store.state.permission[5]
-    this.menu[3].permission = this.$store.state.permission[6]
+    this.menu[3].permission = this.$store.state.permission[5]
     this.menu[4].permission = this.$store.state.permission[6]
     this.menu[5].permission = this.$store.state.permission[8]
     this.menu[6].permission = this.$store.state.permission[7]

@@ -17,10 +17,10 @@ import pcKeyChart from '@/pc/keyChart'
 import pcInspectionConfig from '@/pc/inspectionConfig'
 import pcInspectionData from '@/pc/inspectionData'
 import pcInspectionChart from '@/pc/inspectionChart'
+import pcInspectionWaste from '@/pc/inspectionWaste'
 import pcQualityConfig from '@/pc/qualityConfig'
 import pcQualityData from '@/pc/qualityData'
 import pcQualityChart from '@/pc/qualityChart'
-import pcQualityWaste from '@/pc/qualityWaste'
 import pcQuestion from '@/pc/question'
 import pcPreview from '@/pc/preview'
 import mobileLogin from '@/mobile/login'
@@ -125,6 +125,11 @@ export default new Router({
           component: pcInspectionChart
         },
         {
+          path: 'inspection/waste',
+          name: 'pcInspectionWaste',
+          component: pcInspectionWaste
+        },
+        {
           path: 'quality/config',
           name: 'pcQualityConfig',
           component: pcQualityConfig
@@ -138,11 +143,6 @@ export default new Router({
           path: 'quality/chart',
           name: 'pcQualityChart',
           component: pcQualityChart
-        },
-        {
-          path: 'quality/waste',
-          name: 'pcQualityWaste',
-          component: pcQualityWaste
         },
         {
           path: 'question',
