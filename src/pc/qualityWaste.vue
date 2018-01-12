@@ -17,6 +17,7 @@
           </el-table-column>
           <el-table-column label="废弃原因" prop="reason"></el-table-column>
           <el-table-column label="重量" prop="weight"></el-table-column>
+          <el-table-column label="总重量" prop="totalweight"></el-table-column>
           <el-table-column label="提交时间">
             <template slot-scope="scope">{{scope.row.time|dateFormat}}</template>
           </el-table-column>
