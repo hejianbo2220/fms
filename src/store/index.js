@@ -7,9 +7,9 @@ export default new Vuex.Store({
   state: {
     token: sessionStorage.getItem('token') ? sessionStorage.getItem('token') : '',
     permission: sessionStorage.getItem('permission') ? sessionStorage.getItem('permission') : '',
-    api: 'http://192.168.10.140:8025/WaterProof/Server',
-    imgUpload: 'http://192.168.10.140:8025/WaterProof/upFileServer',
-    excelUpload: 'http://192.168.10.140:8025/WaterProof/upExcel'
+    api: 'http://192.168.10.140:36000/WaterProof/Server',
+    imgUpload: 'http://192.168.10.140:36000/WaterProof/upFileServer',
+    excelUpload: 'http://192.168.10.140:36000/WaterProof/upExcel'
   },
   mutations: {
     set (state, info) {
