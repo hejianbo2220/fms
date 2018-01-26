@@ -1,6 +1,6 @@
 # fms
 
-> A Vue.js project
+> 一个VUE做的生产管理系统，包括PC端和移动端，PC端使用element-ui，移动端使用mint-ui。
 
 ## Build Setup
 
