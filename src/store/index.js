@@ -10,6 +10,9 @@ export default new Vuex.Store({
     api: 'http://192.168.10.140:36000/WaterProof/Server',
     imgUpload: 'http://192.168.10.140:36000/WaterProof/upFileServer',
     excelUpload: 'http://192.168.10.140:36000/WaterProof/upExcel'
+    // api: 'http://120.79.2.53:8080/WaterProof/Server',
+    // imgUpload: 'http://120.79.2.53:8080/WaterProof/upFileServer',
+    // excelUpload: 'http://120.79.2.53:8080/WaterProof/upExcel'
   },
   mutations: {
     set (state, info) {
