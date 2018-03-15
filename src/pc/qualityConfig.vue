@@ -33,10 +33,13 @@
     </el-row>
     <el-dialog title="新增质量检测" :visible.sync="dialogVisible" :close-on-click-modal="false">
       <el-form :model="form" label-width="82px" ref="dialogForm">
-        <el-form-item :rules="{type: 'number', required: true, message: '请选择产品类型', trigger: 'change'}" label="产品类型" prop="type_id">
+        <!-- <el-form-item :rules="{type: 'number', required: true, message: '请选择产品类型', trigger: 'change'}" label="产品类型" prop="type_id">
           <el-select v-model="form.type_id" placeholder="请选择产品类型">
             <el-option v-for="item in classOptions" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
+        </el-form-item> -->
+        <el-form-item :rules="{required: true, message: '请输入质量标准', trigger: 'blur'}" label="质量标准" prop="standardName">
+          <el-input v-model="form.standardName" placeholder="请输入质量标准"></el-input>
         </el-form-item>
         <el-button class="attr-add" @click="attrAdd">添加属性</el-button>
         <div v-for="(item, index) in form.list" :key="index">
@@ -71,7 +74,8 @@ export default{
       dialogVisible: false,
       classOptions: [],
       form: {
-        type_id: '',
+        // type_id: '',
+        standardName: '',
         list: [
           {
             name: '',
