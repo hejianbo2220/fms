@@ -72,7 +72,7 @@ export default{
       currentPage: 1,
       tableTotal: 1,
       dialogVisible: false,
-      classOptions: [],
+      // classOptions: [],
       form: {
         // type_id: '',
         standardName: '',
@@ -165,13 +165,13 @@ export default{
     }
   },
   mounted () {
-    axios(this, {
-      msgType: 26,
-      startNo: 0,
-      num: 999
-    }).then(data => {
-      this.classOptions = data.list
-    })
+    // axios(this, {
+    //   msgType: 26,
+    //   startNo: 0,
+    //   num: 999
+    // }).then(data => {
+    //   this.classOptions = data.list
+    // })
     this.getTable(1)
   }
 }

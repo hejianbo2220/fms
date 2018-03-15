@@ -10,6 +10,9 @@
       </el-col>
       <el-col :span="17">
         <el-date-picker v-model="filter.date" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" @change="getChartData" class="filter"></el-date-picker>
+        <el-select v-model="filter.standard" @change="getChartData" class="filter">
+          <el-option v-for="item in standard" :key="item.id" :label="item.name" :value="item.id"></el-option>
+        </el-select>
         <el-cascader expand-trigger="hover" :options="product" v-model="filter.product" placeholder="请选择产品编码" @change="getChartData" class="filter"></el-cascader>
       </el-col>
     </el-row>
@@ -25,8 +28,10 @@ export default{
   data () {
     return {
       product: [],
+      standard: [],
       filter: {
         product: [],
+        standard: 0,
         date: []
       },
       attrs: []
@@ -36,7 +41,7 @@ export default{
     getChartData () {
       axios(this, {
         msgType: 95,
-        type_id: this.filter.product[0],
+        type_id: this.filter.standard,
         serials: this.filter.product[1],
         startTime: this.filter.date[0].getTime(),
         endTime: this.filter.date[1].getTime() + (24 * 60 * 60 * 1000)
@@ -106,22 +111,23 @@ export default{
     // 获取产品类型和产品编码列表
     axios(this, {msgType: 24}).then(data => {
       data.list.forEach(parent => {
-        parent.list.forEach(child => {
-          child.label = child.name
-          child.value = child.id
-        })
-        parent.list.unshift({
-          label: '全部',
-          value: ''
-        })
         parent.label = parent.name
         parent.value = parent.type_id
         parent.children = parent.list
+
+        parent.children.forEach(child => {
+          child.label = child.name
+          child.value = child.id
+        })
       })
       this.product = data.list
+      this.standard = data.standardList
 
       // 设置默认产品类型和产品编码
       this.filter.product = [this.product[0].value, this.product[0].children[0].value]
+
+      // 设置默认质量标准
+      this.filter.standard = this.standard[0].id
 
       // 设置默认时间范围为30天
       let thirtyDay = new Date()
