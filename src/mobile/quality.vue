@@ -3,10 +3,16 @@
     <mt-header title="质量检测">
       <mt-button icon="back" @click="back" slot="left"></mt-button>
     </mt-header>
-    <mt-cell title="产品编码">
-      <span @click="popupShow">{{serial}}</span>
-      <mt-popup v-model="popupVisible" popup-transition="popup-fade" class="product-select">
-        <mt-picker :slots="serials" valueKey="label" @change="popupSure"></mt-picker>
+    <mt-cell title="质量标准">
+      <span @click="popupShow('standard')">{{standard}}</span>
+      <mt-popup v-model="standardPopupVisible" popup-transition="popup-fade" class="product-select">
+        <mt-picker :slots="standards" valueKey="label" @change="standardPopupSure"></mt-picker>
+      </mt-popup>
+    </mt-cell>
+    <mt-cell v-if="this.form.list.length > 0" title="产品编码">
+      <span @click="popupShow('serial')">{{serial}}</span>
+      <mt-popup v-model="serialPopupVisible" popup-transition="popup-fade" class="product-select">
+        <mt-picker :slots="serials" valueKey="label" @change="serialPopupSure"></mt-picker>
       </mt-popup>
     </mt-cell>
     <mt-field v-for="(attr, index) in form.list" :key="index" :label="attr.name" :placeholder="'请输入' + attr.name" v-model="attr.value"></mt-field>
@@ -22,8 +28,18 @@ export default{
   name: 'quality',
   data () {
     return {
+      standard: '请选择质量标准',
+      standardPopupVisible: false,
+      standards: [{
+        values: [
+          {
+            label: '请选择质量标准',
+            value: ''
+          }
+        ]
+      }],
       serial: '请选择产品编码',
-      popupVisible: false,
+      serialPopupVisible: false,
       serials: [{
         values: [
           {
@@ -47,27 +63,42 @@ export default{
     back () {
       this.$router.go(-1)
     },
-    popupShow () {
-      this.popupVisible = true
+    popupShow (type) {
+      this[type + 'PopupVisible'] = true
     },
-    popupSure (picker, values) {
+    standardPopupSure (picker, values) {
       if (values[0].value === '') {
         return false
       }
       const params = {
         msgType: 91,
-        type_id: values[0].type_id
+        type_id: values[0].id
       }
       axiosData(this, params).then(data => {
-        this.form.type_id = values[0].type_id
-        this.form.serials = values[0].serials
-        this.form.batch = values[0].batch
         this.form.list = data.list
-        this.serial = values[0].serials + '+' + values[0].batch
-        this.popupVisible = false
+        this.standard = values[0].name
+        this.standardPopupVisible = false
       })
     },
+    serialPopupSure (picker, values) {
+      if (values[0].value === '') {
+        return false
+      }
+      this.form.type_id = values[0].type_id
+      this.form.serials = values[0].serials
+      this.form.batch = values[0].batch
+      this.serial = values[0].serials + '+' + values[0].batch
+      this.serialPopupVisible = false
+    },
     validate () {
+      if (this.standard === '请选择质量标准') {
+        this.toast.push(this.$toast({
+          message: '请选择质量标准',
+          position: 'bottom',
+          duration: 1500
+        }))
+        return false
+      }
       if (this.serial === '请选择产品编码') {
         this.toast.push(this.$toast({
           message: '请选择产品编码',
@@ -96,6 +127,11 @@ export default{
         item.label = item.serials + '+' + item.batch
         item.value = item.type_id
         this.serials[0].values.push(item)
+      })
+      data.standardList.forEach(item => {
+        item.label = item.name
+        item.value = item.id
+        this.standards[0].values.push(item)
       })
     })
   }
