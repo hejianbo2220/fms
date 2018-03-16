@@ -25,12 +25,12 @@ export default{
         {
           title: '关键数据',
           icon: '../static/img/mobile-key.png',
-          path: '/mobile/main/template/关键数据'
+          path: '/mobile/main/key'
         },
         {
           title: '自检自测',
           icon: '../static/img/mobile-inspection.png',
-          path: '/mobile/main/template/自检自测'
+          path: '/mobile/main/inspection'
         },
         {
           title: '废料记录',
@@ -40,7 +40,7 @@ export default{
         {
           title: '质量检测',
           icon: '../static/img/mobile-quality.png',
-          path: '/mobile/main/template/质量检测'
+          path: '/mobile/main/quality'
         },
         {
           title: '数据预览',

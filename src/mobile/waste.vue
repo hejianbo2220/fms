@@ -83,9 +83,6 @@ export default{
 </script>
 
 <style scoped>
-.product-select{
-  width: 100%;
-}
 .mint-field-text{
   color: #888;
 }

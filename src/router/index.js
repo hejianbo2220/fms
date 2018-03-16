@@ -28,8 +28,10 @@ import mobileMain from '@/mobile/main'
 import mobileIndex from '@/mobile/index'
 import mobileLineList from '@/mobile/lineList'
 import mobileLineDetail from '@/mobile/lineDetail'
-import mobileTemplate from '@/mobile/template'
+import mobileKey from '@/mobile/key'
+import mobileInspection from '@/mobile/inspection'
 import mobileWaste from '@/mobile/waste'
+import mobileQuality from '@/mobile/quality'
 import mobileQuestion from '@/mobile/question'
 import mobileDataList from '@/mobile/dataList'
 import mobileDataDetail from '@/mobile/dataDetail'
@@ -182,14 +184,24 @@ export default new Router({
           component: mobileLineDetail
         },
         {
-          path: 'template/:type',
-          name: 'mobileTemplate',
-          component: mobileTemplate
+          path: 'key',
+          name: 'mobileKey',
+          component: mobileKey
+        },
+        {
+          path: 'inspection',
+          name: 'mobileInspection',
+          component: mobileInspection
         },
         {
           path: 'waste',
           name: 'mobileWaste',
           component: mobileWaste
+        },
+        {
+          path: 'quality',
+          name: 'mobileQuality',
+          component: mobileQuality
         },
         {
           path: 'question',

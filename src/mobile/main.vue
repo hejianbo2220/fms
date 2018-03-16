@@ -19,4 +19,7 @@ html{
 .btn-wrap{
   padding: 20px 10px;
 }
+.product-select{
+  width: 100%;
+}
 </style>

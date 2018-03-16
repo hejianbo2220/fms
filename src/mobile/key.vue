@@ -1,6 +1,6 @@
 <template>
   <div>
-    <mt-header :title="title">
+    <mt-header title="关键数据">
       <mt-button icon="back" @click="back" slot="left"></mt-button>
     </mt-header>
     <mt-cell title="产品编码">
@@ -9,7 +9,7 @@
         <mt-picker :slots="serials" valueKey="label" @change="popupSure"></mt-picker>
       </mt-popup>
     </mt-cell>
-    <template v-if="title === '关键数据'" v-for="(procedure, procedureIndex) in form.list">
+    <template v-for="(procedure, procedureIndex) in form.list">
       <mt-cell :key="procedureIndex" :title="procedure.name" class="subtitle"></mt-cell>
       <template v-for="(attr, attrIndex) in procedure.list">
         <mt-field :key="procedureIndex + '-' + attrIndex" :label="attr.name" :placeholder="'请输入' + attr.name" v-model="attr.value" :disabled="attr.device !== deviceId"></mt-field>
@@ -23,7 +23,6 @@
         </mt-field>
       </template>
     </template>
-    <mt-field v-if="title !== '关键数据'" v-for="(attr, index) in form.list" :key="index" :label="attr.name" :placeholder="'请输入' + attr.name" v-model="attr.value"></mt-field>
     <div class="btn-wrap">
       <mt-button type="primary" size="large" @click="validate">提 交</mt-button>
     </div>
@@ -35,10 +34,9 @@ import lrz from 'lrz'
 import axios from 'axios'
 import axiosData from '@/axios'
 export default{
-  name: 'template',
+  name: 'key',
   data () {
     return {
-      title: this.$route.params.type,
       serial: '请选择产品编码',
       popupVisible: false,
       serials: [{
@@ -55,7 +53,7 @@ export default{
       imgMaxHeight: innerHeight + 'px',
       deviceId: localStorage.getItem('stfsDeviceId'),
       form: {
-        msgType: this.msgType().submit,
+        msgType: 72,
         type_id: '',
         serials: '',
         batch: '',
@@ -66,16 +64,6 @@ export default{
     }
   },
   methods: {
-    msgType () {
-      switch (this.$route.params.type) {
-        case '关键数据':
-          return {get: 76, submit: 72}
-        case '自检自测':
-          return {get: 81, submit: 82}
-        case '质量检测':
-          return {get: 91, submit: 92}
-      }
-    },
     back () {
       this.$router.go(-1)
     },
@@ -87,12 +75,10 @@ export default{
         return false
       }
       const params = {
-        msgType: this.msgType().get,
-        type_id: values[0].type_id
-      }
-      if (this.title === '关键数据') {
-        params.serials = values[0].serials
-        params.batch = values[0].batch
+        msgType: 76,
+        type_id: values[0].type_id,
+        serials: values[0].serials,
+        batch: values[0].batch
       }
       axiosData(this, params).then(data => {
         this.form.type_id = values[0].type_id
@@ -158,45 +144,41 @@ export default{
         return false
       }
 
-      if (this.title === '关键数据') {
-        // 定义是否弹窗确认，默认需要弹窗确认
-        let isAlert = true
+      // 定义是否弹窗确认，默认需要弹窗确认
+      let isAlert = true
 
-        // forEach循环中return false无法结束整个函数，所以此处用for循环
-        for (let i = 0; i < this.form.list.length; i++) {
-          for (let j = 0; j < this.form.list[i].list.length; j++) {
-            // 找出该设备ID对应的属性，并判断该属性是否已填写完毕
-            if (this.form.list[i].list[j].device === this.deviceId) {
-              if (this.form.list[i].list[j].value === '') {
-                this.toast.push(this.$toast({
-                  message: '请输入' + this.form.list[i].name + '-' + this.form.list[i].list[j].name,
-                  duration: 1500
-                }))
-                return false
-              }
-              if (this.form.list[i].list[j].img === '') {
-                this.toast.push(this.$toast({
-                  message: '请上传' + this.form.list[i].name + '-' + this.form.list[i].list[j].name + '的照片',
-                  duration: 1500
-                }))
-                return false
-              }
+      // forEach循环中return false无法结束整个函数，所以此处用for循环
+      for (let i = 0; i < this.form.list.length; i++) {
+        for (let j = 0; j < this.form.list[i].list.length; j++) {
+          // 找出该设备ID对应的属性，并判断该属性是否已填写完毕
+          if (this.form.list[i].list[j].device === this.deviceId) {
+            if (this.form.list[i].list[j].value === '') {
+              this.toast.push(this.$toast({
+                message: '请输入' + this.form.list[i].name + '-' + this.form.list[i].list[j].name,
+                duration: 1500
+              }))
+              return false
             }
-
-            // 判断是否所有属性都已有值，如有空值时，则视为不是该条关键数据的最后一次提交，无需弹窗确认
-            if (this.form.list[i].list[j].value === '' || this.form.list[i].list[j].img === '') {
-              isAlert = false
+            if (this.form.list[i].list[j].img === '') {
+              this.toast.push(this.$toast({
+                message: '请上传' + this.form.list[i].name + '-' + this.form.list[i].list[j].name + '的照片',
+                duration: 1500
+              }))
+              return false
             }
           }
-        }
 
-        if (isAlert) {
-          this.$messagebox.confirm('数据提交后，将无法更改，是否继续？').then(action => {
-            this.submit()
-          }).catch(() => {})
-        } else {
-          this.submit()
+          // 判断是否所有属性都已有值，如有空值时，则视为不是该条关键数据的最后一次提交，无需弹窗确认
+          if (this.form.list[i].list[j].value === '' || this.form.list[i].list[j].img === '') {
+            isAlert = false
+          }
         }
+      }
+
+      if (isAlert) {
+        this.$messagebox.confirm('数据提交后，将无法更改，是否继续？').then(action => {
+          this.submit()
+        }).catch(() => {})
       } else {
         this.submit()
       }
@@ -226,9 +208,6 @@ export default{
 </script>
 
 <style>
-.product-select{
-  width: 100%;
-}
 input[type="text"]:disabled{
   background-color: #eee;
 }
