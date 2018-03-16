@@ -61,7 +61,7 @@ export default{
   bottom: 0;
   left: 0;
   background-image: url(../assets/mobile-login-bg.png);
-  background-size: 100% auto;
+  background-size: 100% 100%;
 }
 .login-title{
   margin: 80px 0 60px;
