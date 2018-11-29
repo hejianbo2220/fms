@@ -146,6 +146,11 @@ export default{
           title: '数据预览',
           icon: 'el-icon-view',
           path: '/pc/main/preview'
+        },
+        {
+          title: '工艺管理',
+          icon: 'el-icon-news',
+          path: '/pc/main/tech'
         }
       ],
       menuActive: '',

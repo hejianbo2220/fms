@@ -23,6 +23,7 @@ import pcQualityData from '@/pc/qualityData'
 import pcQualityChart from '@/pc/qualityChart'
 import pcQuestion from '@/pc/question'
 import pcPreview from '@/pc/preview'
+import pcTech from '@/pc/tech'
 import mobileLogin from '@/mobile/login'
 import mobileMain from '@/mobile/main'
 import mobileIndex from '@/mobile/index'
@@ -155,6 +156,11 @@ export default new Router({
           path: 'preview',
           name: 'pcPreview',
           component: pcPreview
+        },
+        {
+          path: 'tech',
+          name: 'pcTech',
+          component: pcTech
         }
       ]
     },
