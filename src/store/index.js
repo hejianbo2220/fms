@@ -9,10 +9,12 @@ export default new Vuex.Store({
     permission: sessionStorage.getItem('permission') ? sessionStorage.getItem('permission') : '',
     api: 'http://192.168.10.140:36000/WaterProof/Server',
     imgUpload: 'http://192.168.10.140:36000/WaterProof/upFileServer',
-    excelUpload: 'http://192.168.10.140:36000/WaterProof/upExcel'
+    excelUpload: 'http://192.168.10.140:36000/WaterProof/upExcel',
+    pdfUpload: 'http://192.168.10.140:36000/WaterProof/upPdf'
     // api: 'http://112.74.170.192:8089/WaterProof/Server',
     // imgUpload: 'http://112.74.170.192:8089/WaterProof/upFileServer',
-    // excelUpload: 'http://112.74.170.192:8089/WaterProof/upExcel'
+    // excelUpload: 'http://112.74.170.192:8089/WaterProof/upExcel',
+    // pdfUpload: 'http://112.74.170.192:8089/WaterProof/upPdf'
   },
   mutations: {
     set (state, info) {

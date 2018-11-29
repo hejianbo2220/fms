@@ -33,9 +33,7 @@ export default{
   },
   mounted () {
     axios(this, {
-      msgType: 122,
-      startNo: 0,
-      num: 9999
+      msgType: 122
     }).then(data => {
       this.data = data.list
     })

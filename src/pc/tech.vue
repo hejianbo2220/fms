@@ -17,6 +17,7 @@
           <el-table-column label="一级名称" prop="firstName"></el-table-column>
           <el-table-column label="二级名称" prop="secondName"></el-table-column>
           <el-table-column label="三级名称" prop="thirdName"></el-table-column>
+          <el-table-column label="备注" prop="remarks"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
               <el-button size="mini" icon="el-icon-edit" @click="dialogShow('edit', scope.row)">编辑</el-button>
@@ -24,11 +25,6 @@
             </template>
           </el-table-column>
         </el-table>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="24">
-        <el-pagination :current-page.sync="currentPage" @current-change="getTable" :total="tableTotal"></el-pagination>
       </el-col>
     </el-row>
     <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" :close-on-click-modal="false">
@@ -68,8 +64,6 @@ export default{
   data () {
     return {
       table: [],
-      currentPage: 1,
-      tableTotal: 0,
       dialogTitle: '',
       dialogVisible: false,
       form: {
@@ -88,6 +82,20 @@ export default{
             trigger: 'blur'
           }
         ],
+        secondName: [
+          {
+            required: true,
+            message: '请输入二级名称',
+            trigger: 'blur'
+          }
+        ],
+        thirdName: [
+          {
+            required: true,
+            message: '请输入三级名称',
+            trigger: 'blur'
+          }
+        ],
         url: [
           {
             required: true,
@@ -99,15 +107,24 @@ export default{
     }
   },
   methods: {
-    getTable (startPage) {
+    getTable () {
       axiosData(this, {
-        msgType: 122,
-        startNo: startPage - 1,
-        num: 10
+        msgType: 122
       }).then(data => {
-        this.table = data.list
-        this.currentPage = startPage
-        this.tableTotal = data.total
+        data.list.forEach(first => {
+          first.children.forEach(second => {
+            second.children.forEach(third => {
+              this.table.push({
+                firstName: first.name,
+                secondName: second.name,
+                thirdName: third.name,
+                remarks: third.remarks,
+                url: third.url,
+                id: third.id
+              })
+            })
+          })
+        })
       })
     },
     dialogShow (type, tech) {
@@ -150,7 +167,7 @@ export default{
               type: 'success',
               duration: 1500
             })
-            this.getTable(1)
+            this.getTable()
           })
         }
       })
@@ -187,12 +204,22 @@ export default{
         type: 'warning',
         closeOnClickModal: false
       }).then(() => {
-        console.log('isDelete')
+        axiosData(this, {
+          msgType: 121,
+          id
+        }).then(data => {
+          this.$message({
+            message: '删除成功',
+            type: 'success',
+            duration: 1500
+          })
+          this.getTable()
+        })
       }).catch(() => {})
     }
   },
   mounted () {
-    this.getTable(1)
+    this.getTable()
   }
 }
 </script>
