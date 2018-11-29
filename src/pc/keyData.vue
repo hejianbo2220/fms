@@ -62,7 +62,7 @@ export default{
       },
       table: [],
       currentPage: 1,
-      tableTotal: 1,
+      tableTotal: 0,
       detailVisible: false,
       detail: []
     }

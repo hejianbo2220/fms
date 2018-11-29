@@ -57,7 +57,7 @@ export default{
     return {
       table: [],
       currentPage: 1,
-      tableTotal: 1,
+      tableTotal: 0,
       dialogTitle: '',
       dialogVisible: false,
       permissions: ['角色管理', '用户管理', '流水线管理', '产品管理', '关键数据', '自检自测', '质量检测', '问题提交', '数据预览'],

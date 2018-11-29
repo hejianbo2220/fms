@@ -51,7 +51,7 @@ export default{
       },
       table: [],
       currentPage: 1,
-      tableTotal: 89
+      tableTotal: 0
     }
   },
   methods: {

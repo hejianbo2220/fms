@@ -40,7 +40,7 @@ export default{
     return {
       table: [],
       currentPage: 1,
-      tableTotal: 1
+      tableTotal: 0
     }
   },
   methods: {
