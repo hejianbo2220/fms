@@ -33,9 +33,11 @@ import mobileKey from '@/mobile/key'
 import mobileInspection from '@/mobile/inspection'
 import mobileWaste from '@/mobile/waste'
 import mobileQuality from '@/mobile/quality'
-import mobileQuestion from '@/mobile/question'
 import mobileDataList from '@/mobile/dataList'
 import mobileDataDetail from '@/mobile/dataDetail'
+import mobileQuestion from '@/mobile/question'
+import mobileTechList from '@/mobile/techList'
+import mobileTechDetail from '@/mobile/techDetail'
 import mobileExample from '@/mobile/example'
 
 Vue.use(Router)
@@ -210,11 +212,6 @@ export default new Router({
           component: mobileQuality
         },
         {
-          path: 'question',
-          name: 'mobileQuestion',
-          component: mobileQuestion
-        },
-        {
           path: 'data/list',
           name: 'mobileDataList',
           component: mobileDataList
@@ -223,6 +220,21 @@ export default new Router({
           path: 'data/detail/:serial/:batch',
           name: 'mobileDataDetail',
           component: mobileDataDetail
+        },
+        {
+          path: 'question',
+          name: 'mobileQuestion',
+          component: mobileQuestion
+        },
+        {
+          path: 'tech/list',
+          name: 'mobileTechList',
+          component: mobileTechList
+        },
+        {
+          path: 'tech/detail/:url',
+          name: 'mobileTechDetail',
+          component: mobileTechDetail
         },
         {
           path: 'example',

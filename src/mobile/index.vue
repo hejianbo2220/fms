@@ -51,6 +51,11 @@ export default{
           title: '问题提交',
           icon: '../static/img/mobile-question.png',
           path: '/mobile/main/question'
+        },
+        {
+          title: '工艺管理',
+          icon: '../static/img/mobile-inspection.png',
+          path: '/mobile/main/tech/list'
         }
       ],
       isAdmin: false,
@@ -88,6 +93,7 @@ export default{
     this.menu[4].permission = this.$store.state.permission[6]
     this.menu[5].permission = this.$store.state.permission[8]
     this.menu[6].permission = this.$store.state.permission[7]
+    this.menu[7].permission = this.$store.state.permission[8]
     if (localStorage.getItem('stfsUsername') === 'admin') {
       this.isAdmin = true
     }
