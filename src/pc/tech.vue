@@ -72,7 +72,7 @@ export default{
         thirdName: '',
         remarks: '',
         url: '',
-        id: ''
+        id: '-1'
       },
       rules: {
         firstName: [
@@ -133,7 +133,7 @@ export default{
         this.dialogTitle = '新增工艺'
         this.$nextTick(() => {
           this.$refs.dialogForm.resetFields()
-          this.form.id = ''
+          this.form.id = '-1'
         })
       } else {
         this.dialogTitle = '编辑工艺'
