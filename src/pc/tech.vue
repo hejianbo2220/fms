@@ -72,7 +72,7 @@ export default{
         thirdName: '',
         remarks: '',
         url: '',
-        id: '-1'
+        id: -1
       },
       rules: {
         firstName: [
@@ -111,6 +111,7 @@ export default{
       axiosData(this, {
         msgType: 122
       }).then(data => {
+        this.table = []
         data.list.forEach(first => {
           first.children.forEach(second => {
             second.children.forEach(third => {
@@ -133,7 +134,7 @@ export default{
         this.dialogTitle = '新增工艺'
         this.$nextTick(() => {
           this.$refs.dialogForm.resetFields()
-          this.form.id = '-1'
+          this.form.id = -1
         })
       } else {
         this.dialogTitle = '编辑工艺'
@@ -153,7 +154,7 @@ export default{
         if (valid) {
           axiosData(this, {
             msgType: 120,
-            type: 'pdf',
+            type: 1,
             firstName: this.form.firstName,
             secondName: this.form.secondName,
             thirdName: this.form.thirdName,

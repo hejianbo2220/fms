@@ -21,7 +21,7 @@ export default{
   },
   methods: {
     handleClick (data) {
-      if (data.level === 'first' || data.level === 'second') {
+      if (data.children) {
         this.data = data.children
       } else {
         this.$router.push('detail/' + encodeURIComponent(data.url))
