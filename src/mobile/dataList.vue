@@ -4,7 +4,7 @@
       <mt-button icon="back" @click="back" slot="left"></mt-button>
     </mt-header>
     <div v-infinite-scroll="loadMore" infinite-scroll-distance="10" infinite-scroll-disabled="loading">
-      <mt-cell v-for="(item, index) in data" :key="index" :title="item.serials + '+' + item.batch" :is-link="true" :to="'/#/mobile/main/data/detail/' + item.serials + '/' + item.batch"></mt-cell>
+      <mt-cell v-for="(item, index) in data" :key="index" :title="item.serials + '+' + item.batch" :is-link="true" :to="{path: '/mobile/main/data/detail/' + item.serials + '/' + item.batch}"></mt-cell>
     </div>
   </div>
 </template>
